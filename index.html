@@ -3,32 +3,40 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GROWTHMAX | Investment & Growth Platform</title>
+  <title>GROWTHMAX | Precision Investment, Guaranteed Growth</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-  <!-- Smartsupp Live Chat script -->
-<script type="text/javascript">
-var _smartsupp = _smartsupp || {};
-_smartsupp.key = 'abb986693f93036339d3b0ded02ecf4b511c05fa';
-window.smartsupp||(function(d) {
-  var s,c,o=smartsupp=function(){ o._.push(arguments)};o._=[];
-  s=d.getElementsByTagName('script')[0];c=d.createElement('script');
-  c.type='text/javascript';c.charset='utf-8';c.async=true;
-  c.src='https://www.smartsuppchat.com/loader.js?';s.parentNode.insertBefore(c,s);
-})(document);
-</script>
-<noscript>Powered by <a href="https://www.smartsupp.com" target="_blank">Smartsupp</a></noscript>
+  <!-- Smartsupp Live Chat Script -->
+  <script type="text/javascript">
+    var _smartsupp = _smartsupp || {};
+    _smartsupp.key = 'abb986693f93036339d3b036230f8a8bbd1cf822';
+    window.smartsupp||(function(d) {
+      var s,c,o=smartsupp=function(){ o._.push(arguments)};o._=[];
+      s=d.getElementsByTagName('script')[0];c=d.createElement('script');
+      c.type='text/javascript';c.charset='utf-8';c.async=true;
+      c.src='https://www.smartsuppchat.com/loader.js?';s.parentNode.insertBefore(c,s);
+    })(document);
+  </script>
 </head>
 <body class="bg-slate-900 text-slate-100 font-sans antialiased min-h-screen flex flex-col justify-between">
 
   <!-- Header -->
   <header class="border-b border-slate-800 bg-slate-900/90 sticky top-0 z-50 backdrop-blur">
     <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
-      <div class="flex items-center space-x-2">
-        <span class="text-2xl font-black tracking-wider text-emerald-400">GROWTHMAX</span>
-        <span class="bg-emerald-500/10 text-emerald-400 text-xs px-2 py-0.5 rounded font-mono border border-emerald-500/20">PORTFOLIO</span>
+      <!-- Pure Code Logo & Brand -->
+      <div class="flex items-center space-x-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-400 flex items-center justify-center shadow-lg shadow-emerald-500/20 border border-emerald-400/30">
+          <svg class="w-6 h-6 text-slate-950 stroke-current" fill="none" viewBox="0 0 24 24" stroke-width="2.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18L9 11.25l4.306 4.307a11.95 11.95 0 005.814-5.519l2.74-1.22m0 0l-5.94-2.28m5.94 2.28l-2.28 5.94" />
+          </svg>
+        </div>
+        <div class="flex flex-col">
+          <span class="text-2xl font-black tracking-wider text-emerald-400 leading-none">GROWTHMAX</span>
+          <span class="text-[10px] font-semibold tracking-widest text-slate-400 uppercase mt-0.5">Asset Management</span>
+        </div>
       </div>
+
       <div id="nav-buttons" class="flex items-center space-x-3">
         <a href="#auth" class="text-sm font-semibold text-slate-300 hover:text-white px-3 py-2">Sign In</a>
         <a href="#auth" class="text-sm font-semibold bg-emerald-500 hover:bg-emerald-400 text-slate-950 px-4 py-2 rounded-lg transition">Get Started</a>
@@ -38,10 +46,13 @@ window.smartsupp||(function(d) {
 
   <!-- Hero Section -->
   <section class="py-10 px-4 text-center max-w-4xl mx-auto">
-    <h1 class="text-4xl sm:text-6xl font-extrabold tracking-tight mb-4">
+    <h1 class="text-4xl sm:text-6xl font-extrabold tracking-tight mb-3">
       Smart Wealth Growth <br/><span class="text-emerald-400">Automated Performance</span>
     </h1>
-    <p class="text-slate-400 text-base sm:text-lg mb-6 max-w-2xl mx-auto">
+    <p class="text-emerald-400 text-base sm:text-lg font-bold tracking-wide uppercase mb-3">
+      Precision Investment, Guaranteed Growth
+    </p>
+    <p class="text-slate-400 text-sm sm:text-base max-w-2xl mx-auto">
       Select an investment plan, track live financial markets, and view your account portfolio growth in real-time.
     </p>
   </section>
@@ -54,7 +65,7 @@ window.smartsupp||(function(d) {
           <h2 class="text-xl font-bold text-slate-200">Account Balance</h2>
           <p id="user-email" class="text-xs text-slate-400"></p>
         </div>
-        <button onclick="handleLogout()" class="text-xs bg-red-500/10 border border-red-500/30 text-red-400 px-3 py-1.5 rounded-lg hover:bg-red-500/20">Log Out</button>
+        <button onclick="handleLogout()" class="text-xs bg-red-500/10 border border-red-500/30 text-red-400 px-3 py-1.5 rounded-lg hover:bg-red-500/20 font-semibold">Log Out</button>
       </div>
 
       <div class="bg-slate-900/80 p-6 rounded-xl border border-slate-800 mb-6 flex justify-between items-center">
@@ -62,7 +73,7 @@ window.smartsupp||(function(d) {
           <span class="text-xs text-slate-400 uppercase tracking-wider font-semibold">Total Funds</span>
           <div class="text-4xl font-extrabold text-emerald-400 mt-1" id="user-balance">$0.00</div>
         </div>
-        <button onclick="openDepositModal()" class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold px-5 py-3 rounded-xl transition text-sm">+ Add Funds</button>
+        <button onclick="openDepositModal()" class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold px-5 py-3 rounded-xl transition text-sm shadow-lg shadow-emerald-500/10">+ Add Funds</button>
       </div>
 
       <!-- Deposit History -->
@@ -107,22 +118,22 @@ window.smartsupp||(function(d) {
       <!-- Step 1: Select Plan -->
       <div id="deposit-step-1" class="space-y-3">
         <div onclick="selectPlan('Beginners', 50, 499, '10%', '24H / 14 Days')" class="p-4 border border-slate-800 bg-slate-800/50 hover:border-emerald-500/50 rounded-xl cursor-pointer transition">
-          <div class="flex justify-between items-center"><span class="font-bold text-slate-200">Beginners</span><span class="text-xs bg-emerald-500/10 text-emerald-400 px-2 py-0.5 rounded">10% Profit</span></div>
+          <div class="flex justify-between items-center"><span class="font-bold text-slate-200">Beginners</span><span class="text-xs bg-emerald-500/10 text-emerald-400 px-2 py-0.5 rounded font-bold">10% Profit</span></div>
           <p class="text-xs text-slate-400 mt-1">Range: $50 - $499 | Duration: 24H, 14 Days</p>
         </div>
 
         <div onclick="selectPlan('Advanced', 500, 1999, '25%', '48H / 21 Days')" class="p-4 border border-slate-800 bg-slate-800/50 hover:border-emerald-500/50 rounded-xl cursor-pointer transition">
-          <div class="flex justify-between items-center"><span class="font-bold text-slate-200">Advanced</span><span class="text-xs bg-emerald-500/10 text-emerald-400 px-2 py-0.5 rounded">25% Profit</span></div>
+          <div class="flex justify-between items-center"><span class="font-bold text-slate-200">Advanced</span><span class="text-xs bg-emerald-500/10 text-emerald-400 px-2 py-0.5 rounded font-bold">25% Profit</span></div>
           <p class="text-xs text-slate-400 mt-1">Range: $500 - $1,999 | Duration: 48H, 21 Days</p>
         </div>
 
         <div onclick="selectPlan('Pro/Expert', 2000, 4999, '35%', '72H / 30 Days')" class="p-4 border border-slate-800 bg-slate-800/50 hover:border-emerald-500/50 rounded-xl cursor-pointer transition">
-          <div class="flex justify-between items-center"><span class="font-bold text-slate-200">Pro/Expert</span><span class="text-xs bg-emerald-500/10 text-emerald-400 px-2 py-0.5 rounded">35% Profit</span></div>
+          <div class="flex justify-between items-center"><span class="font-bold text-slate-200">Pro/Expert</span><span class="text-xs bg-emerald-500/10 text-emerald-400 px-2 py-0.5 rounded font-bold">35% Profit</span></div>
           <p class="text-xs text-slate-400 mt-1">Range: $2,000 - $4,999 | Duration: 72H, 30 Days</p>
         </div>
 
         <div onclick="selectPlan('Top Investor', 5000, 1000000, '42%', '98H / 62 Days')" class="p-4 border border-slate-800 bg-slate-800/50 hover:border-emerald-500/50 rounded-xl cursor-pointer transition">
-          <div class="flex justify-between items-center"><span class="font-bold text-slate-200">Top Investor</span><span class="text-xs bg-emerald-500/10 text-emerald-400 px-2 py-0.5 rounded">42% Profit</span></div>
+          <div class="flex justify-between items-center"><span class="font-bold text-slate-200">Top Investor</span><span class="text-xs bg-emerald-500/10 text-emerald-400 px-2 py-0.5 rounded font-bold">42% Profit</span></div>
           <p class="text-xs text-slate-400 mt-1">Range: $5,000 - Unlimited | Duration: 98H, 62 Days</p>
         </div>
       </div>
@@ -196,7 +207,7 @@ window.smartsupp||(function(d) {
 
   <!-- Footer -->
   <footer class="border-t border-slate-800 py-6 text-center text-xs text-slate-500">
-    <p>© 2026 GROWTHMAX. All rights reserved.</p>
+    <p>© 2026 GROWTHMAX. Precision Investment, Guaranteed Growth.</p>
   </footer>
 
   <script>
@@ -235,7 +246,7 @@ window.smartsupp||(function(d) {
           msg.textContent = error.message;
         } else {
           msg.className = "text-xs text-center text-emerald-400";
-          msg.textContent = "Account registered!";
+          msg.textContent = "Account registered successfully!";
           await loadUserData(data.user);
         }
       } else {
@@ -245,7 +256,7 @@ window.smartsupp||(function(d) {
           msg.textContent = error.message;
         } else {
           msg.className = "text-xs text-center text-emerald-400";
-          msg.textContent = "Success!";
+          msg.textContent = "Signed in!";
           await loadUserData(data.user);
         }
       }
@@ -326,7 +337,7 @@ window.smartsupp||(function(d) {
       if (!user) return;
 
       msg.className = "text-xs text-center text-slate-400";
-      msg.textContent = "Submitting request...";
+      msg.textContent = "Submitting deposit request...";
 
       const { error } = await supabaseClient.from('deposits').insert([{
         user_id: user.id,

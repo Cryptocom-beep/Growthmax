@@ -3,20 +3,20 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GROWTHMAX | Modern Investment & Wealth Simulation Platform</title>
+  <title>GROWTHMAX | Simulation Platform</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
-<body class="bg-slate-900 text-slate-100 font-sans antialiased">
+<body class="bg-slate-900 text-slate-100 font-sans antialiased min-h-screen flex flex-col justify-between">
 
-  <!-- Header / Navigation -->
+  <!-- Header -->
   <header class="border-b border-slate-800 bg-slate-900/90 sticky top-0 z-50 backdrop-blur">
     <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
       <div class="flex items-center space-x-2">
         <span class="text-2xl font-black tracking-wider text-emerald-400">GROWTHMAX</span>
         <span class="bg-emerald-500/10 text-emerald-400 text-xs px-2 py-0.5 rounded font-mono border border-emerald-500/20">SIMULATION</span>
       </div>
-      <div class="flex items-center space-x-3">
+      <div id="nav-buttons" class="flex items-center space-x-3">
         <a href="#auth" class="text-sm font-semibold text-slate-300 hover:text-white px-3 py-2">Sign In</a>
         <a href="#auth" class="text-sm font-semibold bg-emerald-500 hover:bg-emerald-400 text-slate-950 px-4 py-2 rounded-lg transition">Get Started</a>
       </div>
@@ -24,27 +24,66 @@
   </header>
 
   <!-- Hero Section -->
-  <section class="py-16 px-4 text-center max-w-4xl mx-auto">
-    <h1 class="text-4xl sm:text-6xl font-extrabold tracking-tight mb-6">
+  <section class="py-12 px-4 text-center max-w-4xl mx-auto">
+    <h1 class="text-4xl sm:text-6xl font-extrabold tracking-tight mb-4">
       Smart Investment Growth <br/><span class="text-emerald-400">Simulated in Real-Time</span>
     </h1>
-    <p class="text-slate-400 text-lg mb-8 max-w-2xl mx-auto">
-      Experience automated wealth management, live financial markets, and transparent performance tracking on the Growthmax platform.
+    <p class="text-slate-400 text-base sm:text-lg mb-6 max-w-2xl mx-auto">
+      Experience automated wealth management, live financial markets, and transparent performance tracking on Growthmax.
     </p>
-    <div class="flex justify-center gap-4">
-      <a href="#auth" class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold px-6 py-3 rounded-xl transition">Start Test Portfolio</a>
-      <a href="#market" class="border border-slate-700 hover:bg-slate-800 font-semibold px-6 py-3 rounded-xl transition">View Live Markets</a>
+  </section>
+
+  <!-- Dashboard Section (Hidden by Default) -->
+  <section id="dashboard" class="hidden max-w-4xl mx-auto px-4 py-6 w-full">
+    <div class="bg-slate-800/80 border border-slate-700 rounded-2xl p-6 shadow-xl mb-8">
+      <div class="flex justify-between items-center mb-6">
+        <div>
+          <h2 class="text-xl font-bold text-slate-200">Simulated Portfolio</h2>
+          <p id="user-email" class="text-xs text-slate-400"></p>
+        </div>
+        <button onclick="handleLogout()" class="text-xs bg-red-500/10 border border-red-500/30 text-red-400 px-3 py-1.5 rounded-lg hover:bg-red-500/20">Log Out</button>
+      </div>
+      <div class="bg-slate-900/80 p-6 rounded-xl border border-slate-800 mb-6">
+        <span class="text-xs text-slate-400 uppercase tracking-wider font-semibold">Total Balance</span>
+        <div class="text-4xl font-extrabold text-emerald-400 mt-1" id="user-balance">$0.00</div>
+      </div>
+      <div class="grid grid-cols-2 gap-4">
+        <button onclick="simulatedDeposit()" class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold py-3 rounded-xl transition text-sm">+ Add $500 Test Funds</button>
+        <button onclick="simulatedReset()" class="border border-slate-700 hover:bg-slate-700 text-slate-300 font-bold py-3 rounded-xl transition text-sm">Reset Balance</button>
+      </div>
     </div>
   </section>
 
-  <!-- Live Market Ticker Widget -->
-  <section id="market" class="max-w-7xl mx-auto px-4 py-8">
-    <h2 class="text-xl font-bold mb-4 text-slate-300 flex items-center gap-2">
+  <!-- Auth Section -->
+  <section id="auth" class="max-w-md mx-auto px-4 py-6 w-full">
+    <div class="bg-slate-800/60 border border-slate-700/60 p-6 rounded-2xl shadow-xl">
+      <div class="flex border-b border-slate-700 mb-6">
+        <button id="tab-login" onclick="switchAuthMode('login')" class="flex-1 py-2 text-center text-sm font-bold border-b-2 border-emerald-400 text-emerald-400">Sign In</button>
+        <button id="tab-signup" onclick="switchAuthMode('signup')" class="flex-1 py-2 text-center text-sm font-bold text-slate-400 border-b-2 border-transparent">Register</button>
+      </div>
+
+      <form id="auth-form" onsubmit="handleAuth(event)" class="space-y-4">
+        <div>
+          <label class="block text-xs text-slate-400 mb-1 font-semibold">Email Address</label>
+          <input type="email" id="auth-email" required class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-100 focus:outline-none focus:border-emerald-400">
+        </div>
+        <div>
+          <label class="block text-xs text-slate-400 mb-1 font-semibold">Password</label>
+          <input type="password" id="auth-password" required class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-100 focus:outline-none focus:border-emerald-400">
+        </div>
+        <div id="auth-message" class="text-xs text-center min-h-[16px]"></div>
+        <button type="submit" id="auth-btn" class="w-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold py-2.5 rounded-lg transition text-sm">Sign In</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Live Market Ticker -->
+  <section id="market" class="max-w-7xl mx-auto px-4 py-8 w-full">
+    <h2 class="text-lg font-bold mb-3 text-slate-300 flex items-center gap-2">
       <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-      Live Crypto & Forex Market Reading
+      Live Market Feeds
     </h2>
     <div class="rounded-xl overflow-hidden border border-slate-800 bg-slate-950 p-2">
-      <!-- TradingView Widget -->
       <div class="tradingview-widget-container">
         <div class="tradingview-widget-container__widget"></div>
         <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>
@@ -52,8 +91,7 @@
           "symbols": [
             { "proName": "BITSTAMP:BTCUSD", "title": "Bitcoin" },
             { "proName": "BITSTAMP:ETHUSD", "title": "Ethereum" },
-            { "proName": "FX_IDC:EURUSD", "title": "EUR to USD" },
-            { "proName": "FX_IDC:GBPUSD", "title": "GBP to USD" },
+            { "proName": "FX_IDC:EURUSD", "title": "EUR/USD" },
             { "proName": "OANDA:XAUUSD", "title": "Gold" }
           ],
           "showSymbolLogo": true,
@@ -67,41 +105,113 @@
     </div>
   </section>
 
-  <!-- Customer Reviews / What People Say -->
-  <section class="max-w-7xl mx-auto px-4 py-12">
-    <h2 class="text-2xl font-bold text-center mb-8">What People Say About Growthmax</h2>
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-      
-      <div class="bg-slate-800/50 border border-slate-800 p-6 rounded-2xl">
-        <div class="text-amber-400 text-lg mb-2">★★★★★</div>
-        <p class="text-slate-300 text-sm mb-4">"The interface is incredibly clean and fast. Watching portfolio growth simulations helped me understand financial tracking better."</p>
-        <div class="font-bold text-sm">Marcus Vance</div>
-        <div class="text-xs text-slate-500">Verified Investor</div>
-      </div>
-
-      <div class="bg-slate-800/50 border border-slate-800 p-6 rounded-2xl">
-        <div class="text-amber-400 text-lg mb-2">★★★★★</div>
-        <p class="text-slate-300 text-sm mb-4">"Real-time market charts mixed with simple dashboard metrics make Growthmax feel like a top-tier financial product."</p>
-        <div class="font-bold text-sm">Elena Rostova</div>
-        <div class="text-xs text-slate-500">Early Tester</div>
-      </div>
-
-      <div class="bg-slate-800/50 border border-slate-800 p-6 rounded-2xl">
-        <div class="text-amber-400 text-lg mb-2">★★★★★</div>
-        <p class="text-slate-300 text-sm mb-4">"Super intuitive layout. The simulated balance calculations give clear visibility into compounding returns."</p>
-        <div class="font-bold text-sm">David Chen</div>
-        <div class="text-xs text-slate-500">Portfolio Analyst</div>
-      </div>
-
-    </div>
-  </section>
-
   <!-- Footer -->
-  <footer class="border-t border-slate-800 py-8 text-center text-xs text-slate-500">
+  <footer class="border-t border-slate-800 py-6 text-center text-xs text-slate-500">
     <p>© 2026 GROWTHMAX. All rights reserved.</p>
-    <p class="mt-2 text-slate-600">Growthmax is currently operating as a simulation/testing environment.</p>
   </footer>
 
+  <script>
+    const SUPABASE_URL = 'https://psbokzosswthttvxppcf.supabase.co';
+    const SUPABASE_KEY = 'Sb_publishable_rNhkw6HQBomeKq-iIr3gDA_XxOavsaS';
+    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    let authMode = 'login';
+
+    function switchAuthMode(mode) {
+      authMode = mode;
+      const loginTab = document.getElementById('tab-login');
+      const signupTab = document.getElementById('tab-signup');
+      const submitBtn = document.getElementById('auth-btn');
+      const msg = document.getElementById('auth-message');
+      msg.textContent = '';
+
+      if (mode === 'login') {
+        loginTab.className = "flex-1 py-2 text-center text-sm font-bold border-b-2 border-emerald-400 text-emerald-400";
+        signupTab.className = "flex-1 py-2 text-center text-sm font-bold text-slate-400 border-b-2 border-transparent";
+        submitBtn.textContent = 'Sign In';
+      } else {
+        signupTab.className = "flex-1 py-2 text-center text-sm font-bold border-b-2 border-emerald-400 text-emerald-400";
+        loginTab.className = "flex-1 py-2 text-center text-sm font-bold text-slate-400 border-b-2 border-transparent";
+        submitBtn.textContent = 'Create Account';
+      }
+    }
+
+    async function handleAuth(e) {
+      e.preventDefault();
+      const email = document.getElementById('auth-email').value;
+      const password = document.getElementById('auth-password').value;
+      const msg = document.getElementById('auth-message');
+
+      msg.className = "text-xs text-center text-slate-400";
+      msg.textContent = "Processing...";
+
+      if (authMode === 'signup') {
+        const { data, error } = await supabaseClient.auth.signUp({ email, password });
+        if (error) {
+          msg.className = "text-xs text-center text-red-400";
+          msg.textContent = error.message;
+        } else {
+          msg.className = "text-xs text-center text-emerald-400";
+          msg.textContent = "Account created! Logging in...";
+          await loadUserData(data.user);
+        }
+      } else {
+        const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
+        if (error) {
+          msg.className = "text-xs text-center text-red-400";
+          msg.textContent = error.message;
+        } else {
+          msg.className = "text-xs text-center text-emerald-400";
+          msg.textContent = "Success!";
+          await loadUserData(data.user);
+        }
+      }
+    }
+
+    async function loadUserData(user) {
+      if (!user) return;
+      document.getElementById('auth').classList.add('hidden');
+      document.getElementById('dashboard').classList.remove('hidden');
+      document.getElementById('nav-buttons').classList.add('hidden');
+      document.getElementById('user-email').textContent = user.email;
+
+      const { data, error } = await supabaseClient.from('profiles').select('balance').eq('id', user.id).single();
+      if (data) {
+        document.getElementById('user-balance').textContent = '$' + parseFloat(data.balance).toFixed(2);
+      }
+    }
+
+    async function simulatedDeposit() {
+      const { data: { user } } = await supabaseClient.auth.getUser();
+      if (!user) return;
+
+      const { data } = await supabaseClient.from('profiles').select('balance').eq('id', user.id).single();
+      const current = data ? parseFloat(data.balance) : 0;
+      const newBal = current + 500;
+
+      await supabaseClient.from('profiles').update({ balance: newBal }).eq('id', user.id);
+      document.getElementById('user-balance').textContent = '$' + newBal.toFixed(2);
+    }
+
+    async function simulatedReset() {
+      const { data: { user } } = await supabaseClient.auth.getUser();
+      if (!user) return;
+
+      await supabaseClient.from('profiles').update({ balance: 0 }).eq('id', user.id);
+      document.getElementById('user-balance').textContent = '$0.00';
+    }
+
+    async function handleLogout() {
+      await supabaseClient.auth.signOut();
+      window.location.reload();
+    }
+
+    // Auto load session on refresh
+    window.addEventListener('DOMContentLoaded', async () => {
+      const { data: { user } } = await supabaseClient.auth.getUser();
+      if (user) loadUserData(user);
+    });
+  </script>
 </body>
 </html>
 ￼Enter

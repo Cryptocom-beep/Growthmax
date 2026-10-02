@@ -11,11 +11,18 @@
 
   <div class="max-w-4xl mx-auto space-y-6">
     <div class="flex justify-between items-center border-b border-slate-800 pb-4">
-      <div>
-        <h1 class="text-2xl font-black text-emerald-400">GROWTHMAX ADMIN</h1>
-        <p class="text-xs text-slate-400">Deposit Requests & Account Controls</p>
+      <div class="flex items-center space-x-3">
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-400 flex items-center justify-center border border-emerald-400/30">
+          <svg class="w-5 h-5 text-slate-950 stroke-current" fill="none" viewBox="0 0 24 24" stroke-width="2.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18L9 11.25l4.306 4.307a11.95 11.95 0 005.814-5.519l2.74-1.22m0 0l-5.94-2.28m5.94 2.28l-2.28 5.94" />
+          </svg>
+        </div>
+        <div>
+          <h1 class="text-2xl font-black text-emerald-400 leading-none">GROWTHMAX ADMIN</h1>
+          <p class="text-xs text-slate-400 mt-1">Deposit Requests & Account Management</p>
+        </div>
       </div>
-      <button onclick="loadAdminData()" class="text-xs bg-slate-800 hover:bg-slate-700 px-3 py-2 rounded-lg">Refresh Data</button>
+      <button onclick="loadAdminData()" class="text-xs bg-slate-800 hover:bg-slate-700 px-3 py-2 rounded-lg transition font-semibold">Refresh Data</button>
     </div>
 
     <!-- Deposit Management Table -->
@@ -37,7 +44,7 @@
       const { data, error } = await supabaseClient.from('deposits').select('*').order('created_at', { ascending: false });
 
       if (error) {
-        container.innerHTML = `<p class="text-xs text-red-400">${error.message}</p>`;
+        container.innerHTML = `<p class="text-xs text-red-400">Error: ${error.message}</p>`;
         return;
       }
 
@@ -51,7 +58,7 @@
           <div>
             <div class="flex items-center gap-2">
               <span class="font-bold text-sm text-slate-100">$${parseFloat(d.amount).toFixed(2)}</span>
-              <span class="text-xs bg-emerald-500/10 text-emerald-400 px-2 py-0.5 rounded">${d.plan_name}</span>
+              <span class="text-xs bg-emerald-500/10 text-emerald-400 px-2 py-0.5 rounded font-bold">${d.plan_name}</span>
             </div>
             <p class="text-xs text-slate-400 mt-1">User: ${d.user_email || d.user_id}</p>
             <p class="text-[11px] text-slate-500">Asset: ${d.payment_method} ${d.txn_hash ? '| TxID: ' + d.txn_hash : ''}</p>
@@ -60,7 +67,7 @@
           <div class="flex items-center gap-2 w-full sm:w-auto">
             ${d.status === 'pending' ? `
               <button onclick="updateDepositStatus('${d.id}', 'approved')" class="flex-1 sm:flex-none text-xs bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold px-3 py-1.5 rounded-lg transition">Approve</button>
-              <button onclick="updateDepositStatus('${d.id}', 'rejected')" class="flex-1 sm:flex-none text-xs bg-red-500/10 border border-red-500/30 text-red-400 px-3 py-1.5 rounded-lg hover:bg-red-500/20 transition">Reject</button>
+              <button onclick="updateDepositStatus('${d.id}', 'rejected')" class="flex-1 sm:flex-none text-xs bg-red-500/10 border border-red-500/30 text-red-400 px-3 py-1.5 rounded-lg hover:bg-red-500/20 transition font-semibold">Reject</button>
             ` : `
               <span class="text-xs px-3 py-1 rounded font-bold uppercase ${d.status === 'approved' ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 'bg-red-500/10 text-red-400 border border-red-500/20'}">${d.status}</span>
             `}
@@ -82,4 +89,3 @@
   </script>
 </body>
 </html>
-￼Enter

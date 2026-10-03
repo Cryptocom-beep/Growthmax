@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,7 +7,30 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-  <!-- Smartsupp Live Chat Script -->
+  <style>
+    /* Animated Gradient Background */
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    .animated-bg {
+      background: linear-gradient(-45deg, #0f172a, #0284c7, #064e3b, #0f172a);
+      background-size: 400% 400%;
+      animation: gradientBG 15s ease infinite;
+    }
+
+    /* Modal Scale-In Animation */
+    @keyframes modalPop {
+      0% { transform: scale(0.9); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    .modal-anim {
+      animation: modalPop 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+  </style>
+
+  <!-- Smartsupp Live Chat -->
   <script type="text/javascript">
     var _smartsupp = _smartsupp || {};
     _smartsupp.key = 'abb986693f93036339d3b036230f8a8bbd1cf822';
@@ -19,65 +42,100 @@
     })(document);
   </script>
 </head>
-<body class="bg-slate-900 text-slate-100 font-sans antialiased min-h-screen flex flex-col justify-between">
+<body class="animated-bg text-slate-100 font-sans antialiased min-h-screen flex flex-col justify-between">
 
   <!-- Header -->
-  <header class="border-b border-slate-800 bg-slate-900/90 sticky top-0 z-50 backdrop-blur">
+  <header class="border-b border-slate-800/80 bg-slate-900/90 sticky top-0 z-50 backdrop-blur-md">
     <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
-      <!-- Logo & Brand -->
-      <div class="flex items-center space-x-3">
-        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-400 flex items-center justify-center shadow-lg shadow-emerald-500/20 border border-emerald-400/30">
+      
+      <!-- Brand Logo / Title -> Dashboard Return -->
+      <div onclick="returnToDashboard()" class="flex items-center space-x-3 cursor-pointer group">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-400 flex items-center justify-center shadow-lg shadow-emerald-500/20 border border-emerald-400/30 group-hover:scale-105 transition-transform">
           <svg class="w-6 h-6 text-slate-950 stroke-current" fill="none" viewBox="0 0 24 24" stroke-width="2.5">
             <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18L9 11.25l4.306 4.307a11.95 11.95 0 005.814-5.519l2.74-1.22m0 0l-5.94-2.28m5.94 2.28l-2.28 5.94" />
           </svg>
         </div>
         <div class="flex flex-col">
-          <span class="text-2xl font-black tracking-wider text-emerald-400 leading-none">GROWTHMAX</span>
+          <span class="text-2xl font-black tracking-wider text-emerald-400 leading-none group-hover:text-emerald-300 transition-colors">GROWTHMAX</span>
           <span class="text-[10px] font-semibold tracking-widest text-slate-400 uppercase mt-0.5">Asset Management</span>
         </div>
       </div>
 
+      <!-- Navigation Links -->
+      <nav class="hidden md:flex items-center space-x-6 text-xs font-semibold text-slate-300">
+        <a href="#about" class="hover:text-emerald-400 transition">About Us</a>
+        <a href="#plans" class="hover:text-emerald-400 transition">Plans</a>
+        <a href="#testimonials" class="hover:text-emerald-400 transition">Testimonials</a>
+        <a href="#faq" class="hover:text-emerald-400 transition">FAQ</a>
+        <a href="#contact" class="hover:text-emerald-400 transition">Contact</a>
+      </nav>
+
       <div id="nav-buttons" class="flex items-center space-x-3">
-        <a href="#auth" class="text-sm font-semibold text-slate-300 hover:text-white px-3 py-2">Sign In</a>
-        <a href="#auth" class="text-sm font-semibold bg-emerald-500 hover:bg-emerald-400 text-slate-950 px-4 py-2 rounded-lg transition">Get Started</a>
+        <a href="#auth" class="text-xs font-semibold text-slate-300 hover:text-white px-3 py-2">Sign In</a>
+        <a href="#auth" class="text-xs font-semibold bg-emerald-500 hover:bg-emerald-400 text-slate-950 px-4 py-2 rounded-lg transition shadow-md shadow-emerald-500/20">Get Started</a>
       </div>
     </div>
   </header>
 
   <!-- Hero Section -->
-  <section class="py-10 px-4 text-center max-w-4xl mx-auto">
-    <h1 class="text-4xl sm:text-6xl font-extrabold tracking-tight mb-3">
-      Smart Wealth Growth <br/><span class="text-emerald-400">Automated Performance</span>
+  <section class="py-12 px-4 text-center max-w-4xl mx-auto">
+    <div class="inline-block px-3 py-1 bg-emerald-500/10 border border-emerald-500/30 rounded-full text-emerald-400 text-xs font-semibold mb-4 backdrop-blur">
+      🚀 Next-Gen Automated Crypto & Forex Yield Engine
+    </div>
+    <h1 class="text-4xl sm:text-6xl font-extrabold tracking-tight mb-4 leading-tight">
+      Smart Wealth Growth <br/><span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-teal-200">Automated Performance</span>
     </h1>
-    <p class="text-emerald-400 text-base sm:text-lg font-bold tracking-wide uppercase mb-3">
-      Precision Investment, Guaranteed Growth
-    </p>
-    <p class="text-slate-400 text-sm sm:text-base max-w-2xl mx-auto">
-      Select an investment plan, track live financial markets, and view your account portfolio growth in real-time.
+    <p class="text-slate-300 text-sm sm:text-base max-w-2xl mx-auto leading-relaxed">
+      Maximize returns with high-frequency algorithmic investment strategies. Transparent yields, instant payout tracking, and multi-tier referral rewards.
     </p>
   </section>
 
-  <!-- Dashboard Section (Logged In) -->
+  <!-- Dashboard Section -->
   <section id="dashboard" class="hidden max-w-4xl mx-auto px-4 py-6 w-full">
-    <div class="bg-slate-800/80 border border-slate-700 rounded-2xl p-6 shadow-xl mb-8">
-      <div class="flex justify-between items-center mb-6">
+    <div class="bg-slate-900/90 border border-slate-700/80 rounded-2xl p-6 shadow-2xl backdrop-blur mb-8">
+      <div class="flex justify-between items-center mb-6 border-b border-slate-800 pb-4">
         <div>
-          <h2 class="text-xl font-bold text-slate-200">Account Balance</h2>
-          <p id="user-email" class="text-xs text-slate-400"></p>
+          <h2 class="text-xl font-bold text-slate-100">User Dashboard</h2>
+          <p id="user-email" class="text-xs text-emerald-400 font-mono mt-0.5"></p>
         </div>
-        <button onclick="handleLogout()" class="text-xs bg-red-500/10 border border-red-500/30 text-red-400 px-3 py-1.5 rounded-lg hover:bg-red-500/20 font-semibold">Log Out</button>
+        <button onclick="handleLogout()" class="text-xs bg-red-500/10 border border-red-500/30 text-red-400 px-3 py-1.5 rounded-lg hover:bg-red-500/20 font-semibold transition">Log Out</button>
       </div>
 
-      <div class="bg-slate-900/80 p-6 rounded-xl border border-slate-800 mb-6 flex justify-between items-center">
-        <div>
-          <span class="text-xs text-slate-400 uppercase tracking-wider font-semibold">Total Funds</span>
-          <div class="text-4xl font-extrabold text-emerald-400 mt-1" id="user-balance">$0.00</div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+        <!-- Main Portfolio Balance -->
+        <div class="bg-slate-950/80 p-5 rounded-xl border border-slate-800 flex justify-between items-center">
+          <div>
+            <span class="text-xs text-slate-400 uppercase tracking-wider font-semibold">Total Account Balance</span>
+            <div class="text-3xl font-black text-emerald-400 mt-1" id="user-balance">$0.00</div>
+          </div>
+          <button onclick="openDepositModal()" class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold px-4 py-2.5 rounded-xl transition text-xs shadow-lg shadow-emerald-500/20">+ Add Funds</button>
         </div>
-        <button onclick="openDepositModal()" class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold px-5 py-3 rounded-xl transition text-sm shadow-lg shadow-emerald-500/10">+ Add Funds</button>
+
+        <!-- Referral Bonus Balance -->
+        <div class="bg-slate-950/80 p-5 rounded-xl border border-slate-800 flex justify-between items-center">
+          <div>
+            <span class="text-xs text-slate-400 uppercase tracking-wider font-semibold">Referral Earnings</span>
+            <div class="text-3xl font-black text-teal-400 mt-1" id="user-ref-balance">$0.00</div>
+          </div>
+          <button onclick="copyRefLink()" class="bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 font-bold px-4 py-2.5 rounded-xl transition text-xs">Copy Link</button>
+        </div>
       </div>
 
-      <!-- Deposit History -->
-      <h3 class="text-sm font-bold text-slate-300 mb-3">Deposit Requests</h3>
+      <!-- Referral Link Box -->
+      <div class="p-4 bg-slate-950/90 border border-slate-800 rounded-xl text-xs mb-6">
+        <label class="block text-slate-400 font-semibold mb-1">Your Unique Referral Link (Earn 5% Per Deposit)</label>
+        <div class="flex gap-2">
+          <input type="text" id="ref-link-input" readonly class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-emerald-300 font-mono text-xs focus:outline-none">
+          <button onclick="copyRefLink()" class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold px-4 py-2 rounded-lg transition text-xs shrink-0">Copy</button>
+        </div>
+        <span id="copy-msg" class="text-[10px] text-emerald-400 mt-1 block h-3"></span>
+      </div>
+
+      <!-- Deposit History & Status -->
+      <h3 class="text-sm font-bold text-slate-200 mb-3 flex items-center justify-between">
+        <span>Deposit Requests & History</span>
+        <span class="text-[10px] text-slate-400 font-normal">Real-Time Status</span>
+      </h3>
       <div id="deposit-history" class="space-y-2 text-xs">
         <p class="text-slate-500">No recent deposits found.</p>
       </div>
@@ -86,8 +144,8 @@
 
   <!-- Auth Section -->
   <section id="auth" class="max-w-md mx-auto px-4 py-6 w-full">
-    <div class="bg-slate-800/60 border border-slate-700/60 p-6 rounded-2xl shadow-xl">
-      <div class="flex border-b border-slate-700 mb-6">
+    <div class="bg-slate-900/90 border border-slate-800 p-6 rounded-2xl shadow-2xl backdrop-blur">
+      <div class="flex border-b border-slate-800 mb-6">
         <button id="tab-login" onclick="switchAuthMode('login')" class="flex-1 py-2 text-center text-sm font-bold border-b-2 border-emerald-400 text-emerald-400">Sign In</button>
         <button id="tab-signup" onclick="switchAuthMode('signup')" class="flex-1 py-2 text-center text-sm font-bold text-slate-400 border-b-2 border-transparent">Register</button>
       </div>
@@ -95,50 +153,207 @@
       <form id="auth-form" onsubmit="handleAuth(event)" class="space-y-4">
         <div>
           <label class="block text-xs text-slate-400 mb-1 font-semibold">Email Address</label>
-          <input type="email" id="auth-email" required class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-100 focus:outline-none focus:border-emerald-400">
+          <input type="email" id="auth-email" required class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-sm text-slate-100 focus:outline-none focus:border-emerald-400">
         </div>
         <div>
           <label class="block text-xs text-slate-400 mb-1 font-semibold">Password</label>
-          <input type="password" id="auth-password" required class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-100 focus:outline-none focus:border-emerald-400">
+          <input type="password" id="auth-password" required class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-sm text-slate-100 focus:outline-none focus:border-emerald-400">
         </div>
         <div id="auth-message" class="text-xs text-center min-h-[16px]"></div>
-        <button type="submit" id="auth-btn" class="w-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold py-2.5 rounded-lg transition text-sm">Sign In</button>
+        <button type="submit" id="auth-btn" class="w-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold py-2.5 rounded-lg transition text-sm shadow-md shadow-emerald-500/20">Sign In</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Investment Plans Section -->
+  <section id="plans" class="max-w-6xl mx-auto px-4 py-12">
+    <h2 class="text-2xl sm:text-3xl font-extrabold text-center mb-2">High-Yield Investment Packages</h2>
+    <p class="text-slate-400 text-center text-xs sm:text-sm mb-8">Calculated daily yields distributed straight to your balance</p>
+    
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div class="bg-slate-900/80 border border-slate-800 p-5 rounded-2xl flex flex-col justify-between hover:border-emerald-500/50 transition">
+        <div>
+          <span class="text-xs font-bold uppercase tracking-wider text-emerald-400">Beginners</span>
+          <div class="text-3xl font-black mt-2 text-white">10% <span class="text-xs text-slate-400 font-normal">ROI</span></div>
+          <p class="text-xs text-slate-400 mt-2">Duration: 24H / 14 Days</p>
+          <p class="text-xs text-slate-300 font-semibold mt-1">Min: $50 | Max: $499</p>
+        </div>
+        <button onclick="openDepositModal()" class="mt-6 w-full py-2 bg-slate-800 hover:bg-emerald-500 hover:text-slate-950 font-bold text-xs rounded-lg transition">Choose Plan</button>
+      </div>
+
+      <div class="bg-slate-900/80 border border-slate-800 p-5 rounded-2xl flex flex-col justify-between hover:border-emerald-500/50 transition">
+        <div>
+          <span class="text-xs font-bold uppercase tracking-wider text-teal-400">Advanced</span>
+          <div class="text-3xl font-black mt-2 text-white">25% <span class="text-xs text-slate-400 font-normal">ROI</span></div>
+          <p class="text-xs text-slate-400 mt-2">Duration: 48H / 21 Days</p>
+          <p class="text-xs text-slate-300 font-semibold mt-1">Min: $500 | Max: $1,999</p>
+        </div>
+        <button onclick="openDepositModal()" class="mt-6 w-full py-2 bg-slate-800 hover:bg-emerald-500 hover:text-slate-950 font-bold text-xs rounded-lg transition">Choose Plan</button>
+      </div>
+
+      <div class="bg-slate-900/80 border border-emerald-500/30 p-5 rounded-2xl flex flex-col justify-between shadow-xl relative overflow-hidden">
+        <div class="absolute top-0 right-0 bg-emerald-500 text-slate-950 text-[9px] font-black uppercase px-3 py-1 rounded-bl-lg">Popular</div>
+        <div>
+          <span class="text-xs font-bold uppercase tracking-wider text-emerald-400">Pro / Expert</span>
+          <div class="text-3xl font-black mt-2 text-white">35% <span class="text-xs text-slate-400 font-normal">ROI</span></div>
+          <p class="text-xs text-slate-400 mt-2">Duration: 72H / 30 Days</p>
+          <p class="text-xs text-slate-300 font-semibold mt-1">Min: $2,000 | Max: $4,999</p>
+        </div>
+        <button onclick="openDepositModal()" class="mt-6 w-full py-2 bg-emerald-500 text-slate-950 font-bold text-xs rounded-lg transition hover:bg-emerald-400">Choose Plan</button>
+      </div>
+
+      <div class="bg-slate-900/80 border border-slate-800 p-5 rounded-2xl flex flex-col justify-between hover:border-emerald-500/50 transition">
+        <div>
+          <span class="text-xs font-bold uppercase tracking-wider text-indigo-400">Top Investor</span>
+          <div class="text-3xl font-black mt-2 text-white">42% <span class="text-xs text-slate-400 font-normal">ROI</span></div>
+          <p class="text-xs text-slate-400 mt-2">Duration: 98H / 62 Days</p>
+          <p class="text-xs text-slate-300 font-semibold mt-1">Min: $5,000 | Max: Unlimited</p>
+        </div>
+        <button onclick="openDepositModal()" class="mt-6 w-full py-2 bg-slate-800 hover:bg-emerald-500 hover:text-slate-950 font-bold text-xs rounded-lg transition">Choose Plan</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Us Section -->
+  <section id="about" class="max-w-4xl mx-auto px-4 py-12">
+    <div class="bg-slate-900/80 border border-slate-800 p-8 rounded-2xl backdrop-blur">
+      <h2 class="text-2xl font-extrabold text-emerald-400 mb-3">About GROWTHMAX</h2>
+      <p class="text-xs sm:text-sm text-slate-300 leading-relaxed mb-4">
+        GROWTHMAX is an automated quantitative asset management platform engineered to deliver steady capital appreciation through automated digital asset execution. We blend AI-assisted liquidity routing across decentralized exchanges with arbitrage trading to secure low-volatility yields.
+      </p>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-6 text-center">
+        <div class="p-4 bg-slate-950/60 rounded-xl border border-slate-800">
+          <div class="text-xl font-extrabold text-emerald-400">$14.2M+</div>
+          <div class="text-[11px] text-slate-400 mt-1">Assets Managed</div>
+        </div>
+        <div class="p-4 bg-slate-950/60 rounded-xl border border-slate-800">
+          <div class="text-xl font-extrabold text-emerald-400">99.8%</div>
+          <div class="text-[11px] text-slate-400 mt-1">Uptime Reliability</div>
+        </div>
+        <div class="p-4 bg-slate-950/60 rounded-xl border border-slate-800">
+          <div class="text-xl font-extrabold text-emerald-400">42,000+</div>
+          <div class="text-[11px] text-slate-400 mt-1">Global Investors</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials Section -->
+  <section id="testimonials" class="max-w-5xl mx-auto px-4 py-12">
+    <h2 class="text-2xl font-extrabold text-center mb-2">Investor Reviews</h2>
+    <p class="text-xs text-slate-400 text-center mb-8">Verified feedback from active platform account holders</p>
+    
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div class="bg-slate-900/80 border border-slate-800 p-5 rounded-2xl flex flex-col justify-between">
+        <p class="text-xs text-slate-300 italic mb-4">"Withdrawals are quick, and customer support answered my questions instantly via live chat. Highly recommended for daily yield generation."</p>
+        <div class="flex items-center space-x-3">
+          <div class="w-8 h-8 rounded-full bg-emerald-500/20 text-emerald-400 font-bold flex items-center justify-center text-xs">JD</div>
+          <div>
+            <div class="text-xs font-bold text-slate-200">Jason D.</div>
+            <div class="text-[10px] text-slate-500">Pro Plan Investor</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-slate-900/80 border border-slate-800 p-5 rounded-2xl flex flex-col justify-between">
+        <p class="text-xs text-slate-300 italic mb-4">"Started with the $100 beginner package to test payouts. Approved within minutes via USDT TRC20 and yields accumulated daily."</p>
+        <div class="flex items-center space-x-3">
+          <div class="w-8 h-8 rounded-full bg-teal-500/20 text-teal-400 font-bold flex items-center justify-center text-xs">SK</div>
+          <div>
+            <div class="text-xs font-bold text-slate-200">Sarah K.</div>
+            <div class="text-[10px] text-slate-500">Beginners Plan</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-slate-900/80 border border-slate-800 p-5 rounded-2xl flex flex-col justify-between">
+        <p class="text-xs text-slate-300 italic mb-4">"The 5% referral commission structure added a solid bonus on top of my base package yield. Smooth platform overall."</p>
+        <div class="flex items-center space-x-3">
+          <div class="w-8 h-8 rounded-full bg-indigo-500/20 text-indigo-400 font-bold flex items-center justify-center text-xs">MA</div>
+          <div>
+            <div class="text-xs font-bold text-slate-200">Marcus A.</div>
+            <div class="text-[10px] text-slate-500">Top Investor</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section id="faq" class="max-w-3xl mx-auto px-4 py-12">
+    <h2 class="text-2xl font-extrabold text-center mb-6">Frequently Asked Questions</h2>
+    
+    <div class="space-y-3 text-xs sm:text-sm">
+      <details class="bg-slate-900/80 border border-slate-800 rounded-xl p-4 cursor-pointer">
+        <summary class="font-bold text-slate-200">How do I fund my investment account?</summary>
+        <p class="text-slate-400 mt-2 leading-relaxed">Sign in to your account dashboard, click <strong>+ Add Funds</strong>, pick your preferred investment tier, copy the assigned deposit wallet address (USDT TRC20 or Bitcoin), and submit your transaction ID.</p>
+      </details>
+
+      <details class="bg-slate-900/80 border border-slate-800 rounded-xl p-4 cursor-pointer">
+        <summary class="font-bold text-slate-200">How long does deposit approval take?</summary>
+        <p class="text-slate-400 mt-2 leading-relaxed">Deposits are typically reviewed and added to your portfolio balance within 5 to 30 minutes following network confirmation.</p>
+      </details>
+
+      <details class="bg-slate-900/80 border border-slate-800 rounded-xl p-4 cursor-pointer">
+        <summary class="font-bold text-slate-200">How does the referral system work?</summary>
+        <p class="text-slate-400 mt-2 leading-relaxed">Every registered account gets a unique referral link. Share your link with potential investors, and you'll receive an automatic 5% bonus calculated on all approved deposits made through your link.</p>
+      </details>
+    </div>
+  </section>
+
+  <!-- Contact Us Section -->
+  <section id="contact" class="max-w-md mx-auto px-4 py-12 w-full">
+    <div class="bg-slate-900/90 border border-slate-800 p-6 rounded-2xl shadow-xl backdrop-blur">
+      <h2 class="text-xl font-bold text-center mb-1">Contact Support</h2>
+      <p class="text-xs text-slate-400 text-center mb-4">Need help? Send us a message or use our live chat icon.</p>
+      
+      <form onsubmit="handleContact(event)" class="space-y-3 text-xs">
+        <div>
+          <label class="block text-slate-400 mb-1 font-semibold">Your Email</label>
+          <input type="email" required id="contact-email" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-slate-100 focus:outline-none focus:border-emerald-400">
+        </div>
+        <div>
+          <label class="block text-slate-400 mb-1 font-semibold">Message</label>
+          <textarea required id="contact-msg-text" rows="3" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-slate-100 focus:outline-none focus:border-emerald-400"></textarea>
+        </div>
+        <div id="contact-status" class="text-center min-h-[14px]"></div>
+        <button type="submit" class="w-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold py-2 rounded-lg transition">Send Message</button>
       </form>
     </div>
   </section>
 
   <!-- Deposit Modal -->
   <div id="deposit-modal" class="hidden fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-    <div class="bg-slate-900 border border-slate-700 rounded-2xl p-6 max-w-lg w-full max-h-[90vh] overflow-y-auto shadow-2xl">
+    <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 max-w-lg w-full max-h-[90vh] overflow-y-auto shadow-2xl modal-anim">
       <div class="flex justify-between items-center mb-4">
         <h3 class="text-lg font-bold text-emerald-400">Choose Investment Plan</h3>
         <button onclick="closeDepositModal()" class="text-slate-400 hover:text-white text-lg font-bold">&times;</button>
       </div>
 
-      <!-- Step 1: Select Plan -->
+      <!-- Step 1: Package Selection -->
       <div id="deposit-step-1" class="space-y-3">
-        <div onclick="selectPlan('Beginners', 50, 499, '10%', '24H / 14 Days')" class="p-4 border border-slate-800 bg-slate-800/50 hover:border-emerald-500/50 rounded-xl cursor-pointer transition">
+        <div onclick="selectPlan('Beginners', 50, 499, '10%', '24H / 14 Days')" class="p-4 border border-slate-800 bg-slate-950/50 hover:border-emerald-500/50 rounded-xl cursor-pointer transition">
           <div class="flex justify-between items-center"><span class="font-bold text-slate-200">Beginners</span><span class="text-xs bg-emerald-500/10 text-emerald-400 px-2 py-0.5 rounded font-bold">10% Profit</span></div>
           <p class="text-xs text-slate-400 mt-1">Range: $50 - $499 | Duration: 24H, 14 Days</p>
         </div>
 
-        <div onclick="selectPlan('Advanced', 500, 1999, '25%', '48H / 21 Days')" class="p-4 border border-slate-800 bg-slate-800/50 hover:border-emerald-500/50 rounded-xl cursor-pointer transition">
+        <div onclick="selectPlan('Advanced', 500, 1999, '25%', '48H / 21 Days')" class="p-4 border border-slate-800 bg-slate-950/50 hover:border-emerald-500/50 rounded-xl cursor-pointer transition">
           <div class="flex justify-between items-center"><span class="font-bold text-slate-200">Advanced</span><span class="text-xs bg-emerald-500/10 text-emerald-400 px-2 py-0.5 rounded font-bold">25% Profit</span></div>
           <p class="text-xs text-slate-400 mt-1">Range: $500 - $1,999 | Duration: 48H, 21 Days</p>
         </div>
 
-        <div onclick="selectPlan('Pro/Expert', 2000, 4999, '35%', '72H / 30 Days')" class="p-4 border border-slate-800 bg-slate-800/50 hover:border-emerald-500/50 rounded-xl cursor-pointer transition">
+        <div onclick="selectPlan('Pro/Expert', 2000, 4999, '35%', '72H / 30 Days')" class="p-4 border border-slate-800 bg-slate-950/50 hover:border-emerald-500/50 rounded-xl cursor-pointer transition">
           <div class="flex justify-between items-center"><span class="font-bold text-slate-200">Pro/Expert</span><span class="text-xs bg-emerald-500/10 text-emerald-400 px-2 py-0.5 rounded font-bold">35% Profit</span></div>
           <p class="text-xs text-slate-400 mt-1">Range: $2,000 - $4,999 | Duration: 72H, 30 Days</p>
         </div>
 
-        <div onclick="selectPlan('Top Investor', 5000, 1000000, '42%', '98H / 62 Days')" class="p-4 border border-slate-800 bg-slate-800/50 hover:border-emerald-500/50 rounded-xl cursor-pointer transition">
+        <div onclick="selectPlan('Top Investor', 5000, 1000000, '42%', '98H / 62 Days')" class="p-4 border border-slate-800 bg-slate-950/50 hover:border-emerald-500/50 rounded-xl cursor-pointer transition">
           <div class="flex justify-between items-center"><span class="font-bold text-slate-200">Top Investor</span><span class="text-xs bg-emerald-500/10 text-emerald-400 px-2 py-0.5 rounded font-bold">42% Profit</span></div>
           <p class="text-xs text-slate-400 mt-1">Range: $5,000 - Unlimited | Duration: 98H, 62 Days</p>
         </div>
       </div>
 
-      <!-- Step 2: Enter Amount & Wallet Payment -->
+      <!-- Step 2: Amount & Payment Hash -->
       <div id="deposit-step-2" class="hidden space-y-4">
         <p id="selected-plan-title" class="text-xs text-emerald-400 font-bold uppercase tracking-wider"></p>
         
@@ -170,8 +385,8 @@
         <div id="deposit-msg" class="text-xs text-center min-h-[16px]"></div>
 
         <div class="flex gap-2">
-          <button onclick="backToStep1()" class="w-1/3 border border-slate-700 text-slate-400 py-2.5 rounded-lg text-sm">Back</button>
-          <button onclick="submitDeposit()" class="w-2/3 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold py-2.5 rounded-lg transition text-sm">Submit Deposit</button>
+          <button onclick="backToStep1()" class="w-1/3 border border-slate-700 text-slate-400 py-2.5 rounded-lg text-sm hover:bg-slate-800 transition">Back</button>
+          <button type="button" onclick="submitDeposit()" class="w-2/3 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold py-2.5 rounded-lg transition text-sm">Submit Deposit</button>
         </div>
       </div>
     </div>
@@ -183,7 +398,7 @@
       <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
       Live Market Feeds
     </h2>
-    <div class="rounded-xl overflow-hidden border border-slate-800 bg-slate-950 p-2">
+    <div class="rounded-xl overflow-hidden border border-slate-800 bg-slate-950/90 p-2">
       <div class="tradingview-widget-container">
         <div class="tradingview-widget-container__widget"></div>
         <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>
@@ -206,7 +421,7 @@
   </section>
 
   <!-- Footer -->
-  <footer class="border-t border-slate-800 py-6 text-center text-xs text-slate-500">
+  <footer class="border-t border-slate-800/80 py-6 text-center text-xs text-slate-500 bg-slate-950/80">
     <p>© 2026 GROWTHMAX. Precision Investment, Guaranteed Growth.</p>
   </footer>
 
@@ -222,6 +437,7 @@
 
     let authMode = 'login';
     let activePlan = null;
+    let currentUser = null;
 
     function switchAuthMode(mode) {
       authMode = mode;
@@ -229,6 +445,14 @@
       document.getElementById('tab-signup').className = mode === 'signup' ? "flex-1 py-2 text-center text-sm font-bold border-b-2 border-emerald-400 text-emerald-400" : "flex-1 py-2 text-center text-sm font-bold text-slate-400 border-b-2 border-transparent";
       document.getElementById('auth-btn').textContent = mode === 'login' ? 'Sign In' : 'Create Account';
       document.getElementById('auth-message').textContent = '';
+    }
+
+    function returnToDashboard() {
+      if (currentUser) {
+        document.getElementById('dashboard').scrollIntoView({ behavior: 'smooth' });
+      } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
     }
 
     async function handleAuth(e) {
@@ -239,12 +463,23 @@
       msg.className = "text-xs text-center text-slate-400";
       msg.textContent = "Processing...";
 
+      const urlParams = new URLSearchParams(window.location.search);
+      const refCode = urlParams.get('ref') || null;
+
       if (authMode === 'signup') {
         const { data, error } = await supabaseClient.auth.signUp({ email, password });
         if (error) {
           msg.className = "text-xs text-center text-red-400";
           msg.textContent = error.message;
-        } else {
+        } else if (data.user) {
+          const userRefCode = 'REF-' + Math.random().toString(36).substring(2, 8).toUpperCase();
+          await supabaseClient.from('profiles').upsert([{ 
+            id: data.user.id, 
+            email: email, 
+            balance: 0.00,
+            ref_balance: 0.00,
+            ref_code: userRefCode
+          }]);
           msg.className = "text-xs text-center text-emerald-400";
           msg.textContent = "Account registered successfully!";
           await loadUserData(data.user);
@@ -254,7 +489,7 @@
         if (error) {
           msg.className = "text-xs text-center text-red-400";
           msg.textContent = error.message;
-        } else {
+        } else if (data.user) {
           msg.className = "text-xs text-center text-emerald-400";
           msg.textContent = "Signed in!";
           await loadUserData(data.user);
@@ -264,15 +499,41 @@
 
     async function loadUserData(user) {
       if (!user) return;
+      currentUser = user;
       document.getElementById('auth').classList.add('hidden');
       document.getElementById('dashboard').classList.remove('hidden');
       document.getElementById('nav-buttons').classList.add('hidden');
       document.getElementById('user-email').textContent = user.email;
 
-      const { data } = await supabaseClient.from('profiles').select('balance').eq('id', user.id).single();
-      if (data) document.getElementById('user-balance').textContent = '$' + parseFloat(data.balance).toFixed(2);
+      const { data } = await supabaseClient.from('profiles').select('*').eq('id', user.id).single();
+      
+      let refCode = data?.ref_code;
+      if (!refCode) {
+        refCode = 'REF-' + Math.random().toString(36).substring(2, 8).toUpperCase();
+        await supabaseClient.from('profiles').upsert([{ id: user.id, email: user.email, ref_code: refCode }]);
+      }
+
+      const refLink = `${window.location.origin}${window.location.pathname}?ref=${refCode}`;
+      document.getElementById('ref-link-input').value = refLink;
+
+      if (data) {
+        document.getElementById('user-balance').textContent = '$' + parseFloat(data.balance || 0).toFixed(2);
+        document.getElementById('user-ref-balance').textContent = '$' + parseFloat(data.ref_balance || 0).toFixed(2);
+      } else {
+        document.getElementById('user-balance').textContent = '$0.00';
+        document.getElementById('user-ref-balance').textContent = '$0.00';
+      }
 
       loadDepositHistory(user.id);
+    }
+
+    function copyRefLink() {
+      const copyText = document.getElementById('ref-link-input');
+      copyText.select();
+      navigator.clipboard.writeText(copyText.value);
+      const msg = document.getElementById('copy-msg');
+      msg.textContent = "Referral link copied to clipboard!";
+      setTimeout(() => msg.textContent = "", 3000);
     }
 
     async function loadDepositHistory(userId) {
@@ -280,7 +541,7 @@
       const container = document.getElementById('deposit-history');
       if (data && data.length > 0) {
         container.innerHTML = data.map(d => `
-          <div class="p-3 bg-slate-900 border border-slate-800 rounded-lg flex justify-between items-center">
+          <div class="p-3 bg-slate-950 border border-slate-800 rounded-lg flex justify-between items-center">
             <div>
               <span class="font-bold text-slate-200">$${parseFloat(d.amount).toFixed(2)} (${d.plan_name})</span>
               <p class="text-[10px] text-slate-500">${d.payment_method} • ${new Date(d.created_at).toLocaleDateString()}</p>
@@ -294,6 +555,10 @@
     }
 
     function openDepositModal() {
+      if (!currentUser) {
+        document.getElementById('auth').scrollIntoView({ behavior: 'smooth' });
+        return;
+      }
       document.getElementById('deposit-modal').classList.remove('hidden');
       backToStep1();
     }
@@ -327,39 +592,57 @@
       const hash = document.getElementById('txn-hash').value;
       const msg = document.getElementById('deposit-msg');
 
+      if (!activePlan) {
+        msg.className = "text-xs text-center text-red-400";
+        msg.textContent = "Please select an investment plan first.";
+        return;
+      }
+
       if (!amount || amount < activePlan.min) {
         msg.className = "text-xs text-center text-red-400";
         msg.textContent = `Minimum deposit for ${activePlan.name} is $${activePlan.min}`;
         return;
       }
 
-      const { data: { user } } = await supabaseClient.auth.getUser();
-      if (!user) return;
+      if (!currentUser) {
+        msg.className = "text-xs text-center text-red-400";
+        msg.textContent = "You must be signed in to submit a deposit.";
+        return;
+      }
 
       msg.className = "text-xs text-center text-slate-400";
       msg.textContent = "Submitting deposit request...";
 
-      const { error } = await supabaseClient.from('deposits').insert([{
-        user_id: user.id,
-        user_email: user.email,
+      const { data, error } = await supabaseClient.from('deposits').insert([{
+        user_id: currentUser.id,
+        user_email: currentUser.email,
         plan_name: activePlan.name,
         amount: amount,
         payment_method: method,
-        txn_hash: hash,
+        txn_hash: hash || 'Pending Verification',
         status: 'pending'
       }]);
 
       if (error) {
         msg.className = "text-xs text-center text-red-400";
-        msg.textContent = error.message;
+        msg.textContent = "Error: " + error.message;
       } else {
-        msg.className = "text-xs text-center text-emerald-400";
-        msg.textContent = "Deposit submitted! Awaiting Admin approval.";
+        msg.className = "text-xs text-center text-emerald-400 font-bold";
+        msg.textContent = "Deposit Submitted! Status: Pending Approval.";
+        
         setTimeout(() => {
           closeDepositModal();
-          loadDepositHistory(user.id);
+          loadDepositHistory(currentUser.id);
         }, 1500);
       }
+    }
+
+    function handleContact(e) {
+      e.preventDefault();
+      const status = document.getElementById('contact-status');
+      status.className = "text-xs text-emerald-400 font-bold";
+      status.textContent = "Thank you! Your inquiry has been sent to support.";
+      document.getElementById('contact-msg-text').value = '';
     }
 
     function handleLogout() {

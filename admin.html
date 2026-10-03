@@ -66,8 +66,8 @@
 
           <div class="flex items-center gap-2 w-full sm:w-auto">
             ${d.status === 'pending' ? `
-              <button onclick="updateDepositStatus('${d.id}', 'approved')" class="flex-1 sm:flex-none text-xs bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold px-3 py-1.5 rounded-lg transition">Approve</button>
-              <button onclick="updateDepositStatus('${d.id}', 'rejected')" class="flex-1 sm:flex-none text-xs bg-red-500/10 border border-red-500/30 text-red-400 px-3 py-1.5 rounded-lg hover:bg-red-500/20 transition font-semibold">Reject</button>
+              <button onclick="updateDepositStatus('${d.id}', '${d.user_id}',${d.amount}, 'approved')" class="flex-1 sm:flex-none text-xs bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold px-3 py-1.5 rounded-lg transition">Approve</button>
+              <button onclick="updateDepositStatus('${d.id}', '${d.user_id}',${d.amount}, 'rejected')" class="flex-1 sm:flex-none text-xs bg-red-500/10 border border-red-500/30 text-red-400 px-3 py-1.5 rounded-lg hover:bg-red-500/20 transition font-semibold">Reject</button>
             ` : `
               <span class="text-xs px-3 py-1 rounded font-bold uppercase ${d.status === 'approved' ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 'bg-red-500/10 text-red-400 border border-red-500/20'}">${d.status}</span>
             `}
@@ -76,16 +76,26 @@
       `).join('');
     }
 
-    async function updateDepositStatus(id, status) {
+    async function updateDepositStatus(id, userId, amount, status) {
       const { error } = await supabaseClient.from('deposits').update({ status }).eq('id', id);
       if (error) {
         alert("Error updating status: " + error.message);
-      } else {
-        loadAdminData();
+        return;
       }
+
+      if (status === 'approved') {
+        const { data: profile } = await supabaseClient.from('profiles').select('balance').eq('id', userId).single();
+        const currentBalance = profile ? parseFloat(profile.balance || 0) : 0;
+        const newBalance = currentBalance + parseFloat(amount);
+
+        await supabaseClient.from('profiles').upsert([{ id: userId, balance: newBalance }]);
+      }
+
+      loadAdminData();
     }
 
     window.addEventListener('DOMContentLoaded', loadAdminData);
   </script>
 </body>
 </html>
+￼Enter

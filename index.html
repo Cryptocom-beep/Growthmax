@@ -583,10 +583,18 @@
 
   <!-- JavaScript Engine -->
   <script>
-    // Supabase Configuration
+    // Safe Supabase Initialization
     const SUPABASE_URL = "YOUR_SUPABASE_URL";
     const SUPABASE_ANON_KEY = "YOUR_SUPABASE_ANON_KEY";
-    const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    let supabase = null;
+
+    if (SUPABASE_URL !== "YOUR_SUPABASE_URL" && SUPABASE_ANON_KEY !== "YOUR_SUPABASE_ANON_KEY") {
+      try {
+        supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+      } catch (e) {
+        console.warn("Supabase initialization failed:", e);
+      }
+    }
 
     let currentUser = null;
     let authMode = 'login'; // 'login' or 'register'
@@ -684,6 +692,15 @@
       const email = document.getElementById('auth-email').value;
       const password = document.getElementById('auth-password').value;
 
+      if (!supabase) {
+        alert("Demo Mode: Logging in as test account.");
+        currentUser = { id: "demo-user", email: email };
+        closeAuthModal();
+        updateAuthHeaderUI(currentUser);
+        showSection('dashboard');
+        return;
+      }
+
       if (authMode === 'register') {
         const { data, error } = await supabase.auth.signUp({ email, password });
         if (error) alert('Registration Error: ' + error.message);
@@ -706,6 +723,22 @@
 
     // 3. User Portfolio Data & Live Sync
     async function loadUserData() {
+      if (!supabase) {
+        document.getElementById('deposits-list').innerHTML = `
+          <tr class="border-b border-gray-800/50">
+            <td class="p-3 font-semibold text-white">Starter Plan</td>
+            <td class="p-3 text-green-400 font-bold font-mono">$500.00</td>
+            <td class="p-3 text-gray-300 font-mono">$50.00</td>
+            <td class="p-3 text-gray-400">3 Days</td>
+            <td class="p-3"><span class="px-2.5 py-1 rounded-full text-[10px] uppercase font-bold border bg-green-500/20 text-green-400 border-green-500/30">APPROVED</span></td>
+          </tr>
+        `;
+        document.getElementById('user-balance').innerText = "$550.00";
+        document.getElementById('active-count').innerText = "1";
+        document.getElementById('pending-count').innerText = "0";
+        return;
+      }
+
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) {
         updateAuthHeaderUI(null);
@@ -752,7 +785,7 @@
         container.innerHTML = `
           <div class="flex items-center space-x-2">
             <span class="text-xs text-green-400 font-mono hidden sm:inline">${user.email}</span>
-            <button onclick="supabase.auth.signOut().then(() => location.reload())" class="px-3 py-1.5 text-xs bg-gray-900 border border-gray-700 hover:border-red-500 hover:text-red-400 text-gray-300 rounded-xl transition">
+            <button onclick="signOutUser()" class="px-3 py-1.5 text-xs bg-gray-900 border border-gray-700 hover:border-red-500 hover:text-red-400 text-gray-300 rounded-xl transition">
               Sign Out
             </button>
           </div>
@@ -767,6 +800,14 @@
           </button>
         `;
       }
+    }
+
+    async function signOutUser() {
+      if (supabase) {
+        await supabase.auth.signOut();
+      }
+      currentUser = null;
+      location.reload();
     }
 
     // 4. Calculate ROI Calculator
@@ -788,7 +829,7 @@
 
     // 5. Submit Deposit & Withdrawal Requests
     async function submitDeposit() {
-      if (!currentUser) return openAuthModal('login');
+      if (!currentUser && supabase) return openAuthModal('login');
       const select = document.getElementById('plan-select');
       const selectedOption = select.options[select.selectedIndex];
       const planName = selectedOption.text.split('(')[0].trim();
@@ -800,6 +841,13 @@
       if (!amount || amount <= 0) return alert('Please enter a valid deposit amount.');
 
       const profit = (amount * roiPercent) / 100;
+
+      if (!supabase) {
+        alert('Deposit submitted (Demo mode)!');
+        document.getElementById('deposit-amount').value = '';
+        calculateROI();
+        return;
+      }
 
       const { error } = await supabase.from('deposits').insert([{
         user_id: currentUser.id,
@@ -822,13 +870,20 @@
     }
 
     async function submitWithdrawal() {
-      if (!currentUser) return openAuthModal('login');
+      if (!currentUser && supabase) return openAuthModal('login');
       const amount = parseFloat(document.getElementById('withdraw-amount').value);
       const address = document.getElementById('withdraw-address').value.trim();
       const method = document.getElementById('withdraw-method').value;
 
       if (!amount || amount < 10) return alert('Minimum withdrawal amount is $10.');
       if (!address) return alert('Please enter a valid wallet address.');
+
+      if (!supabase) {
+        alert('Withdrawal requested (Demo mode)!');
+        document.getElementById('withdraw-amount').value = '';
+        document.getElementById('withdraw-address').value = '';
+        return;
+      }
 
       const { error } = await supabase.from('withdrawals').insert([{
         user_id: currentUser.id,
@@ -850,7 +905,7 @@
 
     // 6. Fetch Transactions History
     async function fetchDeposits() {
-      if (!currentUser) return;
+      if (!currentUser || !supabase) return;
       const { data: deposits } = await supabase.from('deposits').select('*').eq('user_id', currentUser.id).order('created_at', { ascending: false });
       const tbody = document.getElementById('deposits-list');
 
@@ -878,6 +933,7 @@
 
     function triggerSocialProofToast() {
       const container = document.getElementById('toast-container');
+      if (!container) return;
       const name = fakeNames[Math.floor(Math.random() * fakeNames.length)];
       const country = fakeCountries[Math.floor(Math.random() * fakeCountries.length)];
       const type = fakeTypes[Math.floor(Math.random() * fakeTypes.length)];
@@ -914,7 +970,9 @@
 
     // Initialization
     window.onload = () => {
-      lucide.createIcons();
+      if (window.lucide) {
+        lucide.createIcons();
+      }
       loadUserData();
       calculateROI();
       setInterval(triggerSocialProofToast, 10000);

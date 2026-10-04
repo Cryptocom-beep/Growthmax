@@ -3,51 +3,57 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Growthmax - Admin Control Panel</title>
+  <title>Growthmax - Admin Panel</title>
+  <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Supabase JS Client -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
-<body class="bg-gray-950 text-gray-100 min-h-screen p-4 md:p-8">
+<body class="bg-slate-950 text-white min-h-screen p-4 md:p-8 font-sans">
 
   <div class="max-w-6xl mx-auto space-y-8">
-    <div class="flex justify-between items-center bg-gray-900 p-6 rounded-2xl border border-gray-800">
+    <!-- Header -->
+    <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 shadow-lg">
       <div>
-        <h1 class="text-2xl font-bold text-white">Growthmax Admin Panel</h1>
-        <p class="text-xs text-gray-400">One-Click Deposit & Withdrawal Management</p>
+        <h1 class="text-2xl font-bold text-green-400">Growthmax Admin Panel</h1>
+        <p class="text-sm text-slate-400">One-Click Deposit & Withdrawal Management</p>
       </div>
-      <button onclick="loadAdminData()" class="px-4 py-2 bg-gray-800 hover:bg-gray-700 text-xs font-bold rounded-xl border border-gray-700">
+      <button onclick="loadAdminData()" class="bg-slate-800 hover:bg-slate-700 border border-slate-700 text-white font-medium px-5 py-2.5 rounded-xl transition">
         Refresh Data
       </button>
     </div>
 
-    <!-- Pending Deposits Section -->
-    <div class="bg-gray-900 p-6 rounded-2xl border border-gray-800 space-y-4">
-      <h2 class="text-lg font-bold text-green-400">Pending Deposits</h2>
+    <!-- Pending Deposits -->
+    <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-lg">
+      <h2 class="text-xl font-bold text-green-400 mb-4">Pending Deposits</h2>
       <div class="overflow-x-auto">
-        <table class="w-full text-left text-xs text-gray-400">
-          <thead class="bg-gray-800 text-gray-300 uppercase">
-            <tr>
+        <table class="w-full text-left border-collapse">
+          <thead>
+            <tr class="bg-slate-800/60 text-slate-400 text-xs uppercase tracking-wider">
               <th class="p-3">User Email</th>
               <th class="p-3">Plan</th>
               <th class="p-3">Amount</th>
               <th class="p-3">Method</th>
+              <th class="p-3">TXN Hash</th>
               <th class="p-3">Action</th>
             </tr>
           </thead>
-          <tbody id="deposits-admin-list">
-            <tr><td colspan="5" class="p-4 text-center">Loading deposits...</td></tr>
+          <tbody id="deposits-table" class="divide-y divide-slate-800 text-sm">
+            <tr>
+              <td colspan="6" class="p-4 text-center text-slate-500">Loading deposits...</td>
+            </tr>
           </tbody>
         </table>
       </div>
     </div>
 
-    <!-- Pending Withdrawals Section -->
-    <div class="bg-gray-900 p-6 rounded-2xl border border-gray-800 space-y-4">
-      <h2 class="text-lg font-bold text-blue-400">Pending Withdrawals</h2>
+    <!-- Pending Withdrawals -->
+    <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-lg">
+      <h2 class="text-xl font-bold text-blue-400 mb-4">Pending Withdrawals</h2>
       <div class="overflow-x-auto">
-        <table class="w-full text-left text-xs text-gray-400">
-          <thead class="bg-gray-800 text-gray-300 uppercase">
-            <tr>
+        <table class="w-full text-left border-collapse">
+          <thead>
+            <tr class="bg-slate-800/60 text-slate-400 text-xs uppercase tracking-wider">
               <th class="p-3">User Email</th>
               <th class="p-3">Amount</th>
               <th class="p-3">Wallet Address</th>
@@ -55,8 +61,10 @@
               <th class="p-3">Action</th>
             </tr>
           </thead>
-          <tbody id="withdrawals-admin-list">
-            <tr><td colspan="5" class="p-4 text-center">Loading withdrawals...</td></tr>
+          <tbody id="withdrawals-table" class="divide-y divide-slate-800 text-sm">
+            <tr>
+              <td colspan="5" class="p-4 text-center text-slate-500">Loading withdrawals...</td>
+            </tr>
           </tbody>
         </table>
       </div>
@@ -64,75 +72,98 @@
   </div>
 
   <script>
-    const SUPABASE_URL = "YOUR_SUPABASE_URL";
-    const SUPABASE_ANON_KEY = "YOUR_SUPABASE_ANON_KEY";
-    const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    // Configured Supabase Credentials
+    const SUPABASE_URL = 'https://psbokzosswthttvxppcf.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBzYm9rem9zc3d0aHR0dnhwcGNmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA5NjYzNDYsImV4cCI6MjEwNjU0MjM0Nn0.diXojuSglO9Q26IbsYG8JsHHvyrbxnHsz9KtFnZnD7E';
+
+    const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
     async function loadAdminData() {
-      // Fetch Pending Deposits
-      const { data: deposits } = await supabase
-        .from('deposits')
-        .select('*')
-        .eq('status', 'pending')
-        .order('created_at', { ascending: false });
+      await fetchDeposits();
+      await fetchWithdrawals();
+    }
 
-      const depBody = document.getElementById('deposits-admin-list');
-      if (!deposits || deposits.length === 0) {
-        depBody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-gray-500">No pending deposits.</td></tr>`;
-      } else {
-        depBody.innerHTML = deposits.map(d => `
-          <tr class="border-b border-gray-800">
-            <td class="p-3 text-white">${d.user_email || d.user_id}</td>
-            <td class="p-3">${d.plan_name || 'Standard'}</td>
-            <td class="p-3 font-bold text-green-400">$${parseFloat(d.amount).toFixed(2)}</td>
-            <td class="p-3">${d.payment_method || 'N/A'}</td>
-            <td class="p-3 space-x-2">
-              <button onclick="updateDeposit('${d.id}', 'approved')" class="px-3 py-1 bg-green-500 hover:bg-green-600 text-gray-950 font-bold rounded-lg text-xs">Approve</button>
-              <button onclick="updateDeposit('${d.id}', 'rejected')" class="px-3 py-1 bg-red-500 hover:bg-red-600 text-white font-bold rounded-lg text-xs">Reject</button>
-            </td>
-          </tr>
-        `).join('');
+    async function fetchDeposits() {
+      const tbody = document.getElementById('deposits-table');
+      const { data, error } = await db.from('deposits').select('*').eq('status', 'pending');
+
+      if (error) {
+        tbody.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-red-400">Error loading deposits: ${error.message}</td></tr>`;
+        return;
       }
 
-      // Fetch Pending Withdrawals
-      const { data: withdrawals } = await supabase
-        .from('withdrawals')
-        .select('*')
-        .eq('status', 'pending')
-        .order('created_at', { ascending: false });
-
-      const wBody = document.getElementById('withdrawals-admin-list');
-      if (!withdrawals || withdrawals.length === 0) {
-        wBody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-gray-500">No pending withdrawals.</td></tr>`;
-      } else {
-        wBody.innerHTML = withdrawals.map(w => `
-          <tr class="border-b border-gray-800">
-            <td class="p-3 text-white">${w.user_email || w.user_id}</td>
-            <td class="p-3 font-bold text-blue-400">$${parseFloat(w.amount).toFixed(2)}</td>
-            <td class="p-3 font-mono text-gray-300">${w.wallet_address}</td>
-            <td class="p-3">${w.payment_method}</td>
-            <td class="p-3 space-x-2">
-              <button onclick="updateWithdrawal('${w.id}', 'approved')" class="px-3 py-1 bg-blue-500 hover:bg-blue-600 text-white font-bold rounded-lg text-xs">Approve</button>
-              <button onclick="updateWithdrawal('${w.id}', 'rejected')" class="px-3 py-1 bg-red-500 hover:bg-red-600 text-white font-bold rounded-lg text-xs">Reject</button>
-            </td>
-          </tr>
-        `).join('');
+      if (!data || data.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="6" class="p-4 text-center text-slate-500">No pending deposits found.</td></tr>';
+        return;
       }
+
+      tbody.innerHTML = data.map(dep => `
+        <tr class="hover:bg-slate-800/40">
+          <td class="p-3">${dep.user_email || 'N/A'}</td>
+          <td class="p-3 font-semibold text-slate-300">${dep.plan_name}</td>
+          <td class="p-3 text-green-400 font-bold">$${dep.amount}</td>
+          <td class="p-3 uppercase text-xs font-medium text-slate-400">${dep.payment_method}</td>
+          <td class="p-3 font-mono text-xs text-slate-400">${dep.txn_hash || 'N/A'}</td>
+          <td class="p-3 space-x-2">
+            <button onclick="approveDeposit('${dep.id}', '${dep.user_id}', ${dep.amount})" class="bg-green-600 hover:bg-green-500 text-white text-xs px-3 py-1.5 rounded-lg">Approve</button>
+            <button onclick="rejectDeposit('${dep.id}')" class="bg-red-600 hover:bg-red-500 text-white text-xs px-3 py-1.5 rounded-lg">Reject</button>
+          </td>
+        </tr>
+      `).join('');
     }
 
-    async function updateDeposit(id, status) {
-      const { error } = await supabase.from('deposits').update({ status }).eq('id', id);
-      if (error) alert(error.message);
-      else loadAdminData();
+    async function fetchWithdrawals() {
+      const tbody = document.getElementById('withdrawals-table');
+      const { data, error } = await db.from('withdrawals').select('*').eq('status', 'pending');
+
+      if (error) {
+        tbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-red-400">Error loading withdrawals: ${error.message}</td></tr>`;
+        return;
+      }
+
+      if (!data || data.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="5" class="p-4 text-center text-slate-500">No pending withdrawals found.</td></tr>';
+        return;
+      }
+
+      tbody.innerHTML = data.map(w => `
+        <tr class="hover:bg-slate-800/40">
+          <td class="p-3">${w.user_email || 'N/A'}</td>
+          <td class="p-3 text-blue-400 font-bold">$${w.amount}</td>
+          <td class="p-3 font-mono text-xs text-slate-400">${w.wallet_address}</td>
+          <td class="p-3 uppercase text-xs font-medium text-slate-400">${w.payment_method}</td>
+          <td class="p-3 space-x-2">
+            <button onclick="approveWithdrawal('${w.id}')" class="bg-green-600 hover:bg-green-500 text-white text-xs px-3 py-1.5 rounded-lg">Approve</button>
+            <button onclick="rejectWithdrawal('${w.id}')" class="bg-red-600 hover:bg-red-500 text-white text-xs px-3 py-1.5 rounded-lg">Reject</button>
+          </td>
+        </tr>
+      `).join('');
     }
 
-    async function updateWithdrawal(id, status) {
-      const { error } = await supabase.from('withdrawals').update({ status }).eq('id', id);
-      if (error) alert(error.message);
-      else loadAdminData();
+    async function approveDeposit(depositId, userId, amount) {
+      await db.from('deposits').update({ status: 'approved' }).eq('id', depositId);
+      const { data: profile } = await db.from('profiles').select('balance').eq('id', userId).single();
+      const currentBalance = profile ? parseFloat(profile.balance || 0) : 0;
+      await db.from('profiles').update({ balance: currentBalance + parseFloat(amount) }).eq('id', userId);
+      loadAdminData();
     }
 
-    window.onload = loadAdminData;
+    async function rejectDeposit(depositId) {
+      await db.from('deposits').update({ status: 'rejected' }).eq('id', depositId);
+      loadAdminData();
+    }
+
+    async function approveWithdrawal(withdrawalId) {
+      await db.from('withdrawals').update({ status: 'approved' }).eq('id', withdrawalId);
+      loadAdminData();
+    }
+
+    async function rejectWithdrawal(withdrawalId) {
+      await db.from('withdrawals').update({ status: 'rejected' }).eq('id', withdrawalId);
+      loadAdminData();
+    }
+
+    document.addEventListener('DOMContentLoaded', loadAdminData);
   </script>
 </body>
 </html>

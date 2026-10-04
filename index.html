@@ -5,12 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Growthmax - Institutional Investment Platform</title>
   
-  <!-- Tailwind CSS & Lucide Icons -->
+  <!-- Tailwind CSS, Supabase JS & Lucide Icons -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
   
-  <!-- Custom Styling & Smooth Glassmorphism Animations -->
+  <!-- Glassmorphism Styling & Smooth Animations -->
   <style>
     @keyframes pulseGlow {
       0%, 100% { box-shadow: 0 0 15px rgba(34, 197, 94, 0.2); }
@@ -48,7 +48,7 @@
 </head>
 <body class="bg-gray-950 text-gray-100 min-h-screen font-sans antialiased pb-12">
 
-  <!-- FEATURE 1: Live Crypto Market Rates Ticker Bar -->
+  <!-- Live Crypto Ticker Bar -->
   <div class="bg-gray-900 border-b border-gray-800 text-xs py-2 px-4 overflow-x-auto whitespace-nowrap flex items-center justify-between text-gray-400">
     <div class="flex items-center space-x-6">
       <span class="flex items-center space-x-1"><strong class="text-white">BTC/USD:</strong> <span class="text-green-400">$64,250.00 (+2.4%)</span></span>
@@ -64,7 +64,7 @@
 
   <div class="max-w-6xl mx-auto px-4 mt-6 space-y-6">
 
-    <!-- Top Navigation Header -->
+    <!-- Header Navigation -->
     <header class="flex justify-between items-center glass-card p-4 rounded-2xl">
       <div class="flex items-center space-x-3">
         <div class="w-10 h-10 bg-green-500/20 border border-green-500 rounded-xl flex items-center justify-center font-bold text-green-400 text-xl">
@@ -83,7 +83,7 @@
       </div>
     </header>
 
-    <!-- Main Balance & FEATURE 2: VIP Tier Progress -->
+    <!-- Balance Banner & VIP Tier Progress -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
       <div class="md:col-span-2 glass-card p-6 rounded-2xl border-l-4 border-l-green-500 flex flex-col justify-between animate-glow">
         <div>
@@ -99,7 +99,7 @@
         </div>
       </div>
 
-      <!-- VIP Level / Tier Feature -->
+      <!-- VIP Investor Tier -->
       <div class="glass-card p-6 rounded-2xl flex flex-col justify-between">
         <div>
           <div class="flex justify-between items-center">
@@ -119,10 +119,10 @@
       </div>
     </div>
 
-    <!-- Deposit Form & Interactive ROI Calculator -->
+    <!-- Deposit Form & Withdrawal Form Row -->
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
       
-      <!-- Deposit Form -->
+      <!-- Make a Deposit -->
       <div class="glass-card p-6 rounded-2xl space-y-4">
         <h3 class="text-lg font-bold text-white flex items-center space-x-2">
           <i data-lucide="arrow-down-right" class="text-green-400"></i>
@@ -152,62 +152,74 @@
           </select>
         </div>
 
+        <!-- Live ROI Summary Box -->
+        <div class="space-y-2 bg-gray-900/60 p-3 rounded-xl border border-gray-800 text-xs">
+          <div class="flex justify-between"><span class="text-gray-400">Lock Duration:</span><span id="summary-duration" class="font-bold text-white">3 Days</span></div>
+          <div class="flex justify-between"><span class="text-gray-400">ROI Rate:</span><span id="summary-rate" class="font-bold text-green-400">10%</span></div>
+          <div class="flex justify-between"><span class="text-gray-400">Estimated Profit:</span><span id="summary-profit" class="font-bold text-green-400">$0.00</span></div>
+          <div class="flex justify-between border-t border-gray-800 pt-2 font-bold"><span class="text-gray-300">Total Return:</span><span id="summary-total" class="text-green-400 font-mono">$0.00</span></div>
+        </div>
+
         <button onclick="submitDeposit()" class="w-full bg-green-500 hover:bg-green-600 text-gray-950 font-bold py-3.5 rounded-xl transition duration-200 shadow-lg shadow-green-500/20">
           Confirm Deposit Submission
         </button>
       </div>
 
-      <!-- Live Plan Profit Summary & Calculator Card -->
-      <div class="glass-card p-6 rounded-2xl flex flex-col justify-between">
-        <div>
-          <h3 class="text-lg font-bold text-white mb-4 flex items-center space-x-2">
-            <i data-lucide="calculator" class="text-green-400"></i>
-            <span>Investment Breakdown</span>
+      <!-- Request Withdrawal Module -->
+      <div class="glass-card p-6 rounded-2xl space-y-4 flex flex-col justify-between">
+        <div class="space-y-4">
+          <h3 class="text-lg font-bold text-white flex items-center space-x-2">
+            <i data-lucide="arrow-up-right" class="text-blue-400"></i>
+            <span>Request Withdrawal</span>
           </h3>
 
-          <div class="space-y-3 bg-gray-900/60 p-4 rounded-xl border border-gray-800">
-            <div class="flex justify-between text-sm">
-              <span class="text-gray-400">Lock Duration:</span>
-              <span id="summary-duration" class="font-bold text-white">3 Days</span>
-            </div>
-            <div class="flex justify-between text-sm">
-              <span class="text-gray-400">Guaranteed Return (ROI):</span>
-              <span id="summary-rate" class="font-bold text-green-400">10%</span>
-            </div>
-            <div class="flex justify-between text-sm">
-              <span class="text-gray-400">Net Estimated Profit:</span>
-              <span id="summary-profit" class="font-bold text-green-400">$0.00</span>
-            </div>
-            <div class="flex justify-between text-base font-bold border-t border-gray-800 pt-3 mt-2">
-              <span class="text-gray-200">Total Projected Return:</span>
-              <span id="summary-total" class="text-green-400 font-mono">$0.00</span>
-            </div>
+          <div>
+            <label class="block text-xs text-gray-400 uppercase mb-1">Withdrawal Amount ($)</label>
+            <input type="number" id="withdraw-amount" placeholder="Minimum $10" class="w-full bg-gray-900 border border-gray-700 rounded-xl p-3 text-white focus:outline-none focus:border-blue-500">
+          </div>
+
+          <div>
+            <label class="block text-xs text-gray-400 uppercase mb-1">Destination Wallet Address</label>
+            <input type="text" id="withdraw-address" placeholder="Enter your wallet address" class="w-full bg-gray-900 border border-gray-700 rounded-xl p-3 text-white focus:outline-none focus:border-blue-500">
+          </div>
+
+          <div>
+            <label class="block text-xs text-gray-400 uppercase mb-1">Payout Currency</label>
+            <select id="withdraw-method" class="w-full bg-gray-900 border border-gray-700 rounded-xl p-3 text-white focus:outline-none focus:border-blue-500">
+              <option value="USDT TRC20">USDT (TRC20)</option>
+              <option value="Bitcoin (BTC)">Bitcoin (BTC)</option>
+              <option value="Ethereum (ETH)">Ethereum (ETH)</option>
+            </select>
           </div>
         </div>
 
-        <!-- FEATURE 5: Trust & Security Matrix -->
-        <div class="mt-6 pt-4 border-t border-gray-800 grid grid-cols-3 gap-2 text-center text-[10px] text-gray-400">
+        <button onclick="submitWithdrawal()" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-3.5 rounded-xl transition duration-200 shadow-lg shadow-blue-500/20 mt-4">
+          Submit Withdrawal Request
+        </button>
+
+        <!-- Security Badge Row -->
+        <div class="pt-4 border-t border-gray-800 grid grid-cols-3 gap-2 text-center text-[10px] text-gray-400">
           <div class="p-2 bg-gray-900/50 rounded-lg border border-gray-800">
             <i data-lucide="shield-check" class="w-4 h-4 text-green-400 mx-auto mb-1"></i>
-            <span>256-Bit SSL Encrypted</span>
+            <span>256-Bit SSL</span>
           </div>
           <div class="p-2 bg-gray-900/50 rounded-lg border border-gray-800">
             <i data-lucide="zap" class="w-4 h-4 text-green-400 mx-auto mb-1"></i>
-            <span>Instant Auto-Credit</span>
+            <span>Instant Sync</span>
           </div>
           <div class="p-2 bg-gray-900/50 rounded-lg border border-gray-800">
             <i data-lucide="lock" class="w-4 h-4 text-green-400 mx-auto mb-1"></i>
-            <span>Cold Vault Audited</span>
+            <span>Cold Vault</span>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- FEATURE 4: Referral / Affiliate Hub -->
+    <!-- Referral / Affiliate Hub -->
     <div class="glass-card p-6 rounded-2xl flex flex-col md:flex-row justify-between items-center gap-4">
       <div>
-        <h4 class="font-bold text-white">Earn 5% Instant Commission</h4>
-        <p class="text-xs text-gray-400">Share your unique affiliate code with new investors to receive automated referral rewards.</p>
+        <h4 class="font-bold text-white">Earn 5% Instant Referral Bonus</h4>
+        <p class="text-xs text-gray-400">Share your affiliate link with investors to receive automated rewards.</p>
       </div>
       <div class="flex w-full md:w-auto space-x-2">
         <input type="text" id="ref-link" readonly value="https://cryptocom-beep.github.io/Growthmax/?ref=investor" class="bg-gray-900 border border-gray-700 rounded-xl px-3 py-2 text-xs text-gray-300 w-full md:w-64 focus:outline-none">
@@ -217,16 +229,16 @@
       </div>
     </div>
 
-    <!-- Deposits History Table -->
+    <!-- Transactions History Table -->
     <div class="glass-card p-6 rounded-2xl">
       <h3 class="text-lg font-bold text-white mb-4">Your Transaction History</h3>
       <div class="overflow-x-auto">
         <table class="w-full text-left text-xs text-gray-400">
           <thead class="bg-gray-900/80 uppercase font-semibold text-gray-400 border-b border-gray-800">
             <tr>
-              <th class="p-3">Plan</th>
+              <th class="p-3">Plan / Type</th>
               <th class="p-3">Amount</th>
-              <th class="p-3">Estimated Profit</th>
+              <th class="p-3">Est. Profit</th>
               <th class="p-3">Duration</th>
               <th class="p-3">Status</th>
             </tr>
@@ -242,7 +254,7 @@
 
   </div>
 
-  <!-- Real-Time Social Proof Transaction Notification Popups -->
+  <!-- Real-Time Social Proof Popups container -->
   <div id="toast-container" class="fixed bottom-5 left-5 z-50 pointer-events-none"></div>
 
   <!-- JavaScript Core Engine -->
@@ -254,7 +266,7 @@
 
     let currentUser = null;
 
-    // 1. Calculate ROI, Profit & Duration in Real-time
+    // 1. Calculate ROI, Profit & Duration
     function calculateROI() {
       const select = document.getElementById('plan-select');
       const selectedOption = select.options[select.selectedIndex];
@@ -271,7 +283,7 @@
       document.getElementById('summary-total').innerText = `$${totalReturn.toFixed(2)}`;
     }
 
-    // 2. Fetch User Profile and Calculate Balance
+    // 2. Load User Profile and Calculate Balance
     async function loadUserData() {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) return;
@@ -279,9 +291,14 @@
 
       document.getElementById('user-email-display').innerText = user.email;
 
-      // Calculate Total Approved Deposits for live auto-update
+      // Calculate Total Approved Deposits & Approved Withdrawals
       const { data: approvedDeposits } = await supabase
         .from('deposits')
+        .select('amount, status')
+        .eq('user_id', user.id);
+
+      const { data: approvedWithdrawals } = await supabase
+        .from('withdrawals')
         .select('amount, status')
         .eq('user_id', user.id);
 
@@ -300,6 +317,14 @@
         });
       }
 
+      if (approvedWithdrawals) {
+        approvedWithdrawals.forEach(item => {
+          if (item.status === 'approved') {
+            totalBalance -= parseFloat(item.amount || 0);
+          }
+        });
+      }
+
       document.getElementById('user-balance').innerText = `$${totalBalance.toFixed(2)}`;
       document.getElementById('active-count').innerText = activeCount;
       document.getElementById('pending-count').innerText = pendingCount;
@@ -312,7 +337,7 @@
       listenToRealtimeDeposits();
     }
 
-    // 3. Fetch Recent Deposits List
+    // 3. Fetch Transaction History
     async function fetchDeposits() {
       if (!currentUser) return;
       const { data: deposits } = await supabase
@@ -346,7 +371,7 @@
       }).join('');
     }
 
-    // 4. Submit New Deposit
+    // 4. Submit Deposit
     async function submitDeposit() {
       if (!currentUser) return alert('Please log in first!');
       
@@ -386,21 +411,48 @@
       }
     }
 
-    // 5. Automatic Real-time Listener for Instant Balance Credit
+    // 5. Submit Withdrawal Request
+    async function submitWithdrawal() {
+      if (!currentUser) return alert('Please log in first!');
+      
+      const amount = parseFloat(document.getElementById('withdraw-amount').value);
+      const address = document.getElementById('withdraw-address').value.trim();
+      const method = document.getElementById('withdraw-method').value;
+
+      if (!amount || amount < 10) return alert('Minimum withdrawal amount is $10.');
+      if (!address) return alert('Please enter a valid wallet address.');
+
+      const { error } = await supabase.from('withdrawals').insert([
+        {
+          user_id: currentUser.id,
+          user_email: currentUser.email,
+          amount: amount,
+          wallet_address: address,
+          payment_method: method,
+          status: 'pending'
+        }
+      ]);
+
+      if (error) {
+        alert('Withdrawal Error: ' + error.message);
+      } else {
+        alert('Withdrawal request submitted successfully for approval!');
+        document.getElementById('withdraw-amount').value = '';
+        document.getElementById('withdraw-address').value = '';
+        loadUserData();
+      }
+    }
+
+    // 6. Real-Time Balance Synchronization
     function listenToRealtimeDeposits() {
       supabase
         .channel('public:deposits')
-        .on(
-          'postgres_changes',
-          { event: '*', schema: 'public', table: 'deposits', filter: `user_id=eq.${currentUser.id}` },
-          () => {
-            loadUserData();
-          }
-        )
+        .on('postgres_changes', { event: '*', schema: 'public', table: 'deposits', filter: `user_id=eq.${currentUser.id}` }, () => loadUserData())
+        .on('postgres_changes', { event: '*', schema: 'public', table: 'withdrawals', filter: `user_id=eq.${currentUser.id}` }, () => loadUserData())
         .subscribe();
     }
 
-    // 6. Social Proof Popup Engine (10-Second Transaction Popups)
+    // 7. Social Proof 10-Second Popups
     const fakeNames = ["Alex M.", "David K.", "Sarah L.", "Elena R.", "Michael B.", "Chen W.", "Omar F."];
     const fakeCountries = ["🇺🇸 US", "🇬🇧 UK", "🇩🇪 DE", "🇨🇦 CA", "🇦🇺 AU", "🇸🇬 SG", "🇦🇪 AE"];
     const fakeTypes = ["deposited", "withdrew"];

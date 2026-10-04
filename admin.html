@@ -98,14 +98,14 @@
 
       tbody.innerHTML = data.map(dep => `
         <tr class="hover:bg-slate-800/40">
-          <td class="p-3">${dep.user_email || 'N/A'}</td>
+          <td class="p-3 font-medium text-slate-200">${dep.user_email || 'N/A'}</td>
           <td class="p-3 font-semibold text-slate-300">${dep.plan_name}</td>
           <td class="p-3 text-green-400 font-bold">$${dep.amount}</td>
           <td class="p-3 uppercase text-xs font-medium text-slate-400">${dep.payment_method}</td>
           <td class="p-3 font-mono text-xs text-slate-400">${dep.txn_hash || 'N/A'}</td>
           <td class="p-3">
             <div id="action-dep-${dep.id}" class="flex items-center gap-3">
-              <button onclick="approveDeposit('${dep.id}', '${dep.user_id}', ${dep.amount})" class="bg-green-600 hover:bg-green-500 active:scale-95 text-white font-medium text-xs px-3.5 py-2 rounded-lg transition shadow">Approve</button>
+              <button onclick="approveDeposit('${dep.id}', '${dep.user_email}', ${dep.amount})" class="bg-green-600 hover:bg-green-500 active:scale-95 text-white font-medium text-xs px-3.5 py-2 rounded-lg transition shadow">Approve</button>
               <button onclick="rejectDeposit('${dep.id}')" class="bg-red-600 hover:bg-red-500 active:scale-95 text-white font-medium text-xs px-3.5 py-2 rounded-lg transition shadow">Reject</button>
             </div>
           </td>
@@ -129,7 +129,7 @@
 
       tbody.innerHTML = data.map(w => `
         <tr class="hover:bg-slate-800/40">
-          <td class="p-3">${w.user_email || 'N/A'}</td>
+          <td class="p-3 font-medium text-slate-200">${w.user_email || 'N/A'}</td>
           <td class="p-3 text-blue-400 font-bold">$${w.amount}</td>
           <td class="p-3 font-mono text-xs text-slate-400">${w.wallet_address}</td>
           <td class="p-3 uppercase text-xs font-medium text-slate-400">${w.payment_method}</td>
@@ -143,15 +143,19 @@
       `).join('');
     }
 
-    async function approveDeposit(depositId, userId, amount) {
+    async function approveDeposit(depositId, userEmail, amount) {
       const actionDiv = document.getElementById(`action-dep-${depositId}`);
       actionDiv.innerHTML = `<span class="text-xs font-bold text-green-400 bg-green-950/80 border border-green-800 px-3 py-1.5 rounded-lg">✓ Approved</span>`;
 
+      // 1. Mark deposit status as approved
       await db.from('deposits').update({ status: 'approved' }).eq('id', depositId);
 
-      const { data: profile } = await db.from('profiles').select('balance').eq('id', userId).single();
-      const currentBalance = profile ? parseFloat(profile.balance || 0) : 0;
-      await db.from('profiles').update({ balance: currentBalance + parseFloat(amount) }).eq('id', userId);
+      // 2. Fetch user profile by email and update balance
+      if (userEmail && userEmail !== 'N/A') {
+        const { data: profile } = await db.from('profiles').select('balance').eq('email', userEmail).single();
+        const currentBalance = profile ? parseFloat(profile.balance || 0) : 0;
+        await db.from('profiles').update({ balance: currentBalance + parseFloat(amount) }).eq('email', userEmail);
+      }
 
       setTimeout(loadAdminData, 1500);
     }

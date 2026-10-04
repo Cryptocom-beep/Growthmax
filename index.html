@@ -1081,35 +1081,51 @@
       }, 4000);
     }
 
-    setInterval(triggerSocialProofToast, 9000);
+setInterval(triggerSocialProofToast, 9000);
+
+// Complete & Crash-Proof Auth + Dashboard Script
 async function loadUserData(user) {
     if (!user) return;
 
-    // Show email in UI
-    const emailEl = document.getElementById('user-email-display');
-    if (emailEl) emailEl.innerText = user.email;
+    try {
+        // 1. Force-reveal Dashboard and hide Auth/Login screens
+        const authContainer = document.getElementById('auth-modal') || document.getElementById('login-section');
+        const dashboardView = document.getElementById('dashboard-view') || document.getElementById('user-dashboard');
+        
+        if (authContainer) authContainer.style.display = 'none';
+        if (dashboardView) dashboardView.style.display = 'block';
 
-    // Fetch user deposits
-    const { data: deposits, error } = await supabaseClient
-        .from('deposits')
-        .select('*')
-        .eq('user_email', user.email);
+        // 2. Show user email if element exists
+        const emailEl = document.getElementById('user-email-display');
+        if (emailEl) emailEl.innerText = user.email;
 
-    if (error || !deposits) return;
+        // 3. Fetch deposits for logged-in user
+        const { data: deposits, error } = await supabaseClient
+            .from('deposits')
+            .select('*')
+            .eq('user_email', user.email);
 
-    // Calculate sum of APPROVED deposits
-    const approvedDeposits = deposits.filter(d => d.status === 'approved');
-    const totalApproved = approvedDeposits.reduce((sum, d) => sum + parseFloat(d.amount || 0), 0);
+        if (error) {
+            console.error('Error fetching deposits:', error);
+            return;
+        }
 
-    // Update Balance UI
-    const balanceEl = document.getElementById('portfolio-balance');
-    if (balanceEl) {
-        balanceEl.innerText = `$${totalApproved.toFixed(2)}`;
-    }
+        // 4. Calculate total approved deposits
+        const approvedDeposits = (deposits || []).filter(d => d.status === 'approved');
+        const totalApproved = approvedDeposits.reduce((sum, d) => sum + parseFloat(d.amount || 0), 0);
 
-    // Start Live ROI ticker
-    if (totalApproved > 0) {
-        startLiveRoiTicker(totalApproved);
+        // 5. Update Portfolio Balance display
+        const balanceEl = document.getElementById('portfolio-balance');
+        if (balanceEl) {
+            balanceEl.innerText = `$${totalApproved.toFixed(2)}`;
+        }
+
+        // 6. Start Live ROI ticker if user has approved funds
+        if (totalApproved > 0) {
+            startLiveRoiTicker(totalApproved);
+        }
+    } catch (err) {
+        console.error("Dashboard render error:", err);
     }
 }
 
@@ -1128,48 +1144,32 @@ function startLiveRoiTicker(baseAmount) {
         }
     }, 3000);
 }
-// Persistent Session Restoration
-async function restoreUserSession() {
-    try {
-        const { data: { session }, error } = await supabaseClient.auth.getSession();
-        if (session && session.user) {
-            // Unhide dashboard and hide sign-in form
-            const authModal = document.getElementById('auth-modal');
-            const dashboardView = document.getElementById('dashboard-view');
-            
-            if (authModal) authModal.classList.add('hidden');
-            if (dashboardView) dashboardView.classList.remove('hidden');
 
-            // Load balance and dynamic ROI
+// Persistent Auth Restoration on Refresh
+async function initSession() {
+    try {
+        const { data: { session } } = await supabaseClient.auth.getSession();
+        if (session && session.user) {
             loadUserData(session.user);
         }
-    } catch (err) {
-        console.error("Session restore error:", err);
+    } catch (e) {
+        console.error("Auth check failed:", e);
     }
 }
 
 // Run immediately on page load
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', restoreUserSession);
+if (document.readyState === 'complete' || document.readyState === 'interactive') {
+    initSession();
 } else {
-    restoreUserSession();
+    document.addEventListener('DOMContentLoaded', initSession);
 }
 
-// Listen for login/logout events
+// Listen for Auth changes (Sign in / Sign out)
 supabaseClient.auth.onAuthStateChange((event, session) => {
     if (session && session.user) {
-        const authModal = document.getElementById('auth-modal');
-        const dashboardView = document.getElementById('dashboard-view');
-        
-        if (authModal) authModal.classList.add('hidden');
-        if (dashboardView) dashboardView.classList.remove('hidden');
-
         loadUserData(session.user);
     }
 });
-
-
-
   </script>
 </body>
 </html>

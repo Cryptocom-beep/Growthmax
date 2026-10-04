@@ -1,20 +1,29 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Growthmax - Institutional Investment Platform</title>
+  <title>Growthmax - Institutional Crypto Yield Management</title>
   
-  <!-- Tailwind CSS, Supabase JS & Lucide Icons -->
+  <!-- Tailwind CSS, Supabase JS, Lucide Icons & Animate.css -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
   
-  <!-- Glassmorphism Styling & Smooth Animations -->
   <style>
+    /* Custom 3D & Futuristic Animations */
+    @keyframes floatSlow {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-18px) rotate(4deg); }
+    }
+    @keyframes floatReverse {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(18px) rotate(-4deg); }
+    }
     @keyframes pulseGlow {
       0%, 100% { box-shadow: 0 0 15px rgba(34, 197, 94, 0.2); }
-      50% { box-shadow: 0 0 30px rgba(34, 197, 94, 0.5); }
+      50% { box-shadow: 0 0 35px rgba(34, 197, 94, 0.55); }
     }
     @keyframes slideInUp {
       from { transform: translateY(100%); opacity: 0; }
@@ -24,20 +33,36 @@
       from { transform: translateY(0); opacity: 1; }
       to { transform: translateY(100%); opacity: 0; }
     }
+
+    .animate-float-1 { animation: floatSlow 6s ease-in-out infinite; }
+    .animate-float-2 { animation: floatReverse 7s ease-in-out infinite; }
     .animate-glow { animation: pulseGlow 3s infinite; }
     .toast-enter { animation: slideInUp 0.5s ease-out forwards; }
     .toast-exit { animation: slideOutDown 0.5s ease-in forwards; }
+
+    /* Glassmorphism Styles */
     .glass-card {
       background: rgba(17, 24, 39, 0.85);
-      backdrop-filter: blur(12px);
+      backdrop-filter: blur(16px);
       border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .glass-nav {
+      background: rgba(10, 15, 29, 0.85);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .hover-zoom {
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
+    }
+    .hover-zoom:hover {
+      transform: translateY(-6px) scale(1.02);
     }
   </style>
 
   <!-- Smartsupp Live Chat Integration -->
   <script type="text/javascript">
     var _smartsupp = _smartsupp || {};
-    _smartsupp.key = 'YOUR_SMARTSUPP_KEY'; // Replace with your Smartsupp Key
+    _smartsupp.key = 'YOUR_SMARTSUPP_KEY';
     window.smartsupp||(function(d) {
       var s,c,o=smartsupp=function(){ o._.push(arguments)};o._=[];
       s=d.getElementsByTagName('script')[0];c=d.createElement('script');
@@ -46,10 +71,33 @@
     })(document);
   </script>
 </head>
-<body class="bg-gray-950 text-gray-100 min-h-screen font-sans antialiased pb-12">
+<body class="bg-gray-950 text-gray-100 min-h-screen font-sans antialiased selection:bg-green-500 selection:text-black">
+
+  <!-- Floating 3D Crypto Background Elements -->
+  <div class="fixed inset-0 pointer-events-none overflow-hidden z-0">
+    <div class="absolute top-20 left-10 w-72 h-72 bg-green-500/10 rounded-full blur-3xl animate-pulse"></div>
+    <div class="absolute bottom-20 right-10 w-96 h-96 bg-emerald-600/10 rounded-full blur-3xl animate-pulse"></div>
+    
+    <!-- 3D Coin Graphics -->
+    <div class="absolute top-28 left-[8%] animate-float-1 opacity-25 md:opacity-40">
+      <div class="w-16 h-16 md:w-20 md:h-20 rounded-full bg-gradient-to-tr from-yellow-500 to-amber-300 flex items-center justify-center shadow-2xl font-black text-2xl text-black border-2 border-yellow-200">
+        ₿
+      </div>
+    </div>
+    <div class="absolute top-1/2 right-[6%] animate-float-2 opacity-25 md:opacity-40">
+      <div class="w-14 h-14 md:w-16 md:h-16 rounded-full bg-gradient-to-tr from-emerald-500 to-teal-300 flex items-center justify-center shadow-2xl font-black text-xl text-black border-2 border-emerald-200">
+        ₮
+      </div>
+    </div>
+    <div class="absolute bottom-24 left-[12%] animate-float-1 opacity-20 md:opacity-30">
+      <div class="w-12 h-12 md:w-14 md:h-14 rounded-full bg-gradient-to-tr from-indigo-500 to-purple-400 flex items-center justify-center shadow-2xl font-black text-lg text-white border-2 border-indigo-200">
+        Ξ
+      </div>
+    </div>
+  </div>
 
   <!-- Live Crypto Ticker Bar -->
-  <div class="bg-gray-900 border-b border-gray-800 text-xs py-2 px-4 overflow-x-auto whitespace-nowrap flex items-center justify-between text-gray-400">
+  <div class="relative z-50 bg-gray-900/90 border-b border-gray-800 text-xs py-2 px-4 overflow-x-auto whitespace-nowrap flex items-center justify-between text-gray-400">
     <div class="flex items-center space-x-6">
       <span class="flex items-center space-x-1"><strong class="text-white">BTC/USD:</strong> <span class="text-green-400">$64,250.00 (+2.4%)</span></span>
       <span class="flex items-center space-x-1"><strong class="text-white">ETH/USD:</strong> <span class="text-green-400">$3,480.50 (+1.8%)</span></span>
@@ -57,32 +105,272 @@
       <span class="flex items-center space-x-1"><strong class="text-white">USDT:</strong> <span class="text-gray-300">$1.000 (0.0%)</span></span>
     </div>
     <div class="flex items-center space-x-2 text-green-400 text-xs font-semibold">
-      <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+      <span class="w-2 h-2 rounded-full bg-green-500 animate-ping"></span>
       <span>System Operational</span>
     </div>
   </div>
 
-  <div class="max-w-6xl mx-auto px-4 mt-6 space-y-6">
-
-    <!-- Header Navigation -->
-    <header class="flex justify-between items-center glass-card p-4 rounded-2xl">
-      <div class="flex items-center space-x-3">
-        <div class="w-10 h-10 bg-green-500/20 border border-green-500 rounded-xl flex items-center justify-center font-bold text-green-400 text-xl">
+  <!-- Main Top Navigation -->
+  <header class="sticky top-0 z-40 glass-nav transition-all duration-300">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+      
+      <!-- Brand Logo / Interactive Homepage Button -->
+      <a href="#hero" onclick="showSection('landing')" class="flex items-center space-x-3 group cursor-pointer">
+        <div class="w-11 h-11 bg-gradient-to-tr from-green-500 to-emerald-400 border border-green-300/40 rounded-2xl flex items-center justify-center font-black text-gray-950 text-2xl shadow-lg shadow-green-500/20 group-hover:scale-105 transition duration-300">
           G
         </div>
         <div>
-          <h1 class="text-xl font-bold tracking-tight text-white">Growthmax</h1>
-          <p class="text-xs text-gray-400">Institutional Yield Management</p>
+          <span class="text-2xl font-black tracking-tight text-white group-hover:text-green-400 transition">Growthmax</span>
+          <p class="text-[10px] text-gray-400 tracking-wider uppercase font-medium">Yield Engine</p>
         </div>
-      </div>
-      <div class="flex items-center space-x-3">
-        <span id="user-email-display" class="text-xs text-gray-400 hidden sm:inline">Guest User</span>
-        <div id="connection-badge" class="px-3 py-1 rounded-full text-xs font-bold bg-yellow-500/10 text-yellow-400 border border-yellow-500/20">
-          Connecting...
-        </div>
-      </div>
-    </header>
+      </a>
 
+      <!-- Navigation Hub Links (Desktop) -->
+      <nav class="hidden md:flex items-center space-x-8 text-sm font-medium text-gray-300">
+        <button onclick="showSection('landing')" class="hover:text-green-400 transition">Home</button>
+        <button onclick="scrollToHub('about')" class="hover:text-green-400 transition">About</button>
+        <button onclick="scrollToHub('services')" class="hover:text-green-400 transition">Services</button>
+        <button onclick="scrollToHub('faq')" class="hover:text-green-400 transition">FAQ</button>
+        <button onclick="showSection('dashboard')" class="text-green-400 font-bold hover:underline flex items-center space-x-1">
+          <i data-lucide="layout-dashboard" class="w-4 h-4"></i>
+          <span>Dashboard</span>
+        </button>
+      </nav>
+
+      <!-- User Auth Actions / Mobile Drawer Button -->
+      <div class="flex items-center space-x-3">
+        <div id="auth-buttons-container" class="flex items-center space-x-2">
+          <button onclick="openAuthModal('login')" class="px-4 py-2 text-xs font-bold text-gray-300 hover:text-white bg-gray-900 border border-gray-700 hover:border-gray-500 rounded-xl transition">
+            Sign In
+          </button>
+          <button onclick="openAuthModal('register')" class="px-4 py-2 text-xs font-bold text-gray-950 bg-green-400 hover:bg-green-300 rounded-xl shadow-lg shadow-green-500/20 transition">
+            Get Started
+          </button>
+        </div>
+
+        <!-- Animated Hamburger Drawer Menu Trigger -->
+        <button onclick="toggleMobileMenu()" class="p-2.5 rounded-xl bg-gray-900 border border-gray-800 text-gray-300 hover:text-white hover:border-gray-600 transition">
+          <i data-lucide="menu" class="w-6 h-6"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Slide-Over Navigation Drawer Menu -->
+  <div id="mobile-menu-drawer" class="fixed inset-0 z-50 bg-gray-950/80 backdrop-blur-md hidden transition-opacity duration-300 opacity-0">
+    <div class="fixed top-0 right-0 w-80 h-full bg-gray-900 border-l border-gray-800 p-6 space-y-6 shadow-2xl overflow-y-auto transform translate-x-full transition-transform duration-300" id="drawer-content">
+      
+      <div class="flex items-center justify-between border-b border-gray-800 pb-4">
+        <div class="flex items-center space-x-2">
+          <div class="w-8 h-8 rounded-xl bg-green-500 flex items-center justify-center font-bold text-gray-950">G</div>
+          <span class="font-bold text-lg text-white">Growthmax Hubs</span>
+        </div>
+        <button onclick="toggleMobileMenu()" class="p-2 rounded-lg bg-gray-800 text-gray-400 hover:text-white">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <div class="space-y-3 font-semibold text-sm">
+        <button onclick="navigateHub('landing')" class="w-full text-left p-3 rounded-xl hover:bg-gray-800 flex items-center space-x-3 text-gray-200">
+          <i data-lucide="home" class="w-5 h-5 text-green-400"></i>
+          <span>Home Overview</span>
+        </button>
+        <button onclick="navigateHub('dashboard')" class="w-full text-left p-3 rounded-xl hover:bg-gray-800 flex items-center space-x-3 text-green-400 bg-green-500/10 border border-green-500/20">
+          <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
+          <span>Investor Dashboard</span>
+        </button>
+        <button onclick="navigateHub('deposit')" class="w-full text-left p-3 rounded-xl hover:bg-gray-800 flex items-center space-x-3 text-gray-200">
+          <i data-lucide="arrow-down-right" class="w-5 h-5 text-green-400"></i>
+          <span>Make Deposit</span>
+        </button>
+        <button onclick="navigateHub('withdraw')" class="w-full text-left p-3 rounded-xl hover:bg-gray-800 flex items-center space-x-3 text-gray-200">
+          <i data-lucide="arrow-up-right" class="w-5 h-5 text-blue-400"></i>
+          <span>Request Withdrawal</span>
+        </button>
+        <button onclick="navigateHub('referrals')" class="w-full text-left p-3 rounded-xl hover:bg-gray-800 flex items-center space-x-3 text-gray-200">
+          <i data-lucide="users" class="w-5 h-5 text-purple-400"></i>
+          <span>Referrals & Rewards</span>
+        </button>
+        <button onclick="navigateHub('promos')" class="w-full text-left p-3 rounded-xl hover:bg-gray-800 flex items-center space-x-3 text-gray-200">
+          <i data-lucide="gift" class="w-5 h-5 text-yellow-400"></i>
+          <span>Promotions & VIP</span>
+        </button>
+        <button onclick="navigateHub('about')" class="w-full text-left p-3 rounded-xl hover:bg-gray-800 flex items-center space-x-3 text-gray-200">
+          <i data-lucide="info" class="w-5 h-5 text-cyan-400"></i>
+          <span>About Platform</span>
+        </button>
+        <button onclick="navigateHub('faq')" class="w-full text-left p-3 rounded-xl hover:bg-gray-800 flex items-center space-x-3 text-gray-200">
+          <i data-lucide="help-circle" class="w-5 h-5 text-orange-400"></i>
+          <span>Frequently Asked Questions</span>
+        </button>
+      </div>
+
+      <div class="pt-6 border-t border-gray-800 space-y-3">
+        <button onclick="openAuthModal('login')" class="w-full py-3 bg-gray-800 hover:bg-gray-700 text-white rounded-xl text-xs font-bold transition">
+          Sign In
+        </button>
+        <button onclick="openAuthModal('register')" class="w-full py-3 bg-green-500 hover:bg-green-400 text-gray-950 rounded-xl text-xs font-bold transition">
+          Create Free Account
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN LANDING SECTION (3D Futuristic Hero & Hubs) -->
+  <main id="landing-section" class="relative z-10 space-y-24 pb-20">
+    
+    <!-- Hero Section -->
+    <section id="hero" class="pt-12 md:pt-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-8">
+      <div class="inline-flex items-center space-x-2 px-4 py-2 rounded-full glass-card border border-green-500/30 text-xs text-green-400 font-medium animate-bounce">
+        <i data-lucide="sparkles" class="w-4 h-4"></i>
+        <span>Next-Gen Institutional Yield Engine</span>
+      </div>
+
+      <h1 class="text-4xl sm:text-6xl lg:text-7xl font-black text-white tracking-tight max-w-5xl mx-auto leading-tight">
+        Where The Expertise Creates <span class="text-transparent bg-clip-text bg-gradient-to-r from-green-400 via-emerald-300 to-teal-400">Excellence</span>
+      </h1>
+
+      <p class="text-gray-400 max-w-2xl mx-auto text-base sm:text-lg leading-relaxed">
+        Empowering investors worldwide with automated algorithmic trading, high-frequency liquidity pools, and guaranteed daily yield yields.
+      </p>
+
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
+        <button onclick="openAuthModal('register')" class="w-full sm:w-auto px-8 py-4 bg-green-400 hover:bg-green-300 text-gray-950 font-bold rounded-2xl shadow-xl shadow-green-500/25 hover-zoom text-sm flex items-center justify-center space-x-2">
+          <span>Start Investing Now</span>
+          <i data-lucide="arrow-right" class="w-4 h-4"></i>
+        </button>
+        <button onclick="showSection('dashboard')" class="w-full sm:w-auto px-8 py-4 glass-card hover:bg-gray-800/80 text-white font-bold rounded-2xl border border-gray-700 hover-zoom text-sm flex items-center justify-center space-x-2">
+          <i data-lucide="layout-dashboard" class="w-4 h-4 text-green-400"></i>
+          <span>Open Live Dashboard</span>
+        </button>
+      </div>
+
+      <!-- Live Performance Metric Cards (3D Showcase Inspired) -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-5xl mx-auto pt-10">
+        <div class="glass-card p-5 rounded-2xl border border-gray-800 hover-zoom text-center">
+          <h4 class="text-3xl font-black text-white">$40M+</h4>
+          <p class="text-xs text-gray-400 mt-1">Total Volume Managed</p>
+        </div>
+        <div class="glass-card p-5 rounded-2xl border border-gray-800 hover-zoom text-center">
+          <h4 class="text-3xl font-black text-green-400">150K+</h4>
+          <p class="text-xs text-gray-400 mt-1">Global Investors</p>
+        </div>
+        <div class="glass-card p-5 rounded-2xl border border-gray-800 hover-zoom text-center">
+          <h4 class="text-3xl font-black text-white">99.9%</h4>
+          <p class="text-xs text-gray-400 mt-1">Uptime Reliability</p>
+        </div>
+        <div class="glass-card p-5 rounded-2xl border border-gray-800 hover-zoom text-center">
+          <h4 class="text-3xl font-black text-green-400">24/7</h4>
+          <p class="text-xs text-gray-400 mt-1">Instant Automated Payouts</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12">
+      <div class="glass-card p-8 md:p-12 rounded-3xl border border-gray-800 grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+        <div class="space-y-4">
+          <span class="text-xs font-bold text-green-400 uppercase tracking-widest">About Growthmax</span>
+          <h2 class="text-3xl sm:text-4xl font-black text-white">The Best Finance Consultant & Yield Platform</h2>
+          <p class="text-gray-400 text-sm leading-relaxed">
+            Our mission is to revolutionize crypto portfolio management through state-of-the-art automated trading strategies and risk mitigation algorithms. We guarantee fixed daily profits tailored for both beginner and institutional traders.
+          </p>
+          <div class="pt-2 flex items-center space-x-4 text-xs font-semibold text-gray-300">
+            <span class="flex items-center space-x-1"><i data-lucide="check-circle-2" class="text-green-400 w-4 h-4"></i><span>Audited Security</span></span>
+            <span class="flex items-center space-x-1"><i data-lucide="check-circle-2" class="text-green-400 w-4 h-4"></i><span>Instant Withdrawals</span></span>
+          </div>
+        </div>
+        <div class="relative flex justify-center">
+          <div class="w-full h-64 bg-gradient-to-tr from-green-500/20 to-emerald-500/10 rounded-2xl border border-green-500/30 p-6 flex flex-col justify-between animate-glow">
+            <div class="flex justify-between items-center">
+              <span class="text-xs font-bold uppercase text-gray-400">Live Growth Engine</span>
+              <span class="px-2 py-1 bg-green-500/20 text-green-400 rounded text-[10px] font-mono">ACTIVE</span>
+            </div>
+            <div class="space-y-2">
+              <p class="text-3xl font-black text-white">$1,543.00 <span class="text-xs text-green-400 font-normal">+25% ROI</span></p>
+              <div class="w-full bg-gray-800 rounded-full h-2">
+                <div class="bg-green-400 h-2 rounded-full" style="width: 78%"></div>
+              </div>
+            </div>
+            <p class="text-[11px] text-gray-400">Guiding your financial journey to elevating your business destiny.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8 pt-12">
+      <div class="text-center max-w-2xl mx-auto space-y-2">
+        <h2 class="text-3xl font-black text-white">Financial Services To Grow Your Wealth</h2>
+        <p class="text-xs text-gray-400">Select an investment tier designed to match your financial goals.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="glass-card p-6 rounded-2xl border border-gray-800 hover-zoom space-y-4">
+          <div class="w-12 h-12 bg-green-500/10 border border-green-500/20 rounded-xl flex items-center justify-center text-green-400">
+            <i data-lucide="trending-up" class="w-6 h-6"></i>
+          </div>
+          <h3 class="text-lg font-bold text-white">Starter Yield Plan</h3>
+          <p class="text-2xl font-black text-green-400">10% Yield <span class="text-xs text-gray-400 font-normal">in 3 Days</span></p>
+          <ul class="text-xs text-gray-400 space-y-2 border-t border-gray-800 pt-4">
+            <li>• Min Deposit: $10</li>
+            <li>• Automated Daily Credit</li>
+            <li>• 24/7 Withdrawal Access</li>
+          </ul>
+          <button onclick="showSection('dashboard')" class="w-full py-2.5 bg-gray-800 hover:bg-gray-700 text-white rounded-xl text-xs font-bold">Invest Starter</button>
+        </div>
+
+        <div class="glass-card p-6 rounded-2xl border-2 border-green-500 hover-zoom space-y-4 relative">
+          <span class="absolute -top-3 right-6 bg-green-500 text-gray-950 font-black text-[10px] uppercase px-3 py-1 rounded-full">POPULAR</span>
+          <div class="w-12 h-12 bg-green-500/20 border border-green-500/40 rounded-xl flex items-center justify-center text-green-400">
+            <i data-lucide="zap" class="w-6 h-6"></i>
+          </div>
+          <h3 class="text-lg font-bold text-white">Advanced Yield Plan</h3>
+          <p class="text-2xl font-black text-green-400">25% Yield <span class="text-xs text-gray-400 font-normal">in 7 Days</span></p>
+          <ul class="text-xs text-gray-400 space-y-2 border-t border-gray-800 pt-4">
+            <li>• Min Deposit: $200</li>
+            <li>• VIP Priority Processing</li>
+            <li>• Dedicated Account Manager</li>
+          </ul>
+          <button onclick="showSection('dashboard')" class="w-full py-2.5 bg-green-400 hover:bg-green-300 text-gray-950 rounded-xl text-xs font-bold">Invest Advanced</button>
+        </div>
+
+        <div class="glass-card p-6 rounded-2xl border border-gray-800 hover-zoom space-y-4">
+          <div class="w-12 h-12 bg-blue-500/10 border border-blue-500/20 rounded-xl flex items-center justify-center text-blue-400">
+            <i data-lucide="crown" class="w-6 h-6"></i>
+          </div>
+          <h3 class="text-lg font-bold text-white">VIP Institutional Plan</h3>
+          <p class="text-2xl font-black text-blue-400">50% Yield <span class="text-xs text-gray-400 font-normal">in 14 Days</span></p>
+          <ul class="text-xs text-gray-400 space-y-2 border-t border-gray-800 pt-4">
+            <li>• Min Deposit: $1,000</li>
+            <li>• Max Yield Multipliers</li>
+            <li>• Instant Direct Payouts</li>
+          </ul>
+          <button onclick="showSection('dashboard')" class="w-full py-2.5 bg-gray-800 hover:bg-gray-700 text-white rounded-xl text-xs font-bold">Invest VIP</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section id="faq" class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6 pt-12">
+      <h2 class="text-3xl font-black text-white text-center">Frequently Asked Questions</h2>
+      <div class="space-y-4">
+        <div class="glass-card p-5 rounded-xl border border-gray-800">
+          <h4 class="font-bold text-white text-sm">How does Growthmax generate daily yield?</h4>
+          <p class="text-xs text-gray-400 mt-2">Growthmax combines high-frequency trading algorithms with arbitrage strategies across major crypto exchanges to secure risk-adjusted returns.</p>
+        </div>
+        <div class="glass-card p-5 rounded-xl border border-gray-800">
+          <h4 class="font-bold text-white text-sm">When can I withdraw my investment and profits?</h4>
+          <p class="text-xs text-gray-400 mt-2">Withdrawals can be requested at any time once your minimum threshold ($10) is met. Approvals are processed swiftly.</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- DASHBOARD SECTION (Futuristic Dashboard Webapp) -->
+  <section id="dashboard-section" class="hidden relative z-10 max-w-6xl mx-auto px-4 mt-6 space-y-6 pb-20 animate__animated animate__fadeIn">
+    
     <!-- Balance Banner & VIP Tier Progress -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
       <div class="md:col-span-2 glass-card p-6 rounded-2xl border-l-4 border-l-green-500 flex flex-col justify-between animate-glow">
@@ -120,10 +408,10 @@
     </div>
 
     <!-- Deposit Form & Withdrawal Form Row -->
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6" id="dashboard-actions">
       
-      <!-- Make a Deposit -->
-      <div class="glass-card p-6 rounded-2xl space-y-4">
+      <!-- Deposit Module -->
+      <div class="glass-card p-6 rounded-2xl space-y-4" id="deposit-module">
         <h3 class="text-lg font-bold text-white flex items-center space-x-2">
           <i data-lucide="arrow-down-right" class="text-green-400"></i>
           <span>Make Investment Deposit</span>
@@ -152,7 +440,7 @@
           </select>
         </div>
 
-        <!-- Live ROI Summary Box -->
+        <!-- ROI Summary Box -->
         <div class="space-y-2 bg-gray-900/60 p-3 rounded-xl border border-gray-800 text-xs">
           <div class="flex justify-between"><span class="text-gray-400">Lock Duration:</span><span id="summary-duration" class="font-bold text-white">3 Days</span></div>
           <div class="flex justify-between"><span class="text-gray-400">ROI Rate:</span><span id="summary-rate" class="font-bold text-green-400">10%</span></div>
@@ -160,13 +448,13 @@
           <div class="flex justify-between border-t border-gray-800 pt-2 font-bold"><span class="text-gray-300">Total Return:</span><span id="summary-total" class="text-green-400 font-mono">$0.00</span></div>
         </div>
 
-        <button onclick="submitDeposit()" class="w-full bg-green-500 hover:bg-green-600 text-gray-950 font-bold py-3.5 rounded-xl transition duration-200 shadow-lg shadow-green-500/20">
+        <button onclick="submitDeposit()" class="w-full bg-green-500 hover:bg-green-400 text-gray-950 font-bold py-3.5 rounded-xl transition duration-200 shadow-lg shadow-green-500/20">
           Confirm Deposit Submission
         </button>
       </div>
 
       <!-- Request Withdrawal Module -->
-      <div class="glass-card p-6 rounded-2xl space-y-4 flex flex-col justify-between">
+      <div class="glass-card p-6 rounded-2xl space-y-4 flex flex-col justify-between" id="withdraw-module">
         <div class="space-y-4">
           <h3 class="text-lg font-bold text-white flex items-center space-x-2">
             <i data-lucide="arrow-up-right" class="text-blue-400"></i>
@@ -193,11 +481,10 @@
           </div>
         </div>
 
-        <button onclick="submitWithdrawal()" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-3.5 rounded-xl transition duration-200 shadow-lg shadow-blue-500/20 mt-4">
+        <button onclick="submitWithdrawal()" class="w-full bg-blue-500 hover:bg-blue-400 text-white font-bold py-3.5 rounded-xl transition duration-200 shadow-lg shadow-blue-500/20 mt-4">
           Submit Withdrawal Request
         </button>
 
-        <!-- Security Badge Row -->
         <div class="pt-4 border-t border-gray-800 grid grid-cols-3 gap-2 text-center text-[10px] text-gray-400">
           <div class="p-2 bg-gray-900/50 rounded-lg border border-gray-800">
             <i data-lucide="shield-check" class="w-4 h-4 text-green-400 mx-auto mb-1"></i>
@@ -216,7 +503,7 @@
     </div>
 
     <!-- Referral / Affiliate Hub -->
-    <div class="glass-card p-6 rounded-2xl flex flex-col md:flex-row justify-between items-center gap-4">
+    <div class="glass-card p-6 rounded-2xl flex flex-col md:flex-row justify-between items-center gap-4" id="referrals-module">
       <div>
         <h4 class="font-bold text-white">Earn 5% Instant Referral Bonus</h4>
         <p class="text-xs text-gray-400">Share your affiliate link with investors to receive automated rewards.</p>
@@ -252,21 +539,237 @@
       </div>
     </div>
 
+  </section>
+
+  <!-- AUTHENTICATION MODAL (Sign In / Register Popup) -->
+  <div id="auth-modal" class="fixed inset-0 z-50 bg-gray-950/80 backdrop-blur-md hidden items-center justify-center p-4">
+    <div class="glass-card max-w-md w-full p-6 md:p-8 rounded-3xl border border-gray-700 shadow-2xl relative space-y-6 animate__animated animate__zoomIn">
+      <button onclick="closeAuthModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white p-2">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+
+      <div class="text-center space-y-2">
+        <div class="w-12 h-12 bg-green-500/20 border border-green-500 rounded-2xl mx-auto flex items-center justify-center font-black text-green-400 text-2xl">
+          G
+        </div>
+        <h3 id="auth-title" class="text-2xl font-black text-white">Sign In to Growthmax</h3>
+        <p class="text-xs text-gray-400">Access your yield dashboard & portfolio.</p>
+      </div>
+
+      <form onsubmit="handleAuthSubmit(event)" class="space-y-4">
+        <div>
+          <label class="block text-xs font-semibold text-gray-400 uppercase mb-1">Email Address</label>
+          <input type="email" id="auth-email" required placeholder="name@domain.com" class="w-full bg-gray-900 border border-gray-700 rounded-xl p-3 text-white text-sm focus:outline-none focus:border-green-500">
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-gray-400 uppercase mb-1">Password</label>
+          <input type="password" id="auth-password" required placeholder="••••••••" class="w-full bg-gray-900 border border-gray-700 rounded-xl p-3 text-white text-sm focus:outline-none focus:border-green-500">
+        </div>
+
+        <button type="submit" id="auth-submit-btn" class="w-full py-3.5 bg-green-400 hover:bg-green-300 text-gray-950 font-bold rounded-xl shadow-lg shadow-green-500/20 text-sm transition">
+          Sign In
+        </button>
+      </form>
+
+      <p class="text-center text-xs text-gray-400">
+        <span id="auth-toggle-text">Don't have an account?</span>
+        <button onclick="toggleAuthMode()" id="auth-toggle-btn" class="text-green-400 font-bold hover:underline ml-1">Register Now</button>
+      </p>
+    </div>
   </div>
 
-  <!-- Real-Time Social Proof Popups container -->
+  <!-- Real-Time Social Proof Popups Container -->
   <div id="toast-container" class="fixed bottom-5 left-5 z-50 pointer-events-none"></div>
 
-  <!-- JavaScript Core Engine -->
+  <!-- JavaScript Engine -->
   <script>
-    // Initialize Supabase Client
+    // Supabase Configuration
     const SUPABASE_URL = "YOUR_SUPABASE_URL";
     const SUPABASE_ANON_KEY = "YOUR_SUPABASE_ANON_KEY";
     const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
     let currentUser = null;
+    let authMode = 'login'; // 'login' or 'register'
 
-    // 1. Calculate ROI, Profit & Duration
+    // 1. Navigation & Section Switchers
+    function showSection(section) {
+      const landing = document.getElementById('landing-section');
+      const dashboard = document.getElementById('dashboard-section');
+
+      if (section === 'landing') {
+        landing.classList.remove('hidden');
+        dashboard.classList.add('hidden');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else if (section === 'dashboard') {
+        landing.classList.add('hidden');
+        dashboard.classList.remove('hidden');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        loadUserData();
+      }
+    }
+
+    function scrollToHub(id) {
+      showSection('landing');
+      setTimeout(() => {
+        const el = document.getElementById(id);
+        if (el) el.scrollIntoView({ behavior: 'smooth' });
+      }, 100);
+    }
+
+    function toggleMobileMenu() {
+      const drawer = document.getElementById('mobile-menu-drawer');
+      const content = document.getElementById('drawer-content');
+      
+      if (drawer.classList.contains('hidden')) {
+        drawer.classList.remove('hidden');
+        setTimeout(() => {
+          drawer.classList.remove('opacity-0');
+          content.classList.remove('translate-x-full');
+        }, 10);
+      } else {
+        content.classList.add('translate-x-full');
+        drawer.classList.add('opacity-0');
+        setTimeout(() => drawer.classList.add('hidden'), 300);
+      }
+    }
+
+    function navigateHub(target) {
+      toggleMobileMenu();
+      if (target === 'landing') showSection('landing');
+      else if (target === 'dashboard') showSection('dashboard');
+      else if (['deposit', 'withdraw', 'referrals', 'promos'].includes(target)) {
+        showSection('dashboard');
+      } else {
+        scrollToHub(target);
+      }
+    }
+
+    // 2. Auth Modal Logic
+    function openAuthModal(mode = 'login') {
+      authMode = mode;
+      const modal = document.getElementById('auth-modal');
+      const title = document.getElementById('auth-title');
+      const submitBtn = document.getElementById('auth-submit-btn');
+      const toggleText = document.getElementById('auth-toggle-text');
+      const toggleBtn = document.getElementById('auth-toggle-btn');
+
+      if (mode === 'register') {
+        title.innerText = "Create Growthmax Account";
+        submitBtn.innerText = "Register Account";
+        toggleText.innerText = "Already have an account?";
+        toggleBtn.innerText = "Sign In";
+      } else {
+        title.innerText = "Sign In to Growthmax";
+        submitBtn.innerText = "Sign In";
+        toggleText.innerText = "Don't have an account?";
+        toggleBtn.innerText = "Register Now";
+      }
+
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closeAuthModal() {
+      const modal = document.getElementById('auth-modal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    function toggleAuthMode() {
+      openAuthModal(authMode === 'login' ? 'register' : 'login');
+    }
+
+    async function handleAuthSubmit(event) {
+      event.preventDefault();
+      const email = document.getElementById('auth-email').value;
+      const password = document.getElementById('auth-password').value;
+
+      if (authMode === 'register') {
+        const { data, error } = await supabase.auth.signUp({ email, password });
+        if (error) alert('Registration Error: ' + error.message);
+        else {
+          alert('Account created! Logging you in...');
+          closeAuthModal();
+          loadUserData();
+          showSection('dashboard');
+        }
+      } else {
+        const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+        if (error) alert('Login Error: ' + error.message);
+        else {
+          closeAuthModal();
+          loadUserData();
+          showSection('dashboard');
+        }
+      }
+    }
+
+    // 3. User Portfolio Data & Live Sync
+    async function loadUserData() {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) {
+        updateAuthHeaderUI(null);
+        return;
+      }
+      currentUser = user;
+      updateAuthHeaderUI(user);
+
+      // Fetch Balance & Transactions
+      const { data: deposits } = await supabase.from('deposits').select('*').eq('user_id', user.id);
+      const { data: withdrawals } = await supabase.from('withdrawals').select('*').eq('user_id', user.id);
+
+      let totalBalance = 0;
+      let activeCount = 0;
+      let pendingCount = 0;
+
+      if (deposits) {
+        deposits.forEach(item => {
+          if (item.status === 'approved') {
+            totalBalance += parseFloat(item.amount || 0);
+            activeCount++;
+          } else if (item.status === 'pending') {
+            pendingCount++;
+          }
+        });
+      }
+
+      if (withdrawals) {
+        withdrawals.forEach(item => {
+          if (item.status === 'approved') totalBalance -= parseFloat(item.amount || 0);
+        });
+      }
+
+      document.getElementById('user-balance').innerText = `$${totalBalance.toFixed(2)}`;
+      document.getElementById('active-count').innerText = activeCount;
+      document.getElementById('pending-count').innerText = pendingCount;
+
+      fetchDeposits();
+    }
+
+    function updateAuthHeaderUI(user) {
+      const container = document.getElementById('auth-buttons-container');
+      if (user) {
+        container.innerHTML = `
+          <div class="flex items-center space-x-2">
+            <span class="text-xs text-green-400 font-mono hidden sm:inline">${user.email}</span>
+            <button onclick="supabase.auth.signOut().then(() => location.reload())" class="px-3 py-1.5 text-xs bg-gray-900 border border-gray-700 hover:border-red-500 hover:text-red-400 text-gray-300 rounded-xl transition">
+              Sign Out
+            </button>
+          </div>
+        `;
+      } else {
+        container.innerHTML = `
+          <button onclick="openAuthModal('login')" class="px-4 py-2 text-xs font-bold text-gray-300 hover:text-white bg-gray-900 border border-gray-700 hover:border-gray-500 rounded-xl transition">
+            Sign In
+          </button>
+          <button onclick="openAuthModal('register')" class="px-4 py-2 text-xs font-bold text-gray-950 bg-green-400 hover:bg-green-300 rounded-xl shadow-lg shadow-green-500/20 transition">
+            Get Started
+          </button>
+        `;
+      }
+    }
+
+    // 4. Calculate ROI Calculator
     function calculateROI() {
       const select = document.getElementById('plan-select');
       const selectedOption = select.options[select.selectedIndex];
@@ -283,104 +786,14 @@
       document.getElementById('summary-total').innerText = `$${totalReturn.toFixed(2)}`;
     }
 
-    // 2. Load User Profile and Calculate Balance
-    async function loadUserData() {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) return;
-      currentUser = user;
-
-      document.getElementById('user-email-display').innerText = user.email;
-
-      // Calculate Total Approved Deposits & Approved Withdrawals
-      const { data: approvedDeposits } = await supabase
-        .from('deposits')
-        .select('amount, status')
-        .eq('user_id', user.id);
-
-      const { data: approvedWithdrawals } = await supabase
-        .from('withdrawals')
-        .select('amount, status')
-        .eq('user_id', user.id);
-
-      let totalBalance = 0;
-      let activeCount = 0;
-      let pendingCount = 0;
-
-      if (approvedDeposits) {
-        approvedDeposits.forEach(item => {
-          if (item.status === 'approved') {
-            totalBalance += parseFloat(item.amount || 0);
-            activeCount++;
-          } else if (item.status === 'pending') {
-            pendingCount++;
-          }
-        });
-      }
-
-      if (approvedWithdrawals) {
-        approvedWithdrawals.forEach(item => {
-          if (item.status === 'approved') {
-            totalBalance -= parseFloat(item.amount || 0);
-          }
-        });
-      }
-
-      document.getElementById('user-balance').innerText = `$${totalBalance.toFixed(2)}`;
-      document.getElementById('active-count').innerText = activeCount;
-      document.getElementById('pending-count').innerText = pendingCount;
-      
-      const badge = document.getElementById('connection-badge');
-      badge.className = "px-3 py-1 rounded-full text-xs font-bold bg-green-500/10 text-green-400 border border-green-500/20";
-      badge.innerText = "Connected";
-
-      fetchDeposits();
-      listenToRealtimeDeposits();
-    }
-
-    // 3. Fetch Transaction History
-    async function fetchDeposits() {
-      if (!currentUser) return;
-      const { data: deposits } = await supabase
-        .from('deposits')
-        .select('*')
-        .eq('user_id', currentUser.id)
-        .order('created_at', { ascending: false });
-
-      const tbody = document.getElementById('deposits-list');
-      if (!deposits || deposits.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center">No transactions recorded yet.</td></tr>`;
-        return;
-      }
-
-      tbody.innerHTML = deposits.map(dep => {
-        const statusColor = dep.status === 'approved' 
-          ? 'bg-green-500/20 text-green-400 border-green-500/30' 
-          : dep.status === 'rejected'
-          ? 'bg-red-500/20 text-red-400 border-red-500/30'
-          : 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30';
-
-        return `
-          <tr class="border-b border-gray-800/50 hover:bg-gray-900/40 transition">
-            <td class="p-3 font-semibold text-white">${dep.plan_name || 'Standard Plan'}</td>
-            <td class="p-3 text-green-400 font-bold font-mono">$${parseFloat(dep.amount).toFixed(2)}</td>
-            <td class="p-3 text-gray-300 font-mono">$${dep.profit ? parseFloat(dep.profit).toFixed(2) : '0.00'}</td>
-            <td class="p-3 text-gray-400">${dep.duration || 'N/A'}</td>
-            <td class="p-3"><span class="px-2.5 py-1 rounded-full text-[10px] uppercase font-bold border ${statusColor}">${dep.status}</span></td>
-          </tr>
-        `;
-      }).join('');
-    }
-
-    // 4. Submit Deposit
+    // 5. Submit Deposit & Withdrawal Requests
     async function submitDeposit() {
-      if (!currentUser) return alert('Please log in first!');
-      
-      const planSelect = document.getElementById('plan-select');
-      const selectedOption = planSelect.options[planSelect.selectedIndex];
+      if (!currentUser) return openAuthModal('login');
+      const select = document.getElementById('plan-select');
+      const selectedOption = select.options[select.selectedIndex];
       const planName = selectedOption.text.split('(')[0].trim();
       const roiPercent = parseFloat(selectedOption.getAttribute('data-roi'));
       const duration = selectedOption.getAttribute('data-duration');
-      
       const amount = parseFloat(document.getElementById('deposit-amount').value);
       const paymentMethod = document.getElementById('payment-method').value;
 
@@ -388,33 +801,28 @@
 
       const profit = (amount * roiPercent) / 100;
 
-      const { error } = await supabase.from('deposits').insert([
-        {
-          user_id: currentUser.id,
-          user_email: currentUser.email,
-          plan_name: planName,
-          amount: amount,
-          profit: profit,
-          duration: duration,
-          payment_method: paymentMethod,
-          status: 'pending'
-        }
-      ]);
+      const { error } = await supabase.from('deposits').insert([{
+        user_id: currentUser.id,
+        user_email: currentUser.email,
+        plan_name: planName,
+        amount: amount,
+        profit: profit,
+        duration: duration,
+        payment_method: paymentMethod,
+        status: 'pending'
+      }]);
 
-      if (error) {
-        alert('Deposit Error: ' + error.message);
-      } else {
-        alert('Deposit request submitted! Status: Pending Approval.');
+      if (error) alert('Deposit Error: ' + error.message);
+      else {
+        alert('Deposit request submitted! Awaiting approval.');
         document.getElementById('deposit-amount').value = '';
         calculateROI();
         loadUserData();
       }
     }
 
-    // 5. Submit Withdrawal Request
     async function submitWithdrawal() {
-      if (!currentUser) return alert('Please log in first!');
-      
+      if (!currentUser) return openAuthModal('login');
       const amount = parseFloat(document.getElementById('withdraw-amount').value);
       const address = document.getElementById('withdraw-address').value.trim();
       const method = document.getElementById('withdraw-method').value;
@@ -422,37 +830,47 @@
       if (!amount || amount < 10) return alert('Minimum withdrawal amount is $10.');
       if (!address) return alert('Please enter a valid wallet address.');
 
-      const { error } = await supabase.from('withdrawals').insert([
-        {
-          user_id: currentUser.id,
-          user_email: currentUser.email,
-          amount: amount,
-          wallet_address: address,
-          payment_method: method,
-          status: 'pending'
-        }
-      ]);
+      const { error } = await supabase.from('withdrawals').insert([{
+        user_id: currentUser.id,
+        user_email: currentUser.email,
+        amount: amount,
+        wallet_address: address,
+        payment_method: method,
+        status: 'pending'
+      }]);
 
-      if (error) {
-        alert('Withdrawal Error: ' + error.message);
-      } else {
-        alert('Withdrawal request submitted successfully for approval!');
+      if (error) alert('Withdrawal Error: ' + error.message);
+      else {
+        alert('Withdrawal request submitted for approval!');
         document.getElementById('withdraw-amount').value = '';
         document.getElementById('withdraw-address').value = '';
         loadUserData();
       }
     }
 
-    // 6. Real-Time Balance Synchronization
-    function listenToRealtimeDeposits() {
-      supabase
-        .channel('public:deposits')
-        .on('postgres_changes', { event: '*', schema: 'public', table: 'deposits', filter: `user_id=eq.${currentUser.id}` }, () => loadUserData())
-        .on('postgres_changes', { event: '*', schema: 'public', table: 'withdrawals', filter: `user_id=eq.${currentUser.id}` }, () => loadUserData())
-        .subscribe();
+    // 6. Fetch Transactions History
+    async function fetchDeposits() {
+      if (!currentUser) return;
+      const { data: deposits } = await supabase.from('deposits').select('*').eq('user_id', currentUser.id).order('created_at', { ascending: false });
+      const tbody = document.getElementById('deposits-list');
+
+      if (!deposits || deposits.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center">No transactions recorded yet.</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = deposits.map(dep => `
+        <tr class="border-b border-gray-800/50 hover:bg-gray-900/40 transition">
+          <td class="p-3 font-semibold text-white">${dep.plan_name || 'Standard Plan'}</td>
+          <td class="p-3 text-green-400 font-bold font-mono">$${parseFloat(dep.amount).toFixed(2)}</td>
+          <td class="p-3 text-gray-300 font-mono">$${dep.profit ? parseFloat(dep.profit).toFixed(2) : '0.00'}</td>
+          <td class="p-3 text-gray-400">${dep.duration || 'N/A'}</td>
+          <td class="p-3"><span class="px-2.5 py-1 rounded-full text-[10px] uppercase font-bold border ${dep.status === 'approved' ? 'bg-green-500/20 text-green-400 border-green-500/30' : 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30'}">${dep.status}</span></td>
+        </tr>
+      `).join('');
     }
 
-    // 7. Social Proof 10-Second Popups
+    // 7. Social Proof Popups Engine
     const fakeNames = ["Alex M.", "David K.", "Sarah L.", "Elena R.", "Michael B.", "Chen W.", "Omar F."];
     const fakeCountries = ["🇺🇸 US", "🇬🇧 UK", "🇩🇪 DE", "🇨🇦 CA", "🇦🇺 AU", "🇸🇬 SG", "🇦🇪 AE"];
     const fakeTypes = ["deposited", "withdrew"];
@@ -494,7 +912,7 @@
       alert('Referral link copied to clipboard!');
     }
 
-    // Initialize Page & Icons
+    // Initialization
     window.onload = () => {
       lucide.createIcons();
       loadUserData();

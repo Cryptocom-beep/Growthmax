@@ -1128,20 +1128,46 @@ function startLiveRoiTicker(baseAmount) {
         }
     }, 3000);
 }
-// Persistent Session Hook
-window.addEventListener('DOMContentLoaded', async () => {
-    const { data: { session } } = await supabaseClient.auth.getSession();
+// Persistent Session Restoration
+async function restoreUserSession() {
+    try {
+        const { data: { session }, error } = await supabaseClient.auth.getSession();
+        if (session && session.user) {
+            // Unhide dashboard and hide sign-in form
+            const authModal = document.getElementById('auth-modal');
+            const dashboardView = document.getElementById('dashboard-view');
+            
+            if (authModal) authModal.classList.add('hidden');
+            if (dashboardView) dashboardView.classList.remove('hidden');
+
+            // Load balance and dynamic ROI
+            loadUserData(session.user);
+        }
+    } catch (err) {
+        console.error("Session restore error:", err);
+    }
+}
+
+// Run immediately on page load
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', restoreUserSession);
+} else {
+    restoreUserSession();
+}
+
+// Listen for login/logout events
+supabaseClient.auth.onAuthStateChange((event, session) => {
     if (session && session.user) {
+        const authModal = document.getElementById('auth-modal');
+        const dashboardView = document.getElementById('dashboard-view');
+        
+        if (authModal) authModal.classList.add('hidden');
+        if (dashboardView) dashboardView.classList.remove('hidden');
+
         loadUserData(session.user);
     }
 });
 
-// Auto-listen to Auth Changes
-supabaseClient.auth.onAuthStateChange((event, session) => {
-    if (session && session.user) {
-        loadUserData(session.user);
-    }
-});
 
 
   </script>

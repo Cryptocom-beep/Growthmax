@@ -72,7 +72,6 @@
   </div>
 
   <script>
-    // Configured Supabase Credentials
     const SUPABASE_URL = 'https://psbokzosswthttvxppcf.supabase.co';
     const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBzYm9rem9zc3d0aHR0dnhwcGNmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA5NjYzNDYsImV4cCI6MjEwNjU0MjM0Nn0.diXojuSglO9Q26IbsYG8JsHHvyrbxnHsz9KtFnZnD7E';
 
@@ -88,7 +87,7 @@
       const { data, error } = await db.from('deposits').select('*').eq('status', 'pending');
 
       if (error) {
-        tbody.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-red-400">Error loading deposits: ${error.message}</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-red-400">Error: ${error.message}</td></tr>`;
         return;
       }
 
@@ -104,9 +103,11 @@
           <td class="p-3 text-green-400 font-bold">$${dep.amount}</td>
           <td class="p-3 uppercase text-xs font-medium text-slate-400">${dep.payment_method}</td>
           <td class="p-3 font-mono text-xs text-slate-400">${dep.txn_hash || 'N/A'}</td>
-          <td class="p-3 space-x-2">
-            <button onclick="approveDeposit('${dep.id}', '${dep.user_id}', ${dep.amount})" class="bg-green-600 hover:bg-green-500 text-white text-xs px-3 py-1.5 rounded-lg">Approve</button>
-            <button onclick="rejectDeposit('${dep.id}')" class="bg-red-600 hover:bg-red-500 text-white text-xs px-3 py-1.5 rounded-lg">Reject</button>
+          <td class="p-3">
+            <div id="action-dep-${dep.id}" class="flex items-center gap-3">
+              <button onclick="approveDeposit('${dep.id}', '${dep.user_id}', ${dep.amount})" class="bg-green-600 hover:bg-green-500 active:scale-95 text-white font-medium text-xs px-3.5 py-2 rounded-lg transition shadow">Approve</button>
+              <button onclick="rejectDeposit('${dep.id}')" class="bg-red-600 hover:bg-red-500 active:scale-95 text-white font-medium text-xs px-3.5 py-2 rounded-lg transition shadow">Reject</button>
+            </div>
           </td>
         </tr>
       `).join('');
@@ -117,7 +118,7 @@
       const { data, error } = await db.from('withdrawals').select('*').eq('status', 'pending');
 
       if (error) {
-        tbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-red-400">Error loading withdrawals: ${error.message}</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-red-400">Error: ${error.message}</td></tr>`;
         return;
       }
 
@@ -132,35 +133,51 @@
           <td class="p-3 text-blue-400 font-bold">$${w.amount}</td>
           <td class="p-3 font-mono text-xs text-slate-400">${w.wallet_address}</td>
           <td class="p-3 uppercase text-xs font-medium text-slate-400">${w.payment_method}</td>
-          <td class="p-3 space-x-2">
-            <button onclick="approveWithdrawal('${w.id}')" class="bg-green-600 hover:bg-green-500 text-white text-xs px-3 py-1.5 rounded-lg">Approve</button>
-            <button onclick="rejectWithdrawal('${w.id}')" class="bg-red-600 hover:bg-red-500 text-white text-xs px-3 py-1.5 rounded-lg">Reject</button>
+          <td class="p-3">
+            <div id="action-w-${w.id}" class="flex items-center gap-3">
+              <button onclick="approveWithdrawal('${w.id}')" class="bg-green-600 hover:bg-green-500 active:scale-95 text-white font-medium text-xs px-3.5 py-2 rounded-lg transition shadow">Approve</button>
+              <button onclick="rejectWithdrawal('${w.id}')" class="bg-red-600 hover:bg-red-500 active:scale-95 text-white font-medium text-xs px-3.5 py-2 rounded-lg transition shadow">Reject</button>
+            </div>
           </td>
         </tr>
       `).join('');
     }
 
     async function approveDeposit(depositId, userId, amount) {
+      const actionDiv = document.getElementById(`action-dep-${depositId}`);
+      actionDiv.innerHTML = `<span class="text-xs font-bold text-green-400 bg-green-950/80 border border-green-800 px-3 py-1.5 rounded-lg">✓ Approved</span>`;
+
       await db.from('deposits').update({ status: 'approved' }).eq('id', depositId);
+
       const { data: profile } = await db.from('profiles').select('balance').eq('id', userId).single();
       const currentBalance = profile ? parseFloat(profile.balance || 0) : 0;
       await db.from('profiles').update({ balance: currentBalance + parseFloat(amount) }).eq('id', userId);
-      loadAdminData();
+
+      setTimeout(loadAdminData, 1500);
     }
 
     async function rejectDeposit(depositId) {
+      const actionDiv = document.getElementById(`action-dep-${depositId}`);
+      actionDiv.innerHTML = `<span class="text-xs font-bold text-red-400 bg-red-950/80 border border-red-800 px-3 py-1.5 rounded-lg">✗ Rejected</span>`;
+
       await db.from('deposits').update({ status: 'rejected' }).eq('id', depositId);
-      loadAdminData();
+      setTimeout(loadAdminData, 1500);
     }
 
     async function approveWithdrawal(withdrawalId) {
+      const actionDiv = document.getElementById(`action-w-${withdrawalId}`);
+      actionDiv.innerHTML = `<span class="text-xs font-bold text-green-400 bg-green-950/80 border border-green-800 px-3 py-1.5 rounded-lg">✓ Approved</span>`;
+
       await db.from('withdrawals').update({ status: 'approved' }).eq('id', withdrawalId);
-      loadAdminData();
+      setTimeout(loadAdminData, 1500);
     }
 
     async function rejectWithdrawal(withdrawalId) {
+      const actionDiv = document.getElementById(`action-w-${withdrawalId}`);
+      actionDiv.innerHTML = `<span class="text-xs font-bold text-red-400 bg-red-950/80 border border-red-800 px-3 py-1.5 rounded-lg">✗ Rejected</span>`;
+
       await db.from('withdrawals').update({ status: 'rejected' }).eq('id', withdrawalId);
-      loadAdminData();
+      setTimeout(loadAdminData, 1500);
     }
 
     document.addEventListener('DOMContentLoaded', loadAdminData);

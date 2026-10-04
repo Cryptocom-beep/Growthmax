@@ -1082,14 +1082,68 @@
     }
 
     setInterval(triggerSocialProofToast, 9000);
+async function loadUserData(user) {
+    if (!user) return;
 
-    // Initial Load Hook
-    window.addEventListener('DOMContentLoaded', async () => {
-      const { data: { user } } = await supabaseClient.auth.getUser();
-      if (user) {
-        loadUserData(user);
-      }
-    });
+    // Show email in UI
+    const emailEl = document.getElementById('user-email-display');
+    if (emailEl) emailEl.innerText = user.email;
+
+    // Fetch user deposits
+    const { data: deposits, error } = await supabaseClient
+        .from('deposits')
+        .select('*')
+        .eq('user_email', user.email);
+
+    if (error || !deposits) return;
+
+    // Calculate sum of APPROVED deposits
+    const approvedDeposits = deposits.filter(d => d.status === 'approved');
+    const totalApproved = approvedDeposits.reduce((sum, d) => sum + parseFloat(d.amount || 0), 0);
+
+    // Update Balance UI
+    const balanceEl = document.getElementById('portfolio-balance');
+    if (balanceEl) {
+        balanceEl.innerText = `$${totalApproved.toFixed(2)}`;
+    }
+
+    // Start Live ROI ticker
+    if (totalApproved > 0) {
+        startLiveRoiTicker(totalApproved);
+    }
+}
+
+// Live ROI Ticker Engine
+let roiInterval = null;
+function startLiveRoiTicker(baseAmount) {
+    if (roiInterval) clearInterval(roiInterval);
+    let currentAmount = baseAmount;
+    const balanceEl = document.getElementById('portfolio-balance');
+
+    roiInterval = setInterval(() => {
+        const microProfit = (baseAmount * 0.00004) * (Math.random() * (1.2 - 0.8) + 0.8);
+        currentAmount += microProfit;
+        if (balanceEl) {
+            balanceEl.innerText = `$${currentAmount.toFixed(4)}`;
+        }
+    }, 3000);
+}
+// Persistent Session Hook
+window.addEventListener('DOMContentLoaded', async () => {
+    const { data: { session } } = await supabaseClient.auth.getSession();
+    if (session && session.user) {
+        loadUserData(session.user);
+    }
+});
+
+// Auto-listen to Auth Changes
+supabaseClient.auth.onAuthStateChange((event, session) => {
+    if (session && session.user) {
+        loadUserData(session.user);
+    }
+});
+
+
   </script>
 </body>
 </html>

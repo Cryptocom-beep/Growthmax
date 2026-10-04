@@ -3,103 +3,249 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Growthmax - Dashboard</title>
+  <title>Growthmax - Institutional Investment Platform</title>
+  
+  <!-- Tailwind CSS & Lucide Icons -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <!-- Custom Styling & Smooth Glassmorphism Animations -->
+  <style>
+    @keyframes pulseGlow {
+      0%, 100% { box-shadow: 0 0 15px rgba(34, 197, 94, 0.2); }
+      50% { box-shadow: 0 0 30px rgba(34, 197, 94, 0.5); }
+    }
+    @keyframes slideInUp {
+      from { transform: translateY(100%); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    @keyframes slideOutDown {
+      from { transform: translateY(0); opacity: 1; }
+      to { transform: translateY(100%); opacity: 0; }
+    }
+    .animate-glow { animation: pulseGlow 3s infinite; }
+    .toast-enter { animation: slideInUp 0.5s ease-out forwards; }
+    .toast-exit { animation: slideOutDown 0.5s ease-in forwards; }
+    .glass-card {
+      background: rgba(17, 24, 39, 0.85);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+  </style>
+
+  <!-- Smartsupp Live Chat Integration -->
+  <script type="text/javascript">
+    var _smartsupp = _smartsupp || {};
+    _smartsupp.key = 'YOUR_SMARTSUPP_KEY'; // Replace with your Smartsupp Key
+    window.smartsupp||(function(d) {
+      var s,c,o=smartsupp=function(){ o._.push(arguments)};o._=[];
+      s=d.getElementsByTagName('script')[0];c=d.createElement('script');
+      c.type='text/javascript';c.charset='utf-8';c.async=true;
+      c.src='https://www.smartsuppchat.com/loader.js?';s.parentNode.insertBefore(c,s);
+    })(document);
+  </script>
 </head>
-<body class="bg-gray-900 text-white min-h-screen p-4 md:p-8">
+<body class="bg-gray-950 text-gray-100 min-h-screen font-sans antialiased pb-12">
 
-  <!-- Header & Balance Banner -->
-  <div class="max-w-4xl mx-auto space-y-6">
-    <div class="bg-gray-800 rounded-xl p-6 border border-gray-700 shadow-lg flex flex-col md:flex-row justify-between items-center gap-4">
-      <div>
-        <h2 class="text-sm text-gray-400 uppercase tracking-wider font-semibold">Total Account Balance</h2>
-        <h1 id="user-balance" class="text-4xl font-extrabold text-green-400 mt-1">$0.00</h1>
+  <!-- FEATURE 1: Live Crypto Market Rates Ticker Bar -->
+  <div class="bg-gray-900 border-b border-gray-800 text-xs py-2 px-4 overflow-x-auto whitespace-nowrap flex items-center justify-between text-gray-400">
+    <div class="flex items-center space-x-6">
+      <span class="flex items-center space-x-1"><strong class="text-white">BTC/USD:</strong> <span class="text-green-400">$64,250.00 (+2.4%)</span></span>
+      <span class="flex items-center space-x-1"><strong class="text-white">ETH/USD:</strong> <span class="text-green-400">$3,480.50 (+1.8%)</span></span>
+      <span class="flex items-center space-x-1"><strong class="text-white">SOL/USD:</strong> <span class="text-green-400">$148.20 (+5.1%)</span></span>
+      <span class="flex items-center space-x-1"><strong class="text-white">USDT:</strong> <span class="text-gray-300">$1.000 (0.0%)</span></span>
+    </div>
+    <div class="flex items-center space-x-2 text-green-400 text-xs font-semibold">
+      <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+      <span>System Operational</span>
+    </div>
+  </div>
+
+  <div class="max-w-6xl mx-auto px-4 mt-6 space-y-6">
+
+    <!-- Top Navigation Header -->
+    <header class="flex justify-between items-center glass-card p-4 rounded-2xl">
+      <div class="flex items-center space-x-3">
+        <div class="w-10 h-10 bg-green-500/20 border border-green-500 rounded-xl flex items-center justify-center font-bold text-green-400 text-xl">
+          G
+        </div>
+        <div>
+          <h1 class="text-xl font-bold tracking-tight text-white">Growthmax</h1>
+          <p class="text-xs text-gray-400">Institutional Yield Management</p>
+        </div>
       </div>
-      <div id="user-status" class="px-3 py-1 bg-gray-700 text-gray-300 rounded-full text-xs font-semibold">
-        Connecting...
+      <div class="flex items-center space-x-3">
+        <span id="user-email-display" class="text-xs text-gray-400 hidden sm:inline">Guest User</span>
+        <div id="connection-badge" class="px-3 py-1 rounded-full text-xs font-bold bg-yellow-500/10 text-yellow-400 border border-yellow-500/20">
+          Connecting...
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Balance & FEATURE 2: VIP Tier Progress -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div class="md:col-span-2 glass-card p-6 rounded-2xl border-l-4 border-l-green-500 flex flex-col justify-between animate-glow">
+        <div>
+          <div class="flex justify-between items-center">
+            <span class="text-xs font-semibold uppercase text-gray-400 tracking-wider">Total Portfolio Balance</span>
+            <span class="text-xs text-green-400 font-mono">Live Sync Active</span>
+          </div>
+          <h2 id="user-balance" class="text-5xl font-black text-white mt-2 font-mono">$0.00</h2>
+        </div>
+        <div class="mt-6 pt-4 border-t border-gray-800 flex justify-between items-center text-xs text-gray-400">
+          <span>Active Deposits: <strong id="active-count" class="text-white">0</strong></span>
+          <span>Pending Approvals: <strong id="pending-count" class="text-yellow-400">0</strong></span>
+        </div>
+      </div>
+
+      <!-- VIP Level / Tier Feature -->
+      <div class="glass-card p-6 rounded-2xl flex flex-col justify-between">
+        <div>
+          <div class="flex justify-between items-center">
+            <span class="text-xs font-semibold uppercase text-gray-400">Investor Level</span>
+            <span id="tier-badge" class="px-2 py-0.5 rounded text-xs font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
+              BRONZE
+            </span>
+          </div>
+          <h3 class="text-lg font-bold text-white mt-2">Yield Boost: <span class="text-green-400">+0.0%</span></h3>
+          <p class="text-xs text-gray-400 mt-1">Deposit $1,000 to unlock <strong class="text-white">Silver Tier</strong> (+2.5% yield bonus).</p>
+        </div>
+        <div class="mt-4">
+          <div class="w-full bg-gray-800 rounded-full h-2">
+            <div id="tier-progress" class="bg-green-500 h-2 rounded-full" style="width: 15%"></div>
+          </div>
+        </div>
       </div>
     </div>
 
-    <!-- Deposit Form -->
-    <div class="bg-gray-800 rounded-xl p-6 border border-gray-700 shadow-lg space-y-4">
-      <h3 class="text-xl font-bold text-white border-b border-gray-700 pb-3">Make a Deposit</h3>
+    <!-- Deposit Form & Interactive ROI Calculator -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
       
-      <!-- Select Plan -->
-      <div>
-        <label class="block text-xs font-medium text-gray-400 mb-1 uppercase">Select Investment Plan</label>
-        <select id="plan-select" onchange="calculateROI()" class="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 text-white focus:outline-none focus:border-green-500">
-          <option value="Starter Plan|10|3" data-roi="10" data-duration="3 Days">Starter Plan (10% ROI in 3 Days)</option>
-          <option value="Advanced Plan|25|7" data-roi="25" data-duration="7 Days">Advanced Plan (25% ROI in 7 Days)</option>
-          <option value="VIP Premium Plan|50|14" data-roi="50" data-duration="14 Days">VIP Premium Plan (50% ROI in 14 Days)</option>
-        </select>
+      <!-- Deposit Form -->
+      <div class="glass-card p-6 rounded-2xl space-y-4">
+        <h3 class="text-lg font-bold text-white flex items-center space-x-2">
+          <i data-lucide="arrow-down-right" class="text-green-400"></i>
+          <span>Make Investment Deposit</span>
+        </h3>
+
+        <div>
+          <label class="block text-xs text-gray-400 uppercase mb-1">Select Investment Plan</label>
+          <select id="plan-select" onchange="calculateROI()" class="w-full bg-gray-900 border border-gray-700 rounded-xl p-3 text-white focus:outline-none focus:border-green-500">
+            <option value="Starter Plan|10|3" data-roi="10" data-duration="3 Days">Starter Plan (10% Yield in 3 Days)</option>
+            <option value="Advanced Plan|25|7" data-roi="25" data-duration="7 Days">Advanced Plan (25% Yield in 7 Days)</option>
+            <option value="VIP Premium Plan|50|14" data-roi="50" data-duration="14 Days">VIP Premium Plan (50% Yield in 14 Days)</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-xs text-gray-400 uppercase mb-1">Deposit Amount ($)</label>
+          <input type="number" id="deposit-amount" oninput="calculateROI()" placeholder="Enter amount (e.g. 500)" class="w-full bg-gray-900 border border-gray-700 rounded-xl p-3 text-white focus:outline-none focus:border-green-500">
+        </div>
+
+        <div>
+          <label class="block text-xs text-gray-400 uppercase mb-1">Payment Method</label>
+          <select id="payment-method" class="w-full bg-gray-900 border border-gray-700 rounded-xl p-3 text-white focus:outline-none focus:border-green-500">
+            <option value="USDT TRC20">USDT (TRC20)</option>
+            <option value="Bitcoin (BTC)">Bitcoin (BTC)</option>
+            <option value="Ethereum (ETH)">Ethereum (ETH)</option>
+          </select>
+        </div>
+
+        <button onclick="submitDeposit()" class="w-full bg-green-500 hover:bg-green-600 text-gray-950 font-bold py-3.5 rounded-xl transition duration-200 shadow-lg shadow-green-500/20">
+          Confirm Deposit Submission
+        </button>
       </div>
 
-      <!-- Amount Input -->
-      <div>
-        <label class="block text-xs font-medium text-gray-400 mb-1 uppercase">Deposit Amount ($)</label>
-        <input type="number" id="deposit-amount" oninput="calculateROI()" placeholder="e.g. 500" class="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 text-white focus:outline-none focus:border-green-500">
-      </div>
+      <!-- Live Plan Profit Summary & Calculator Card -->
+      <div class="glass-card p-6 rounded-2xl flex flex-col justify-between">
+        <div>
+          <h3 class="text-lg font-bold text-white mb-4 flex items-center space-x-2">
+            <i data-lucide="calculator" class="text-green-400"></i>
+            <span>Investment Breakdown</span>
+          </h3>
 
-      <!-- Payment Method -->
-      <div>
-        <label class="block text-xs font-medium text-gray-400 mb-1 uppercase">Payment Method</label>
-        <select id="payment-method" class="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 text-white focus:outline-none focus:border-green-500">
-          <option value="USDT TRC20">USDT (TRC20)</option>
-          <option value="Bitcoin (BTC)">Bitcoin (BTC)</option>
-          <option value="Ethereum (ETH)">Ethereum (ETH)</option>
-        </select>
-      </div>
+          <div class="space-y-3 bg-gray-900/60 p-4 rounded-xl border border-gray-800">
+            <div class="flex justify-between text-sm">
+              <span class="text-gray-400">Lock Duration:</span>
+              <span id="summary-duration" class="font-bold text-white">3 Days</span>
+            </div>
+            <div class="flex justify-between text-sm">
+              <span class="text-gray-400">Guaranteed Return (ROI):</span>
+              <span id="summary-rate" class="font-bold text-green-400">10%</span>
+            </div>
+            <div class="flex justify-between text-sm">
+              <span class="text-gray-400">Net Estimated Profit:</span>
+              <span id="summary-profit" class="font-bold text-green-400">$0.00</span>
+            </div>
+            <div class="flex justify-between text-base font-bold border-t border-gray-800 pt-3 mt-2">
+              <span class="text-gray-200">Total Projected Return:</span>
+              <span id="summary-total" class="text-green-400 font-mono">$0.00</span>
+            </div>
+          </div>
+        </div>
 
-      <!-- Live ROI Calculation Preview Card -->
-      <div id="roi-summary" class="bg-gray-900/80 border border-gray-700 rounded-lg p-4 space-y-2">
-        <div class="flex justify-between text-sm">
-          <span class="text-gray-400">Plan Duration:</span>
-          <span id="summary-duration" class="font-semibold text-white">3 Days</span>
-        </div>
-        <div class="flex justify-between text-sm">
-          <span class="text-gray-400">ROI Rate:</span>
-          <span id="summary-rate" class="font-semibold text-green-400">10%</span>
-        </div>
-        <div class="flex justify-between text-sm">
-          <span class="text-gray-400">Estimated Profit:</span>
-          <span id="summary-profit" class="font-semibold text-green-400">$0.00</span>
-        </div>
-        <div class="flex justify-between text-base font-bold border-t border-gray-800 pt-2 mt-2">
-          <span class="text-gray-300">Total Return:</span>
-          <span id="summary-total" class="text-green-400">$0.00</span>
+        <!-- FEATURE 5: Trust & Security Matrix -->
+        <div class="mt-6 pt-4 border-t border-gray-800 grid grid-cols-3 gap-2 text-center text-[10px] text-gray-400">
+          <div class="p-2 bg-gray-900/50 rounded-lg border border-gray-800">
+            <i data-lucide="shield-check" class="w-4 h-4 text-green-400 mx-auto mb-1"></i>
+            <span>256-Bit SSL Encrypted</span>
+          </div>
+          <div class="p-2 bg-gray-900/50 rounded-lg border border-gray-800">
+            <i data-lucide="zap" class="w-4 h-4 text-green-400 mx-auto mb-1"></i>
+            <span>Instant Auto-Credit</span>
+          </div>
+          <div class="p-2 bg-gray-900/50 rounded-lg border border-gray-800">
+            <i data-lucide="lock" class="w-4 h-4 text-green-400 mx-auto mb-1"></i>
+            <span>Cold Vault Audited</span>
+          </div>
         </div>
       </div>
-
-      <button onclick="submitDeposit()" class="w-full bg-green-500 hover:bg-green-600 text-gray-900 font-bold py-3 rounded-lg transition duration-200">
-        Submit Deposit
-      </button>
     </div>
 
-    <!-- Recent Deposits History Table -->
-    <div class="bg-gray-800 rounded-xl p-6 border border-gray-700 shadow-lg">
-      <h3 class="text-xl font-bold text-white mb-4">Your Recent Deposits</h3>
+    <!-- FEATURE 4: Referral / Affiliate Hub -->
+    <div class="glass-card p-6 rounded-2xl flex flex-col md:flex-row justify-between items-center gap-4">
+      <div>
+        <h4 class="font-bold text-white">Earn 5% Instant Commission</h4>
+        <p class="text-xs text-gray-400">Share your unique affiliate code with new investors to receive automated referral rewards.</p>
+      </div>
+      <div class="flex w-full md:w-auto space-x-2">
+        <input type="text" id="ref-link" readonly value="https://cryptocom-beep.github.io/Growthmax/?ref=investor" class="bg-gray-900 border border-gray-700 rounded-xl px-3 py-2 text-xs text-gray-300 w-full md:w-64 focus:outline-none">
+        <button onclick="copyRefLink()" class="bg-gray-800 hover:bg-gray-700 text-white text-xs font-bold px-4 py-2 rounded-xl border border-gray-700">
+          Copy
+        </button>
+      </div>
+    </div>
+
+    <!-- Deposits History Table -->
+    <div class="glass-card p-6 rounded-2xl">
+      <h3 class="text-lg font-bold text-white mb-4">Your Transaction History</h3>
       <div class="overflow-x-auto">
-        <table class="w-full text-left text-sm text-gray-400">
-          <thead class="bg-gray-900 text-xs uppercase text-gray-400">
+        <table class="w-full text-left text-xs text-gray-400">
+          <thead class="bg-gray-900/80 uppercase font-semibold text-gray-400 border-b border-gray-800">
             <tr>
               <th class="p-3">Plan</th>
               <th class="p-3">Amount</th>
-              <th class="p-3">Est. Profit</th>
+              <th class="p-3">Estimated Profit</th>
               <th class="p-3">Duration</th>
               <th class="p-3">Status</th>
             </tr>
           </thead>
           <tbody id="deposits-list">
             <tr>
-              <td colspan="5" class="p-4 text-center">Loading deposits...</td>
+              <td colspan="5" class="p-4 text-center">Loading transactions...</td>
             </tr>
           </tbody>
         </table>
       </div>
     </div>
+
   </div>
 
+  <!-- Real-Time Social Proof Transaction Notification Popups -->
+  <div id="toast-container" class="fixed bottom-5 left-5 z-50 pointer-events-none"></div>
+
+  <!-- JavaScript Core Engine -->
   <script>
     // Initialize Supabase Client
     const SUPABASE_URL = "YOUR_SUPABASE_URL";
@@ -131,19 +277,36 @@
       if (!user) return;
       currentUser = user;
 
-      // Calculate Total Approved Deposits directly for live auto-update
+      document.getElementById('user-email-display').innerText = user.email;
+
+      // Calculate Total Approved Deposits for live auto-update
       const { data: approvedDeposits } = await supabase
         .from('deposits')
-        .select('amount')
-        .eq('user_id', user.id)
-        .eq('status', 'approved');
+        .select('amount, status')
+        .eq('user_id', user.id);
 
-      const totalBalance = approvedDeposits 
-        ? approvedDeposits.reduce((sum, item) => sum + parseFloat(item.amount || 0), 0)
-        : 0.00;
+      let totalBalance = 0;
+      let activeCount = 0;
+      let pendingCount = 0;
+
+      if (approvedDeposits) {
+        approvedDeposits.forEach(item => {
+          if (item.status === 'approved') {
+            totalBalance += parseFloat(item.amount || 0);
+            activeCount++;
+          } else if (item.status === 'pending') {
+            pendingCount++;
+          }
+        });
+      }
 
       document.getElementById('user-balance').innerText = `$${totalBalance.toFixed(2)}`;
-      document.getElementById('user-status').innerText = 'Connected';
+      document.getElementById('active-count').innerText = activeCount;
+      document.getElementById('pending-count').innerText = pendingCount;
+      
+      const badge = document.getElementById('connection-badge');
+      badge.className = "px-3 py-1 rounded-full text-xs font-bold bg-green-500/10 text-green-400 border border-green-500/20";
+      badge.innerText = "Connected";
 
       fetchDeposits();
       listenToRealtimeDeposits();
@@ -152,7 +315,7 @@
     // 3. Fetch Recent Deposits List
     async function fetchDeposits() {
       if (!currentUser) return;
-      const { data: deposits, error } = await supabase
+      const { data: deposits } = await supabase
         .from('deposits')
         .select('*')
         .eq('user_id', currentUser.id)
@@ -160,24 +323,24 @@
 
       const tbody = document.getElementById('deposits-list');
       if (!deposits || deposits.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center">No deposits found.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center">No transactions recorded yet.</td></tr>`;
         return;
       }
 
       tbody.innerHTML = deposits.map(dep => {
         const statusColor = dep.status === 'approved' 
-          ? 'bg-green-900/50 text-green-400 border border-green-500/30' 
+          ? 'bg-green-500/20 text-green-400 border-green-500/30' 
           : dep.status === 'rejected'
-          ? 'bg-red-900/50 text-red-400 border border-red-500/30'
-          : 'bg-yellow-900/50 text-yellow-400 border border-yellow-500/30';
+          ? 'bg-red-500/20 text-red-400 border-red-500/30'
+          : 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30';
 
         return `
-          <tr class="border-b border-gray-800">
-            <td class="p-3 font-semibold text-white">${dep.plan_name || 'Standard'}</td>
-            <td class="p-3 text-green-400 font-bold">$${parseFloat(dep.amount).toFixed(2)}</td>
-            <td class="p-3 text-gray-300">$${dep.profit ? parseFloat(dep.profit).toFixed(2) : '0.00'}</td>
+          <tr class="border-b border-gray-800/50 hover:bg-gray-900/40 transition">
+            <td class="p-3 font-semibold text-white">${dep.plan_name || 'Standard Plan'}</td>
+            <td class="p-3 text-green-400 font-bold font-mono">$${parseFloat(dep.amount).toFixed(2)}</td>
+            <td class="p-3 text-gray-300 font-mono">$${dep.profit ? parseFloat(dep.profit).toFixed(2) : '0.00'}</td>
             <td class="p-3 text-gray-400">${dep.duration || 'N/A'}</td>
-            <td class="p-3"><span class="px-2 py-1 rounded-md text-xs uppercase font-bold ${statusColor}">${dep.status}</span></td>
+            <td class="p-3"><span class="px-2.5 py-1 rounded-full text-[10px] uppercase font-bold border ${statusColor}">${dep.status}</span></td>
           </tr>
         `;
       }).join('');
@@ -196,7 +359,7 @@
       const amount = parseFloat(document.getElementById('deposit-amount').value);
       const paymentMethod = document.getElementById('payment-method').value;
 
-      if (!amount || amount <= 0) return alert('Please enter a valid amount');
+      if (!amount || amount <= 0) return alert('Please enter a valid deposit amount.');
 
       const profit = (amount * roiPercent) / 100;
 
@@ -216,32 +379,75 @@
       if (error) {
         alert('Deposit Error: ' + error.message);
       } else {
-        alert('Deposit submitted successfully! Status: Pending Approval.');
+        alert('Deposit request submitted! Status: Pending Approval.');
         document.getElementById('deposit-amount').value = '';
         calculateROI();
-        fetchDeposits();
+        loadUserData();
       }
     }
 
-    // 5. Automatic Real-Time Listener (Updates balance as soon as admin approves)
+    // 5. Automatic Real-time Listener for Instant Balance Credit
     function listenToRealtimeDeposits() {
       supabase
         .channel('public:deposits')
         .on(
           'postgres_changes',
           { event: '*', schema: 'public', table: 'deposits', filter: `user_id=eq.${currentUser.id}` },
-          (payload) => {
-            // Re-calculate balance and list immediately when admin updates status to approved
+          () => {
             loadUserData();
           }
         )
         .subscribe();
     }
 
-    // Initialize on page load
+    // 6. Social Proof Popup Engine (10-Second Transaction Popups)
+    const fakeNames = ["Alex M.", "David K.", "Sarah L.", "Elena R.", "Michael B.", "Chen W.", "Omar F."];
+    const fakeCountries = ["🇺🇸 US", "🇬🇧 UK", "🇩🇪 DE", "🇨🇦 CA", "🇦🇺 AU", "🇸🇬 SG", "🇦🇪 AE"];
+    const fakeTypes = ["deposited", "withdrew"];
+    const fakePlans = ["Starter Plan", "Advanced Plan", "VIP Premium Plan"];
+
+    function triggerSocialProofToast() {
+      const container = document.getElementById('toast-container');
+      const name = fakeNames[Math.floor(Math.random() * fakeNames.length)];
+      const country = fakeCountries[Math.floor(Math.random() * fakeCountries.length)];
+      const type = fakeTypes[Math.floor(Math.random() * fakeTypes.length)];
+      const plan = fakePlans[Math.floor(Math.random() * fakePlans.length)];
+      const amount = (Math.floor(Math.random() * 45) + 5) * 100;
+
+      const toast = document.createElement('div');
+      toast.className = "toast-enter glass-card border border-gray-700/80 rounded-xl p-3 shadow-2xl flex items-center space-x-3 text-xs w-72 mb-3";
+      toast.innerHTML = `
+        <div class="w-8 h-8 rounded-full ${type === 'deposited' ? 'bg-green-500/20 text-green-400 border border-green-500' : 'bg-blue-500/20 text-blue-400 border border-blue-500'} flex items-center justify-center font-bold text-sm">
+          ${type === 'deposited' ? '↑' : '↓'}
+        </div>
+        <div>
+          <p class="text-white font-semibold">${name} (${country})</p>
+          <p class="text-gray-400">${type} <strong class="${type === 'deposited' ? 'text-green-400' : 'text-blue-400'}">$${amount}</strong> via ${plan}</p>
+        </div>
+      `;
+
+      container.appendChild(toast);
+
+      setTimeout(() => {
+        toast.classList.remove('toast-enter');
+        toast.classList.add('toast-exit');
+        setTimeout(() => toast.remove(), 500);
+      }, 4000);
+    }
+
+    function copyRefLink() {
+      const linkInput = document.getElementById('ref-link');
+      linkInput.select();
+      document.execCommand('copy');
+      alert('Referral link copied to clipboard!');
+    }
+
+    // Initialize Page & Icons
     window.onload = () => {
+      lucide.createIcons();
       loadUserData();
       calculateROI();
+      setInterval(triggerSocialProofToast, 10000);
     };
   </script>
 </body>

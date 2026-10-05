@@ -766,7 +766,8 @@
     }
 
     async function handleAuthSubmit(e) {
-      e.preventDefault();
+      if (e) e.preventDefault(); // Prevents page reload on form submission
+      
       const email = document.getElementById('auth-email').value;
       const password = document.getElementById('auth-password').value;
       const msg = document.getElementById('auth-modal-msg');
@@ -1081,95 +1082,27 @@
       }, 4000);
     }
 
-setInterval(triggerSocialProofToast, 9000);
+    setInterval(triggerSocialProofToast, 9000);
 
-// Complete & Crash-Proof Auth + Dashboard Script
-async function loadUserData(user) {
-    if (!user) return;
+    // Initial Load & Auth State Listener
+    window.addEventListener('DOMContentLoaded', async () => {
+      // 1. Initial Session Check
+      const { data: { user } } = await supabaseClient.auth.getUser();
+      if (user) {
+        loadUserData(user);
+      }
 
-    try {
-        // 1. Force-reveal Dashboard and hide Auth/Login screens
-        const authContainer = document.getElementById('auth-modal') || document.getElementById('login-section');
-        const dashboardView = document.getElementById('dashboard-view') || document.getElementById('user-dashboard');
-        
-        if (authContainer) authContainer.style.display = 'none';
-        if (dashboardView) dashboardView.style.display = 'block';
-
-        // 2. Show user email if element exists
-        const emailEl = document.getElementById('user-email-display');
-        if (emailEl) emailEl.innerText = user.email;
-
-        // 3. Fetch deposits for logged-in user
-        const { data: deposits, error } = await supabaseClient
-            .from('deposits')
-            .select('*')
-            .eq('user_email', user.email);
-
-        if (error) {
-            console.error('Error fetching deposits:', error);
-            return;
+      // 2. Persistent Listener: Prevents login loops & handles session persistence
+      supabaseClient.auth.onAuthStateChange((event, session) => {
+        if ((event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED') && session?.user) {
+          currentUser = session.user;
+          loadUserData(session.user);
+        } else if (event === 'SIGNED_OUT') {
+          currentUser = null;
+          updateHeaderUI(null);
         }
-
-        // 4. Calculate total approved deposits
-        const approvedDeposits = (deposits || []).filter(d => d.status === 'approved');
-        const totalApproved = approvedDeposits.reduce((sum, d) => sum + parseFloat(d.amount || 0), 0);
-
-        // 5. Update Portfolio Balance display
-        const balanceEl = document.getElementById('portfolio-balance');
-        if (balanceEl) {
-            balanceEl.innerText = `$${totalApproved.toFixed(2)}`;
-        }
-
-        // 6. Start Live ROI ticker if user has approved funds
-        if (totalApproved > 0) {
-            startLiveRoiTicker(totalApproved);
-        }
-    } catch (err) {
-        console.error("Dashboard render error:", err);
-    }
-}
-
-// Live ROI Ticker Engine
-let roiInterval = null;
-function startLiveRoiTicker(baseAmount) {
-    if (roiInterval) clearInterval(roiInterval);
-    let currentAmount = baseAmount;
-    const balanceEl = document.getElementById('portfolio-balance');
-
-    roiInterval = setInterval(() => {
-        const microProfit = (baseAmount * 0.00004) * (Math.random() * (1.2 - 0.8) + 0.8);
-        currentAmount += microProfit;
-        if (balanceEl) {
-            balanceEl.innerText = `$${currentAmount.toFixed(4)}`;
-        }
-    }, 3000);
-}
-
-// Persistent Auth Restoration on Refresh
-async function initSession() {
-    try {
-        const { data: { session } } = await supabaseClient.auth.getSession();
-        if (session && session.user) {
-            loadUserData(session.user);
-        }
-    } catch (e) {
-        console.error("Auth check failed:", e);
-    }
-}
-
-// Run immediately on page load
-if (document.readyState === 'complete' || document.readyState === 'interactive') {
-    initSession();
-} else {
-    document.addEventListener('DOMContentLoaded', initSession);
-}
-
-// Listen for Auth changes (Sign in / Sign out)
-supabaseClient.auth.onAuthStateChange((event, session) => {
-    if (session && session.user) {
-        loadUserData(session.user);
-    }
-});
+      });
+    });
   </script>
 </body>
 </html>

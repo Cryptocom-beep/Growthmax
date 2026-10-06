@@ -14,6 +14,8 @@
   
   <style> 
     /* Google Translate Dropdown Override */
+
+/* Force translate select dropdown */
 #google_translate_element select {
   background-color: #111827 !important;
   color: #f3f4f6 !important;
@@ -24,6 +26,17 @@
   outline: none !important;
   width: 100% !important;
   cursor: pointer !important;
+}
+
+/* Restrain injected popup iframe inside viewport */
+iframe[id^=":"] {
+  max-width: 90vw !important;
+  max-height: 60vh !important;
+  left: 5vw !important;
+  top: 15% !important;
+  position: fixed !important;
+  border-radius: 12px !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8) !important;
 }
 
 .goog-te-gadget {
@@ -1927,6 +1940,14 @@ header {
 </aside>
 
 <script>
+  function googleTranslateElementInit() {
+    new google.translate.TranslateElement({
+      pageLanguage: 'en',
+      layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+      autoDisplay: false
+    }, 'google_translate_element');
+  }
+
   function toggleMobileMenu(open) {
     const drawer = document.getElementById('mobile-menu-drawer');
     const overlay = document.getElementById('mobile-menu-overlay');
@@ -1939,6 +1960,7 @@ header {
     }
   }
 </script>
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
 </body>  
 </html>

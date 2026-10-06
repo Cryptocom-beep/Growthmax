@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Growthmax Enterprise Admin Engine & Command Centre</title>
-    <!-- Supabase JS CDN -->
+    <title>Growthmax Enterprise Command Centre</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
     <style>
         :root {
@@ -25,17 +24,7 @@
         header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 15px; border-bottom: 1px solid var(--border-color); margin-bottom: 20px; }
         h1 { font-size: 1.3rem; color: #ffffff; }
 
-        #debug-banner {
-            background: #1c212e;
-            border: 1px solid var(--border-color);
-            padding: 12px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            font-family: monospace;
-            font-size: 0.85rem;
-            color: #79c0ff;
-        }
-
+        .status-badge { background-color: rgba(35, 134, 54, 0.15); color: #3fb950; border: 1px solid #238636; padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 600; }
         .metrics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-bottom: 20px; }
         .metric-card { background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: 8px; padding: 14px; }
         .metric-card p { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; margin-bottom: 4px; }
@@ -43,31 +32,39 @@
 
         .dashboard-grid { display: grid; grid-template-columns: 1fr; gap: 20px; }
         .control-card { background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: 8px; padding: 16px; overflow-x: auto; }
-        .control-card h2 { font-size: 1.1rem; color: #ffffff; margin-bottom: 12px; }
+        .card-header-flex { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+        .control-card h2 { font-size: 1.1rem; color: #ffffff; }
 
         table { width: 100%; border-collapse: collapse; text-align: left; font-size: 0.85rem; }
         th, td { padding: 10px; border-bottom: 1px solid var(--border-color); }
         th { background-color: #171d29; color: var(--text-muted); }
         tr:hover { background-color: #18202e; }
 
-        .btn { padding: 5px 10px; border: none; border-radius: 4px; cursor: pointer; font-weight: 600; font-size: 0.75rem; margin-right: 4px; }
+        code { background: #171d29; padding: 2px 5px; border-radius: 4px; color: #79c0ff; font-family: monospace; font-size: 0.8rem; }
+
+        .btn { padding: 6px 12px; border: none; border-radius: 4px; cursor: pointer; font-weight: 600; font-size: 0.75rem; margin-right: 4px; }
         .btn-approve { background-color: var(--accent-green); color: #fff; }
         .btn-decline { background-color: var(--accent-red); color: #fff; }
+        .btn-primary { background-color: var(--accent-blue); color: #fff; }
         .btn-secondary { background-color: #212635; color: var(--text-main); }
 
         .status-pending { color: var(--gold); }
         .status-approved { color: #3fb950; }
         .status-declined { color: #f85149; }
+
+        .creator-form { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px; margin-top: 12px; background: #0d1117; padding: 12px; border-radius: 8px; border: 1px solid var(--border-color); }
+        input, select { background: #0b0e14; border: 1px solid var(--border-color); color: var(--text-main); padding: 8px 10px; border-radius: 6px; font-size: 0.85rem; }
     </style>
 </head>
 <body>
 
     <header>
         <h1>Growthmax Enterprise Command Centre</h1>
-        <button class="btn btn-secondary" onclick="loadAll()">🔄 Refresh Data</button>
+        <div>
+            <span class="status-badge">● Connected</span>
+            <button class="btn btn-secondary" onclick="loadAll()" style="margin-left:8px;">🔄 Refresh</button>
+        </div>
     </header>
-
-    <div id="debug-banner">⚡ Connection status: Initializing client...</div>
 
     <div class="metrics-grid">
         <div class="metric-card"><p>Real Estate Capital</p><h3 id="stat-re">$0.00</h3></div>
@@ -77,28 +74,56 @@
     </div>
 
     <div class="dashboard-grid">
+        <!-- REAL ESTATE -->
         <section class="control-card">
-            <h2>🏢 Real Estate Control Centre</h2>
+            <div class="card-header-flex">
+                <h2>🏢 Real Estate Control Centre</h2>
+                <button class="btn btn-secondary" onclick="exportToCSV('real_estate_investments')">📥 Export CSV</button>
+            </div>
             <table>
                 <thead><tr><th>User ID</th><th>Property</th><th>Amount</th><th>Status</th><th>Action</th></tr></thead>
                 <tbody id="re-body"><tr><td colspan="5">Checking database...</td></tr></tbody>
             </table>
         </section>
 
+        <!-- GIFT CARDS -->
         <section class="control-card">
-            <h2>🎁 Gift Card Control Centre</h2>
+            <div class="card-header-flex">
+                <h2>🎁 Gift Card Control Centre</h2>
+                <button class="btn btn-secondary" onclick="exportToCSV('gift_card_submissions')">📥 Export CSV</button>
+            </div>
             <table>
                 <thead><tr><th>User ID</th><th>Type</th><th>Code</th><th>Amount</th><th>Status</th><th>Action</th></tr></thead>
                 <tbody id="gc-body"><tr><td colspan="6">Checking database...</td></tr></tbody>
             </table>
         </section>
 
+        <!-- TRANSACTIONS -->
         <section class="control-card">
-            <h2>💳 Transactions Control Centre</h2>
+            <div class="card-header-flex">
+                <h2>💳 Transactions Control Centre</h2>
+                <button class="btn btn-secondary" onclick="exportToCSV('transactions')">📥 Export CSV</button>
+            </div>
             <table>
                 <thead><tr><th>User ID</th><th>Type</th><th>Amount</th><th>Method</th><th>Status</th><th>Action</th></tr></thead>
                 <tbody id="tx-body"><tr><td colspan="6">Checking database...</td></tr></tbody>
             </table>
+        </section>
+
+        <!-- QUICK RECORD INSERTER -->
+        <section class="control-card">
+            <h2>⚡ Quick Test Record Inserter</h2>
+            <div class="creator-form">
+                <select id="ins-table">
+                    <option value="real_estate_investments">Real Estate Investment</option>
+                    <option value="gift_card_submissions">Gift Card Submission</option>
+                    <option value="transactions">Transaction</option>
+                </select>
+                <input type="text" id="ins-user-id" placeholder="User ID / Name">
+                <input type="text" id="ins-title" placeholder="Title / Type">
+                <input type="number" id="ins-amount" placeholder="Amount ($)">
+                <button class="btn btn-approve" onclick="insertRecord()">+ Create Entry</button>
+            </div>
         </section>
     </div>
 
@@ -106,29 +131,11 @@
         const SUPABASE_URL = 'https://psbokzosswthttvxppcf.supabase.co';
         const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBzYm9rem9zc3d0aHR0dnhwcGNmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA5NjYzNDYsImV4cCI6MjEwNjU0MjM0Nn0.diXojuSglO9Q26IbsYG8JsHHvyrbxnHsz9KtFnZnD7E';
 
-        let client;
-        const banner = document.getElementById('debug-banner');
+        const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-        function updateBanner(text, isError = false) {
-            banner.textContent = text;
-            banner.style.color = isError ? '#f85149' : '#3fb950';
-        }
+        window.onload = function() { loadAll(); };
 
-        window.onload = function() {
-            try {
-                if (typeof supabase !== 'undefined' && supabase.createClient) {
-                    client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-                    updateBanner('✔ Supabase JS SDK loaded successfully. Fetching tables...');
-                    loadAll();
-                } else {
-                    updateBanner('❌ Error: Supabase JS library failed to load from CDN.', true);
-                }
-            } catch (err) {
-                updateBanner('❌ Initialization Error: ' + err.message, true);
-            }
-        };
-
-        async function loadAll() {
+        function loadAll() {
             fetchRealEstate();
             fetchGiftCards();
             fetchTransactions();
@@ -137,54 +144,80 @@
 
         async function fetchRealEstate() {
             const tbody = document.getElementById('re-body');
-            const { data, error } = await client.from('real_estate_investments').select('*');
-            if (error) {
-                tbody.innerHTML = `<tr><td colspan="5" style="color:#f85149;">Error: ${error.message}</td></tr>`;
-                return;
-            }
-            if (!data || data.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="5" style="color:var(--text-muted);">No records found.</td></tr>`;
+            const { data, error } = await client.from('real_estate_investments').select('*').order('created_at', {ascending: false});
+            if (error || !data || data.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="5" style="color:var(--text-muted);">${error ? error.message : 'No records found.'}</td></tr>`;
+                document.getElementById('stat-re').textContent = "$0.00";
                 return;
             }
             let total = 0;
             tbody.innerHTML = data.map(row => {
                 total += Number(row.amount) || 0;
-                return `<tr><td>${row.user_id||'N/A'}</td><td>${row.property_title||'N/A'}</td><td>$${row.amount}</td><td class="status-${(row.status||'pending').toLowerCase()}">${row.status}</td><td>-</td></tr>`;
+                return `<tr>
+                    <td><code>${row.user_id||'N/A'}</code></td>
+                    <td>${row.property_title||'N/A'}</td>
+                    <td>$${row.amount}</td>
+                    <td class="status-${(row.status||'pending').toLowerCase()}">${row.status}</td>
+                    <td>
+                        ${row.status === 'Pending' ? `
+                            <button class="btn btn-approve" onclick="updateStatus('real_estate_investments', '${row.id}', 'Approved', fetchRealEstate)">Approve</button>
+                            <button class="btn btn-decline" onclick="updateStatus('real_estate_investments', '${row.id}', 'Declined', fetchRealEstate)">Decline</button>
+                        ` : 'Completed'}
+                    </td>
+                </tr>`;
             }).join('');
             document.getElementById('stat-re').textContent = `$${total.toLocaleString('en-US', {minimumFractionDigits: 2})}`;
         }
 
         async function fetchGiftCards() {
             const tbody = document.getElementById('gc-body');
-            const { data, error } = await client.from('gift_card_submissions').select('*');
-            if (error) {
-                tbody.innerHTML = `<tr><td colspan="6" style="color:#f85149;">Error: ${error.message}</td></tr>`;
-                return;
-            }
-            if (!data || data.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="6" style="color:var(--text-muted);">No records found.</td></tr>`;
+            const { data, error } = await client.from('gift_card_submissions').select('*').order('created_at', {ascending: false});
+            if (error || !data || data.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="6" style="color:var(--text-muted);">${error ? error.message : 'No records found.'}</td></tr>`;
+                document.getElementById('stat-gc').textContent = "0";
                 return;
             }
             let pendingCount = data.filter(c => c.status === 'Pending').length;
-            tbody.innerHTML = data.map(row => `<tr><td>${row.user_id||'N/A'}</td><td>${row.card_type}</td><td><code>${row.card_code}</code></td><td>$${row.amount}</td><td class="status-${(row.status||'pending').toLowerCase()}">${row.status}</td><td>-</td></tr>`).join('');
+            tbody.innerHTML = data.map(row => `<tr>
+                <td><code>${row.user_id||'N/A'}</code></td>
+                <td>${row.card_type}</td>
+                <td><code>${row.card_code}</code></td>
+                <td>$${row.amount}</td>
+                <td class="status-${(row.status||'pending').toLowerCase()}">${row.status}</td>
+                <td>
+                    ${row.status === 'Pending' ? `
+                        <button class="btn btn-approve" onclick="updateStatus('gift_card_submissions', '${row.id}', 'Approved', fetchGiftCards)">Approve</button>
+                        <button class="btn btn-decline" onclick="updateStatus('gift_card_submissions', '${row.id}', 'Declined', fetchGiftCards)">Decline</button>
+                    ` : 'Completed'}
+                </td>
+            </tr>`).join('');
             document.getElementById('stat-gc').textContent = pendingCount;
         }
 
         async function fetchTransactions() {
             const tbody = document.getElementById('tx-body');
-            const { data, error } = await client.from('transactions').select('*');
-            if (error) {
-                tbody.innerHTML = `<tr><td colspan="6" style="color:#f85149;">Error: ${error.message}</td></tr>`;
-                return;
-            }
-            if (!data || data.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="6" style="color:var(--text-muted);">No records found.</td></tr>`;
+            const { data, error } = await client.from('transactions').select('*').order('created_at', {ascending: false});
+            if (error || !data || data.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="6" style="color:var(--text-muted);">${error ? error.message : 'No records found.'}</td></tr>`;
+                document.getElementById('stat-tx').textContent = "$0.00";
                 return;
             }
             let total = 0;
             tbody.innerHTML = data.map(row => {
                 total += Number(row.amount) || 0;
-                return `<tr><td>${row.user_id||'N/A'}</td><td>${row.type}</td><td>$${row.amount}</td><td>${row.method||'N/A'}</td><td class="status-${(row.status||'pending').toLowerCase()}">${row.status}</td><td>-</td></tr>`;
+                return `<tr>
+                    <td><code>${row.user_id||'N/A'}</code></td>
+                    <td>${row.type}</td>
+                    <td>$${row.amount}</td>
+                    <td>${row.method||'N/A'}</td>
+                    <td class="status-${(row.status||'pending').toLowerCase()}">${row.status}</td>
+                    <td>
+                        ${row.status === 'Pending' ? `
+                            <button class="btn btn-approve" onclick="updateStatus('transactions', '${row.id}', 'Approved', fetchTransactions)">Approve</button>
+                            <button class="btn btn-decline" onclick="updateStatus('transactions', '${row.id}', 'Declined', fetchTransactions)">Decline</button>
+                        ` : 'Completed'}
+                    </td>
+                </tr>`;
             }).join('');
             document.getElementById('stat-tx').textContent = `$${total.toLocaleString('en-US', {minimumFractionDigits: 2})}`;
         }
@@ -192,6 +225,40 @@
         async function fetchUsers() {
             const { data } = await client.from('profiles').select('id');
             if (data) document.getElementById('stat-usr').textContent = data.length;
+        }
+
+        async function updateStatus(tableName, id, status, callback) {
+            const { error } = await client.from(tableName).update({ status }).eq('id', id);
+            if (!error) { alert(`Marked as ${status}`); callback(); }
+            else alert('Error: ' + error.message);
+        }
+
+        async function insertRecord() {
+            const tableName = document.getElementById('ins-table').value;
+            const userId = document.getElementById('ins-user-id').value || 'User_01';
+            const title = document.getElementById('ins-title').value || 'Default Title';
+            const amount = document.getElementById('ins-amount').value;
+
+            if (!amount) return alert('Enter an amount.');
+
+            let payload = { user_id: userId, amount: parseFloat(amount), status: 'Pending' };
+            if (tableName === 'real_estate_investments') payload.property_title = title;
+            else if (tableName === 'gift_card_submissions') { payload.card_type = title; payload.card_code = 'GC-' + Math.floor(Math.random()*100000); }
+            else if (tableName === 'transactions') payload.type = title;
+
+            const { error } = await client.from(tableName).insert([payload]);
+            if (!error) { alert('Entry created successfully!'); loadAll(); }
+            else alert('Error inserting: ' + error.message);
+        }
+
+        async function exportToCSV(tableName) {
+            const { data } = await client.from(tableName).select('*');
+            if (!data || data.length === 0) return alert('No data to export.');
+            const csv = "data:text/csv;charset=utf-8," + [Object.keys(data[0]).join(','), ...data.map(r => Object.values(r).map(v => `"${v}"`).join(','))].join("\n");
+            const a = document.createElement("a");
+            a.href = encodeURI(csv);
+            a.download = `${tableName}_export.csv`;
+            a.click();
         }
     </script>
 </body>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Growthmax Admin Dashboard & Control Centre</title>
+    <title>Growthmax Enterprise Admin Engine & Command Centre</title>
     <!-- Automatic HTTPS Enforcement Script -->
     <script>
       if (window.location.protocol === 'http:') {
@@ -14,17 +14,19 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         :root {
-            --bg-color: #0d1117;
-            --card-bg: #161b22;
-            --border-color: #30363d;
-            --text-main: #c9d1d9;
+            --bg-color: #0b0e14;
+            --card-bg: #131822;
+            --border-color: #212635;
+            --text-main: #e6edf3;
             --text-muted: #8b949e;
             --accent-green: #238636;
             --accent-green-hover: #2ea043;
             --accent-red: #da3633;
             --accent-red-hover: #f85149;
             --accent-blue: #1f6feb;
+            --accent-blue-hover: #388bfd;
             --gold: #d29922;
+            --purple: #8957e5;
         }
 
         * {
@@ -37,7 +39,7 @@
         body {
             background-color: var(--bg-color);
             color: var(--text-main);
-            padding: 20px;
+            padding: 24px;
         }
 
         header {
@@ -50,17 +52,70 @@
         }
 
         h1 {
-            font-size: 1.6rem;
+            font-size: 1.5rem;
             color: #ffffff;
+            letter-spacing: -0.5px;
         }
 
         .status-badge {
-            background-color: rgba(35, 134, 54, 0.2);
+            background-color: rgba(35, 134, 54, 0.15);
             color: #3fb950;
             border: 1px solid #238636;
-            padding: 5px 12px;
+            padding: 6px 14px;
             border-radius: 20px;
             font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        /* METRICS KANBAN / STATS GRID */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .metric-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 16px;
+        }
+
+        .metric-card p {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 6px;
+        }
+
+        .metric-card h3 {
+            font-size: 1.5rem;
+            color: #ffffff;
+        }
+
+        /* SEARCH & TOOLBAR */
+        .toolbar {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .search-input {
+            flex-grow: 1;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            outline: none;
+        }
+
+        .search-input:focus {
+            border-color: var(--accent-blue);
         }
 
         .dashboard-grid {
@@ -72,14 +127,20 @@
         .control-card {
             background-color: var(--card-bg);
             border: 1px solid var(--border-color);
-            border-radius: 8px;
+            border-radius: 10px;
             padding: 20px;
             overflow-x: auto;
         }
 
-        .control-card h2 {
-            font-size: 1.2rem;
+        .card-header-flex {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             margin-bottom: 15px;
+        }
+
+        .control-card h2 {
+            font-size: 1.15rem;
             color: #ffffff;
             display: flex;
             align-items: center;
@@ -90,7 +151,7 @@
             width: 100%;
             border-collapse: collapse;
             text-align: left;
-            font-size: 0.9rem;
+            font-size: 0.88rem;
         }
 
         th, td {
@@ -99,24 +160,25 @@
         }
 
         th {
-            background-color: #21262d;
+            background-color: #171d29;
             color: var(--text-muted);
             font-weight: 600;
         }
 
         tr:hover {
-            background-color: #1c2128;
+            background-color: #18202e;
         }
 
         code {
-            background: #21262d;
-            padding: 2px 6px;
+            background: #171d29;
+            padding: 3px 6px;
             border-radius: 4px;
             color: #79c0ff;
             font-family: monospace;
+            font-size: 0.82rem;
         }
 
-        /* Buttons & Controls */
+        /* Buttons & Actions */
         .btn {
             padding: 6px 12px;
             border: none;
@@ -128,30 +190,24 @@
             transition: 0.2s background-color;
         }
 
-        .btn-approve {
-            background-color: var(--accent-green);
-            color: #ffffff;
-        }
+        .btn-approve { background-color: var(--accent-green); color: #ffffff; }
         .btn-approve:hover { background-color: var(--accent-green-hover); }
 
-        .btn-decline {
-            background-color: var(--accent-red);
-            color: #ffffff;
-        }
+        .btn-decline { background-color: var(--accent-red); color: #ffffff; }
         .btn-decline:hover { background-color: var(--accent-red-hover); }
 
-        .btn-primary {
-            background-color: var(--accent-blue);
-            color: #ffffff;
-        }
+        .btn-primary { background-color: var(--accent-blue); color: #ffffff; }
+        .btn-primary:hover { background-color: var(--accent-blue-hover); }
+
+        .btn-secondary { background-color: #212635; color: var(--text-main); }
+        .btn-secondary:hover { background-color: #2d3448; }
 
         select, input {
-            background: #0d1117;
+            background: #0b0e14;
             border: 1px solid var(--border-color);
             color: var(--text-main);
             padding: 8px 12px;
             border-radius: 6px;
-            margin-bottom: 15px;
         }
 
         .status-pending { color: var(--gold); }
@@ -165,20 +221,61 @@
             overflow: hidden;
             text-overflow: ellipsis;
         }
+
+        /* Record Creator Form */
+        .creator-form {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 10px;
+            margin-top: 12px;
+            background: #0d1117;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
     </style>
 </head>
 <body>
 
     <header>
         <h1>Growthmax Control Panel (Second Supabase Engine)</h1>
-        <span class="status-badge">● Admin Authenticated</span>
+        <span class="status-badge">● Admin Connected</span>
     </header>
+
+    <!-- NEW FEATURE 1: LIVE ANALYTICS & FINANCIAL KPI METRICS -->
+    <div class="metrics-grid">
+        <div class="metric-card">
+            <p>Real Estate Capital</p>
+            <h3 id="stat-re-amount">$0.00</h3>
+        </div>
+        <div class="metric-card">
+            <p>Pending Gift Cards</p>
+            <h3 id="stat-gc-count">0</h3>
+        </div>
+        <div class="metric-card">
+            <p>Transaction Volume</p>
+            <h3 id="stat-tx-volume">$0.00</h3>
+        </div>
+        <div class="metric-card">
+            <p>Active Users</p>
+            <h3 id="stat-user-count">0</h3>
+        </div>
+    </div>
+
+    <!-- NEW FEATURE 2: UNIVERSAL REAL-TIME SEARCH TOOLBAR -->
+    <div class="toolbar">
+        <input type="text" id="universal-search" class="search-input" placeholder="🔍 Universal Search across User IDs, Card Codes, Titles, or Amounts..." onkeyup="filterTables()">
+        <button class="btn btn-secondary" onclick="refreshAllPanels()">🔄 Refresh All Data</button>
+    </div>
 
     <div class="dashboard-grid">
 
         <!-- 1. REAL ESTATE CONTROL FUNDS CENTRE -->
         <section class="control-card">
-            <h2>🏢 Real Estate Control Funds Centre</h2>
+            <div class="card-header-flex">
+                <h2>🏢 Real Estate Control Funds Centre</h2>
+                <button class="btn btn-secondary" onclick="exportToCSV('real_estate_investments')">📥 Export CSV</button>
+            </div>
             <table>
                 <thead>
                     <tr>
@@ -197,7 +294,10 @@
 
         <!-- 2. GIFT CARD CONTROL CENTRE -->
         <section class="control-card">
-            <h2>🎁 Gift Card Control Centre</h2>
+            <div class="card-header-flex">
+                <h2>🎁 Gift Card Control Centre</h2>
+                <button class="btn btn-secondary" onclick="exportToCSV('gift_card_submissions')">📥 Export CSV</button>
+            </div>
             <table>
                 <thead>
                     <tr>
@@ -217,7 +317,10 @@
 
         <!-- 3. ALL USER DEPOSITS & WITHDRAWALS CONTROL -->
         <section class="control-card">
-            <h2>💳 Transactions & Funds Control</h2>
+            <div class="card-header-flex">
+                <h2>💳 Transactions & Funds Control</h2>
+                <button class="btn btn-secondary" onclick="exportToCSV('transactions')">📥 Export CSV</button>
+            </div>
             <table>
                 <thead>
                     <tr>
@@ -238,7 +341,7 @@
         <!-- 4. SECOND SUPABASE - RAW DATABASE EXPLORER & CRUD -->
         <section class="control-card">
             <h2>⚡ Full Database Explorer & Manager (Second Supabase)</h2>
-            <div style="display: flex; gap: 10px; align-items: center;">
+            <div style="display: flex; gap: 10px; align-items: center; margin-bottom: 12px; flex-wrap: wrap;">
                 <label for="table-selector">Select Table:</label>
                 <select id="table-selector" onchange="loadTableData(this.value)">
                     <option value="profiles">Users / Profiles</option>
@@ -248,7 +351,16 @@
                 </select>
                 <button class="btn btn-primary" onclick="loadTableData(document.getElementById('table-selector').value)">Refresh Table</button>
             </div>
-            <div id="raw-db-view">
+
+            <!-- NEW FEATURE 3: LIVE DATABASE RECORD INSERTION -->
+            <div class="creator-form">
+                <input type="text" id="ins-user-id" placeholder="User UUID">
+                <input type="text" id="ins-field1" placeholder="Title / Type">
+                <input type="number" id="ins-amount" placeholder="Amount ($)">
+                <button class="btn btn-approve" onclick="insertRecord()">+ Create / Insert Record</button>
+            </div>
+
+            <div id="raw-db-view" style="margin-top: 15px;">
                 <p style="color: var(--text-muted);">Select a table above to inspect or edit records.</p>
             </div>
         </section>
@@ -257,18 +369,42 @@
 
     <script>
         // --- SUPABASE INITIALIZATION ---
-        // Replace with your project URL and service_role key (or admin key)
-        const SUPABASE_URL = 'https://YOUR_SUPABASE_PROJECT_ID.supabase.co';
-        const SUPABASE_KEY = 'YOUR_SUPABASE_ANON_OR_SERVICE_ROLE_KEY';
+        // Loaded directly with your project URL and target keys
+        const SUPABASE_URL = 'https://psbokzosswthttvxppcf.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBzYm9rem9zc3d0aHR0dnhwcGNmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA5NjYzNDYsImV4cCI6MjEwNjU0MjM0Nn0.diXojuSglO9Q26IbsYG8JsHHvyrbxnHsz9KtFnZnD7E';
         const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
         // --- INIT ALL PANELS ---
         document.addEventListener('DOMContentLoaded', () => {
+            refreshAllPanels();
+        });
+
+        function refreshAllPanels() {
             loadRealEstateFunds();
             loadGiftCards();
             loadTransactions();
-            loadTableData('profiles');
-        });
+            loadTableData(document.getElementById('table-selector').value || 'profiles');
+            loadMetrics();
+        }
+
+        /* ---------------- FINANCIAL METRICS CALCULATOR ---------------- */
+        async function loadMetrics() {
+            const { data: reData } = await supabase.from('real_estate_investments').select('amount');
+            const { data: gcData } = await supabase.from('gift_card_submissions').select('id').eq('status', 'Pending');
+            const { data: txData } = await supabase.from('transactions').select('amount');
+            const { data: usrData } = await supabase.from('profiles').select('id');
+
+            if (reData) {
+                const totalRe = reData.reduce((acc, curr) => acc + (Number(curr.amount) || 0), 0);
+                document.getElementById('stat-re-amount').textContent = `$${totalRe.toLocaleString('en-US', {minimumFractionDigits: 2})}`;
+            }
+            if (gcData) document.getElementById('stat-gc-count').textContent = gcData.length;
+            if (txData) {
+                const totalTx = txData.reduce((acc, curr) => acc + (Number(curr.amount) || 0), 0);
+                document.getElementById('stat-tx-volume').textContent = `$${totalTx.toLocaleString('en-US', {minimumFractionDigits: 2})}`;
+            }
+            if (usrData) document.getElementById('stat-user-count').textContent = usrData.length;
+        }
 
         /* ---------------- 1. REAL ESTATE CONTROL CENTRE ---------------- */
         async function loadRealEstateFunds() {
@@ -282,7 +418,7 @@
 
             list.innerHTML = data.map(item => `
                 <tr>
-                    <td><code>${item.user_id}</code></td>
+                    <td><code>${item.user_id || 'N/A'}</code></td>
                     <td>${item.property_title || 'N/A'}</td>
                     <td>$${item.amount}</td>
                     <td><b class="status-${(item.status || 'pending').toLowerCase()}">${item.status}</b></td>
@@ -308,7 +444,7 @@
 
             list.innerHTML = data.map(card => `
                 <tr>
-                    <td><code>${card.user_id}</code></td>
+                    <td><code>${card.user_id || 'N/A'}</code></td>
                     <td>${card.card_type}</td>
                     <td><code>${card.card_code}</code></td>
                     <td>$${card.amount}</td>
@@ -335,7 +471,7 @@
 
             list.innerHTML = data.map(tx => `
                 <tr>
-                    <td><code>${tx.user_id}</code></td>
+                    <td><code>${tx.user_id || 'N/A'}</code></td>
                     <td>${tx.type}</td>
                     <td>$${tx.amount}</td>
                     <td>${tx.method || 'N/A'}</td>
@@ -360,6 +496,7 @@
             if (!error) {
                 alert(`Record marked as ${newStatus}!`);
                 if (callback) callback();
+                loadMetrics();
             } else {
                 alert('Action failed: ' + error.message);
             }
@@ -400,16 +537,71 @@
             container.innerHTML = tableHTML;
         }
 
+        /* ---------------- LIVE RECORD INSERTION ENGINE ---------------- */
+        async function insertRecord() {
+            const tableName = document.getElementById('table-selector').value;
+            const userId = document.getElementById('ins-user-id').value;
+            const titleField = document.getElementById('ins-field1').value;
+            const amount = document.getElementById('ins-amount').value;
+
+            if (!amount) return alert('Please enter an amount.');
+
+            let payload = { amount: parseFloat(amount), status: 'Pending' };
+            if (userId) payload.user_id = userId;
+
+            if (tableName === 'real_estate_investments') payload.property_title = titleField || 'Investment';
+            else if (tableName === 'gift_card_submissions') payload.card_type = titleField || 'GiftCard';
+            else if (tableName === 'transactions') payload.type = titleField || 'Deposit';
+
+            const { error } = await supabase.from(tableName).insert([payload]);
+
+            if (!error) {
+                alert(`Record inserted into ${tableName}!`);
+                refreshAllPanels();
+            } else {
+                alert('Insert failed: ' + error.message);
+            }
+        }
+
         async function deleteRow(tableName, id) {
             if (confirm(`Are you sure you want to permanently delete record ${id} from ${tableName}?`)) {
                 const { error } = await supabase.from(tableName).delete().eq('id', id);
                 if (!error) {
                     alert('Record deleted successfully.');
-                    loadTableData(tableName);
+                    refreshAllPanels();
                 } else {
                     alert('Delete failed: ' + error.message);
                 }
             }
+        }
+
+        /* ---------------- INSTANT SEARCH FILTER ---------------- */
+        function filterTables() {
+            const query = document.getElementById('universal-search').value.toLowerCase();
+            const rows = document.querySelectorAll('tbody tr');
+
+            rows.forEach(row => {
+                const text = row.textContent.toLowerCase();
+                row.style.display = text.includes(query) ? '' : 'none';
+            });
+        }
+
+        /* NEW FEATURE 4: CSV DATA EXPORTER */
+        async function exportToCSV(tableName) {
+            const { data, error } = await supabase.from(tableName).select('*');
+            if (error || !data || data.length === 0) return alert('No data to export.');
+
+            const headers = Object.keys(data[0]).join(',');
+            const rows = data.map(row => Object.values(row).map(v => `"${v}"`).join(','));
+            const csvContent = "data:text/csv;charset=utf-8," + [headers, ...rows].join("\n");
+
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", `${tableName}_export.csv`);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
         }
     </script>
 </body>

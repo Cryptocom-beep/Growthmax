@@ -72,7 +72,103 @@
     ),
     url('https://psbokzosswthttvxppcf.supabase.co/storage/v1/object/public/images/b6cb6650b06100efea3af580ba76d40e.jpg') center/cover no-repeat !important;
 }
-  
+  /* 1. 3D Bouncing Feature Badge */
+.bounce-3d-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(145deg, rgba(30, 15, 45, 0.9), rgba(10, 5, 18, 0.95));
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.7), 0 4px 10px rgba(220, 38, 38, 0.2);
+  transform-style: preserve-3d;
+  animation: float3dBounce 3s ease-in-out infinite;
+}
+
+@keyframes float3dBounce {
+  0%, 100% {
+    transform: translateY(0px) rotateX(0deg) scale(1);
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.7), 0 4px 10px rgba(220, 38, 38, 0.2);
+  }
+  50% {
+    transform: translateY(-8px) rotateX(6deg) scale(1.02);
+    box-shadow: 0 20px 30px -5px rgba(0, 0, 0, 0.8), 0 8px 20px rgba(220, 38, 38, 0.4);
+  }
+}
+
+/* 2. 3D Curved Square Logo */
+.logo-3d-curved {
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  object-fit: cover;
+  box-shadow: 
+    0 4px 12px rgba(0, 0, 0, 0.6),
+    inset 0 1px 1px rgba(255, 255, 255, 0.3),
+    0 0 15px rgba(220, 38, 38, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  transform: perspective(500deg) rotateY(-5deg) rotateX(5deg);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.logo-3d-curved:hover {
+  transform: perspective(500deg) rotateY(0deg) rotateX(0deg) scale(1.05);
+}
+
+/* 3. Slide-in Side Menu Drawer */
+.menu-drawer {
+  position: fixed;
+  top: 0;
+  right: -100%;
+  width: 280px;
+  height: 100vh;
+  background: linear-gradient(180deg, rgba(15, 7, 24, 0.98), rgba(7, 3, 10, 0.99));
+  border-left: 1px solid rgba(239, 68, 68, 0.2);
+  box-shadow: -10px 0 30px rgba(0, 0, 0, 0.8);
+  z-index: 9999;
+  transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.menu-drawer.active {
+  right: 0;
+}
+
+.menu-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  z-index: 9998;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+.menu-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* 4. Vertical Google Translate Layout Override */
+.goog-te-gadget-simple {
+  background-color: rgba(20, 7, 31, 0.85) !important;
+  border: 1px solid rgba(239, 68, 68, 0.3) !important;
+  padding: 8px 12px !important;
+  border-radius: 12px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+}
+.goog-te-menu-frame {
+  max-width: 100% !important;
+}
+.goog-te-menu2 {
+  display: flex !important;
+  flex-direction: column !important;
+  max-height: 300px !important;
+  overflow-y: auto !important;
+}
+
     /* Custom Animations */  
     @keyframes floatSlow {  
       0%, 100% { transform: translateY(0px) rotate3d(1, 1, 0, 0deg); }  
@@ -216,6 +312,27 @@
       <div id="google_translate_element"></div>  
     </div>
   </div>    
+<div class="flex items-center justify-between w-full px-4 py-3">
+  <!-- 3D Curved Square Logo & Title -->
+  <div class="flex items-center gap-3">
+    <img 
+      src="https://psbokzosswthttvxppcf.supabase.co/storage/v1/object/public/images/34a2ad4699bae785b8d444b6caa4f02e.jpg" 
+      alt="Growthmax Logo" 
+      class="logo-3d-curved"
+    />
+    <div>
+      <h1 class="text-xl font-black tracking-wider text-white">GROWTHMAX</h1>
+      <p class="text-[10px] text-red-500 font-semibold tracking-widest uppercase">Institutional Yield Hub</p>
+    </div>
+  </div>
+
+  <!-- Horizontal 3-Line Menu Icon -->
+  <button id="menuToggleBtn" class="p-2.5 rounded-xl bg-blackberry-card/80 border border-red-500/30 text-white focus:outline-none hover:border-red-500/60 transition-all">
+    <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24">
+      <path fill-rule="evenodd" clip-rule="evenodd" d="M3 6C3 5.44772 3.44772 5 4 5H20C20.5523 5 21 5.44772 21 6C21 6.55228 20.5523 7 20 7H4C3.44772 7 3 6.55228 3 6ZM3 12C3 11.4477 3.44772 11 4 11H20C20.5523 11 21 11.4477 21 12C21 12.5522 20.5523 13 20 13H4C3.44772 13 3 12.5522 3 12ZM3 18C3 17.4477 3.44772 17 4 17H20C20.5523 17 21 17.4477 21 18C21 18.5522 20.5523 19 20 19H4C3.44772 19 3 18.5522 3 18Z" />
+    </svg>
+  </button>
+</div>
 
   <!-- Main Navigation Bar -->    
   <header class="sticky top-0 z-40 glass-nav-3d transition-all duration-300">  
@@ -271,13 +388,20 @@
     <section id="hero" class="pt-8 md:pt-14 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8 reveal-on-scroll">  
       
       <div class="text-center space-y-6">
-        <div class="inline-flex items-center space-x-2 px-4 py-2 rounded-full glass-card-3d border border-red-500/40 text-xs text-red-300 font-medium">  
-          <i data-lucide="sparkles" class="w-4 h-4 text-red-400"></i>  
-          <span>Automated Crypto Yield Engine & Fractional Real Estate</span>  
-        </div>  
+        <div class="flex justify-center my-4">
+  <div class="bounce-3d-badge px-5 py-2.5 rounded-full">
+    <svg class="w-4 h-4 text-red-500 animate-pulse" fill="currentColor" viewBox="0 0 24 24">
+      <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
+    </svg>
+    <span class="text-xs sm:text-sm font-semibold tracking-wide text-gray-200">
+      Automated Crypto Yield Engine &amp; Fractional Real Estate
+    </span>
+  </div>
+</div>
+  
 
         <h1 class="text-4xl sm:text-6xl lg:text-7xl font-black text-white tracking-tight max-w-5xl mx-auto leading-tight">  
-          Next-Gen Institutional Wealth Hub <br/>  
+          Next-Gen Cryptocurrency Wealth Platform <br/>  
           <span class="text-transparent bg-clip-text bg-gradient-to-r from-red-500 via-white to-red-300">Crypto, Real Estate & Instant Gift Cards</span>  
         </h1>  
 
@@ -1650,7 +1774,18 @@
       currentUser = null;  
       window.location.reload();  
     }  
-  
+  function toggleMobileMenu(open) {
+  const drawer = document.getElementById('mobile-menu-drawer');
+  const overlay = document.getElementById('mobile-menu-overlay');
+  if (open) {
+    drawer.classList.add('active');
+    overlay.classList.add('active');
+  } else {
+    drawer.classList.remove('active');
+    overlay.classList.remove('active');
+  }
+}
+
     window.addEventListener('DOMContentLoaded', async () => {  
       const { data: { user } } = await supabaseClient.auth.getUser();  
       if (user) loadUserData(user);  
@@ -1662,5 +1797,40 @@
       });  
     });  
   </script>  
+  <!-- Mobile Slide-In Navigation Drawer -->
+<div id="mobile-menu-overlay" class="menu-overlay" onclick="toggleMobileMenu(false)"></div>
+<aside id="mobile-menu-drawer" class="menu-drawer">
+  <div class="flex items-center justify-between pb-4 border-b border-gray-800">
+    <div class="flex items-center gap-2">
+      <div class="w-8 h-8 rounded-lg bg-red-600/20 border border-red-500/40 flex items-center justify-center font-bold text-red-500">G</div>
+      <span class="font-bold text-white tracking-wider">GROWTHMAX</span>
+    </div>
+    <button onclick="toggleMobileMenu(false)" class="text-gray-400 hover:text-white p-2">
+      <i data-lucide="x" class="w-6 h-6"></i>
+    </button>
+  </div>
+  <nav class="flex flex-col gap-3">
+    <button onclick="showSection('landing-section'); toggleMobileMenu(false)" class="text-left py-2 px-3 text-gray-300 hover:bg-red-500/10 hover:text-white rounded-lg transition">Home</button>
+    <button onclick="scrollToHub('about-section'); toggleMobileMenu(false)" class="text-left py-2 px-3 text-gray-300 hover:bg-red-500/10 hover:text-white rounded-lg transition">About Us</button>
+    <button onclick="scrollToHub('services-section'); toggleMobileMenu(false)" class="text-left py-2 px-3 text-gray-300 hover:bg-red-500/10 hover:text-white rounded-lg transition">Services</button>
+    <button onclick="scrollToHub('faq-section'); toggleMobileMenu(false)" class="text-left py-2 px-3 text-gray-300 hover:bg-red-500/10 hover:text-white rounded-lg transition">FAQ</button>
+    <button onclick="openAuthModal('login'); toggleMobileMenu(false)" class="mt-4 w-full py-2.5 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-xl text-center shadow-lg transition">Login</button>
+  </nav>
+</aside>
+
+<script>
+  function toggleMobileMenu(open) {
+    const drawer = document.getElementById('mobile-menu-drawer');
+    const overlay = document.getElementById('mobile-menu-overlay');
+    if (open) {
+      drawer.classList.add('active');
+      overlay.classList.add('active');
+    } else {
+      drawer.classList.remove('active');
+      overlay.classList.remove('active');
+    }
+  }
+</script>
+
 </body>  
 </html>

@@ -12,104 +12,107 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>    
   
   <style>  
-    /* Custom 3D & Futuristic Color Palette */  
+    /* Custom Red, White & Blackberry Color Palette */  
     :root {  
-      --blackberry-dark: #0b0512;  
-      --blackberry-card: #150a21;  
-      --blackberry-accent: #3b0764;  
-      --blue-3d-start: #2563eb;  
-      --blue-3d-end: #0284c7;  
+      --blackberry-dark: #07030a;  
+      --blackberry-card: #14071f;  
+      --blackberry-accent: #2c053f;  
+      --red-primary: #dc2626;  
+      --red-bright: #ef4444;  
+      --red-dark: #991b1b;  
     }  
   
     body {  
       background-color: var(--blackberry-dark);  
       background-image:   
-        linear-gradient(180deg, rgba(11, 5, 18, 0.88) 0%, rgba(11, 5, 18, 0.96) 100%),
+        linear-gradient(180deg, rgba(7, 3, 10, 0.92) 0%, rgba(20, 7, 31, 0.96) 100%),
         url('1000046660_2.jpg');  
       background-attachment: fixed;  
       background-size: cover;
       background-position: center;
     }  
   
-    /* Gradient Card Background Overlays for Hubs */  
+    /* Gradient Card Background Overlays */  
     .giftcard-bg-gradient {  
-      background: linear-gradient(135deg, rgba(15, 23, 42, 0.90) 0%, rgba(30, 27, 75, 0.88) 100%),   
+      background: linear-gradient(135deg, rgba(20, 7, 31, 0.92) 0%, rgba(153, 27, 27, 0.35) 100%),   
                   url('1000046661_2.jpg') center/cover no-repeat;  
     }  
   
     .realestate-bg-gradient {  
-      background: linear-gradient(135deg, rgba(11, 5, 18, 0.90) 0%, rgba(15, 23, 42, 0.88) 100%),   
+      background: linear-gradient(135deg, rgba(7, 3, 10, 0.92) 0%, rgba(220, 38, 38, 0.25) 100%),   
                   url('1000046664_2.jpg') center/cover no-repeat;  
     }  
   
     .yield-bg-gradient {  
-      background: linear-gradient(135deg, rgba(21, 10, 33, 0.92) 0%, rgba(15, 23, 42, 0.85) 100%),   
+      background: linear-gradient(135deg, rgba(20, 7, 31, 0.94) 0%, rgba(44, 5, 63, 0.85) 100%),   
                   url('1000046660_2.jpg') center/cover no-repeat;  
     }  
   
-    /* Custom 3D Animations */  
+    /* Custom Animations */  
     @keyframes floatSlow {  
       0%, 100% { transform: translateY(0px) rotate3d(1, 1, 0, 0deg); }  
-      50% { transform: translateY(-16px) rotate3d(1, 1, 0, 12deg); }  
+      50% { transform: translateY(-16px) rotate3d(1, 1, 0, 10deg); }  
     }  
     @keyframes floatReverse {  
       0%, 100% { transform: translateY(0px) rotate3d(0, 1, 1, 0deg); }  
-      50% { transform: translateY(16px) rotate3d(0, 1, 1, -12deg); }  
+      50% { transform: translateY(16px) rotate3d(0, 1, 1, -10deg); }  
     }  
-    @keyframes pulseGlow3D {  
+    @keyframes pulseGlowRed {  
       0%, 100% {   
-        box-shadow: 0 0 20px rgba(37, 99, 235, 0.3), inset 0 0 15px rgba(168, 85, 247, 0.2);   
-        border-color: rgba(59, 130, 246, 0.4);  
+        box-shadow: 0 0 20px rgba(220, 38, 38, 0.35), inset 0 0 15px rgba(239, 68, 68, 0.2);   
+        border-color: rgba(239, 68, 68, 0.5);  
       }  
       50% {   
-        box-shadow: 0 0 40px rgba(56, 189, 248, 0.6), inset 0 0 25px rgba(217, 70, 239, 0.4);   
-        border-color: rgba(147, 51, 234, 0.7);  
+        box-shadow: 0 0 40px rgba(239, 68, 68, 0.65), inset 0 0 25px rgba(220, 38, 38, 0.4);   
+        border-color: rgba(255, 255, 255, 0.8);  
       }  
     }  
   
     .animate-float-1 { animation: floatSlow 7s ease-in-out infinite; }  
     .animate-float-2 { animation: floatReverse 8s ease-in-out infinite; }  
-    .animate-glow-3d { animation: pulseGlow3D 4s infinite; }  
+    .animate-glow-red { animation: pulseGlowRed 4s infinite; }  
   
     /* Glassmorphism Styles */  
     .glass-card-3d {  
-      background: linear-gradient(135deg, rgba(21, 10, 33, 0.85) 0%, rgba(15, 23, 42, 0.8) 100%);  
+      background: linear-gradient(135deg, rgba(20, 7, 31, 0.88) 0%, rgba(10, 4, 16, 0.85) 100%);  
       backdrop-filter: blur(20px);  
-      border: 1px solid rgba(255, 255, 255, 0.1);  
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.15);  
+      border: 1px solid rgba(255, 255, 255, 0.12);  
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.2);  
     }  
     .glass-nav-3d {  
-      background: linear-gradient(90deg, rgba(11, 5, 18, 0.9) 0%, rgba(15, 23, 42, 0.9) 100%);  
+      background: linear-gradient(90deg, rgba(7, 3, 10, 0.94) 0%, rgba(20, 7, 31, 0.94) 100%);  
       backdrop-filter: blur(20px);  
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08);  
+      border-bottom: 1px solid rgba(220, 38, 38, 0.25);  
     }  
   
-    /* Buttons & Cards Hover */  
-    .btn-3d-blue {  
-      background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 50%, #0284c7 100%);  
-      box-shadow: 0 8px 20px rgba(37, 99, 235, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3);  
+    /* Buttons & Hover FX */  
+    .btn-3d-red {  
+      background: linear-gradient(135deg, #ef4444 0%, #dc2626 50%, #991b1b 100%);  
+      box-shadow: 0 8px 20px rgba(220, 38, 38, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.4);  
       transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);  
     }  
-    .btn-3d-blue:hover {  
+    .btn-3d-red:hover {  
       transform: translateY(-2px) scale(1.02);  
-      box-shadow: 0 12px 28px rgba(56, 189, 248, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.5);  
+      box-shadow: 0 12px 28px rgba(239, 68, 68, 0.65), inset 0 1px 0 rgba(255, 255, 255, 0.6);  
     }  
     .btn-3d-blackberry {  
-      background: linear-gradient(135deg, #7e22ce 0%, #581c87 50%, #3b0764 100%);  
-      box-shadow: 0 8px 20px rgba(126, 34, 206, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.25);  
+      background: linear-gradient(135deg, #3b0764 0%, #200438 50%, #14071f 100%);  
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.25);  
       transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);  
     }  
     .btn-3d-blackberry:hover {  
       transform: translateY(-2px) scale(1.02);  
-      box-shadow: 0 12px 28px rgba(168, 85, 247, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.4);  
+      border-color: rgba(239, 68, 68, 0.5);
+      box-shadow: 0 12px 28px rgba(220, 38, 38, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.4);  
     }  
   
     .hover-zoom-3d {  
       transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);  
     }  
     .hover-zoom-3d:hover {  
-      transform: translateY(-8px) rotateX(4deg) scale(1.02);  
-      box-shadow: 0 25px 45px rgba(0, 0, 0, 0.6), 0 0 30px rgba(56, 189, 248, 0.25);  
+      transform: translateY(-8px) scale(1.02);  
+      box-shadow: 0 25px 45px rgba(0, 0, 0, 0.7), 0 0 30px rgba(220, 38, 38, 0.3);  
     }  
   
     .reveal-on-scroll {  
@@ -122,21 +125,21 @@
       transform: translateY(0);  
     }  
   
-    /* Google Translate Styles */  
+    /* Google Translate Overrides */  
     .goog-te-banner-frame { display: none !important; }  
     body { top: 0px !important; }  
     .goog-te-gadget-simple {  
-      background-color: rgba(15, 23, 42, 0.7) !important;  
-      border: 1px solid rgba(255, 255, 255, 0.1) !important;  
+      background-color: rgba(20, 7, 31, 0.8) !important;  
+      border: 1px solid rgba(220, 38, 38, 0.3) !important;  
       padding: 4px 8px !important;  
       border-radius: 10px !important;  
       font-size: 11px !important;  
-      color: #e2e8f0 !important;  
+      color: #ffffff !important;  
     }  
-    .goog-te-gadget-simple span { color: #e2e8f0 !important; }  
+    .goog-te-gadget-simple span { color: #ffffff !important; }  
   </style>    
 
-  <!-- Smartsupp Live Chat Integration Code -->    
+  <!-- Smartsupp Live Chat Integration -->    
   <script type="text/javascript">  
     var _smartsupp = _smartsupp || {};  
     _smartsupp.key = 'abb986693f93036339d3b036230f8a8bbd1cf822';  
@@ -150,18 +153,18 @@
 </head>  
 <body class="text-gray-100 min-h-screen font-sans antialiased flex flex-col justify-between overflow-x-hidden relative">    
 
-  <!-- Dynamic 3D Falling Bitcoins & Floating Gift Cards Canvas Background -->
+  <!-- 3D Background Canvas -->
   <canvas id="3d-bg-canvas" class="fixed inset-0 pointer-events-none z-0 opacity-40"></canvas>
 
-  <!-- Ambient Glow Background Overlays -->    
+  <!-- Ambient Red/Blackberry Ambient Glow Overlays -->    
   <div class="fixed inset-0 pointer-events-none overflow-hidden z-0">  
-    <div class="absolute top-20 left-10 w-96 h-96 bg-blue-600/15 rounded-full blur-3xl animate-pulse"></div>  
-    <div class="absolute bottom-20 right-10 w-[30rem] h-[30rem] bg-purple-900/20 rounded-full blur-3xl animate-pulse"></div>  
-    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[40rem] h-[40rem] bg-sky-500/10 rounded-full blur-3xl"></div>  
+    <div class="absolute top-20 left-10 w-96 h-96 bg-red-600/20 rounded-full blur-3xl animate-pulse"></div>  
+    <div class="absolute bottom-20 right-10 w-[30rem] h-[30rem] bg-purple-950/30 rounded-full blur-3xl animate-pulse"></div>  
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[40rem] h-[40rem] bg-red-900/10 rounded-full blur-3xl"></div>  
   </div>    
 
-  <!-- Translation Header Bar -->    
-  <div class="relative z-50 bg-slate-950/90 border-b border-white/10 text-xs py-1.5 px-4 flex flex-col md:flex-row items-center justify-between gap-2">  
+  <!-- Translation & Ticker Header Bar -->    
+  <div class="relative z-50 bg-black/90 border-b border-red-900/30 text-xs py-1.5 px-4 flex flex-col md:flex-row items-center justify-between gap-2">  
     <div class="w-full md:w-3/4 overflow-hidden">  
       <div class="tradingview-widget-container">  
         <div class="tradingview-widget-container__widget"></div>  
@@ -182,9 +185,9 @@
         </script>  
       </div>  
     </div>  
-    <div class="flex items-center space-x-2 shrink-0 bg-purple-950/40 border border-purple-500/20 px-3 py-1 rounded-xl">  
-      <i data-lucide="languages" class="w-4 h-4 text-sky-400"></i>  
-      <span class="text-[10px] text-gray-300 font-semibold uppercase tracking-wider hidden sm:inline">Translation Hub:</span>  
+    <div class="flex items-center space-x-2 shrink-0 bg-red-950/40 border border-red-500/30 px-3 py-1 rounded-xl">  
+      <i data-lucide="languages" class="w-4 h-4 text-red-400"></i>  
+      <span class="text-[10px] text-gray-200 font-semibold uppercase tracking-wider hidden sm:inline">Translate:</span>  
       <div id="google_translate_element"></div>  
     </div>
   </div>    
@@ -193,38 +196,42 @@
   <header class="sticky top-0 z-40 glass-nav-3d transition-all duration-300">  
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">  
       <a href="#hero" onclick="showSection('landing')" class="flex items-center space-x-3 group cursor-pointer">  
-        <div class="relative w-12 h-12 bg-gradient-to-tr from-blue-600 via-indigo-600 to-fuchsia-600 rounded-2xl flex items-center justify-center shadow-lg shadow-blue-500/30 group-hover:scale-105 transition duration-300 border border-white/20 p-0.5">  
-          <div class="w-full h-full bg-slate-950/40 backdrop-blur-sm rounded-[14px] flex items-center justify-center font-black text-transparent bg-clip-text bg-gradient-to-r from-sky-300 via-white to-purple-300 text-2xl tracking-tighter">  
+        <div class="relative w-12 h-12 bg-gradient-to-tr from-red-600 via-red-500 to-purple-900 rounded-2xl flex items-center justify-center shadow-lg shadow-red-600/30 group-hover:scale-105 transition duration-300 border border-white/30 p-0.5">  
+          <div class="w-full h-full bg-black/50 backdrop-blur-sm rounded-[14px] flex items-center justify-center font-black text-transparent bg-clip-text bg-gradient-to-r from-red-400 via-white to-red-200 text-2xl tracking-tighter">  
             G  
           </div>  
         </div>  
         <div>  
-          <span class="text-2xl font-black tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-white via-sky-200 to-purple-300">GROWTHMAX</span>  
-          <p class="text-[10px] text-purple-300/80 tracking-wider uppercase font-medium">Institutional Yield Hub</p>  
+          <span class="text-2xl font-black tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-white via-red-100 to-red-400">GROWTHMAX</span>  
+          <p class="text-[10px] text-red-400/90 tracking-wider uppercase font-semibold">Institutional Yield Hub</p>  
         </div>  
       </a>  
 
       <!-- Desktop Navigation Links -->  
-      <nav class="hidden md:flex items-center space-x-7 text-xs font-semibold text-gray-300">  
-        <button onclick="showSection('landing')" class="hover:text-sky-400 transition">Home</button>  
-        <button onclick="scrollToHub('about')" class="hover:text-sky-400 transition">About Us</button>  
-        <button onclick="scrollToHub('executives')" class="hover:text-sky-400 transition text-sky-300 font-bold">Executive Board</button>  
-        <button onclick="scrollToHub('services')" class="hover:text-sky-400 transition">Yield Plans</button>  
-        <button onclick="scrollToHub('realestate')" class="hover:text-sky-400 transition text-purple-300 font-bold">Real Estate</button>  
-        <button onclick="scrollToHub('giftcards')" class="hover:text-sky-400 transition text-sky-300 font-bold">Gift Cards</button>  
-        <button onclick="scrollToHub('faq')" class="hover:text-sky-400 transition">FAQ</button>  
-        <button onclick="showSection('dashboard')" class="text-sky-400 font-bold hover:underline flex items-center space-x-1 bg-blue-900/30 px-3 py-1.5 rounded-xl border border-blue-500/30">  
-          <i data-lucide="layout-dashboard" class="w-4 h-4"></i>  
+      <nav class="hidden md:flex items-center space-x-7 text-xs font-semibold text-gray-200">  
+        <button onclick="showSection('landing')" class="hover:text-red-400 transition">Home</button>  
+        <button onclick="scrollToHub('about')" class="hover:text-red-400 transition">About Us</button>  
+        <button onclick="scrollToHub('executives')" class="hover:text-red-400 transition text-red-300 font-bold">Executive Board</button>  
+        <button onclick="scrollToHub('services')" class="hover:text-red-400 transition">Yield Plans</button>  
+        <button onclick="scrollToHub('realestate')" class="hover:text-red-400 transition text-red-300 font-bold">Real Estate</button>  
+        <button onclick="scrollToHub('giftcards')" class="hover:text-red-400 transition text-white font-bold">Gift Cards</button>  
+        <button onclick="scrollToHub('faq')" class="hover:text-red-400 transition">FAQ</button>  
+        <button onclick="openHowItWorksModal()" class="hover:text-red-400 transition flex items-center space-x-1 text-red-300">
+          <i data-lucide="help-circle" class="w-3.5 h-3.5"></i>
+          <span>How It Works</span>
+        </button>
+        <button onclick="showSection('dashboard')" class="text-white font-bold hover:underline flex items-center space-x-1 bg-red-950/60 px-3 py-1.5 rounded-xl border border-red-500/40">  
+          <i data-lucide="layout-dashboard" class="w-4 h-4 text-red-400"></i>  
           <span>Dashboard</span>  
         </button>  
       </nav>  
 
       <div class="flex items-center space-x-3">  
         <div id="auth-buttons-container" class="flex items-center space-x-2">  
-          <button onclick="openAuthModal('login')" class="px-4 py-2 text-xs font-bold text-gray-200 hover:text-white bg-purple-950/40 border border-purple-500/30 hover:border-sky-400 rounded-xl transition">  
+          <button onclick="openAuthModal('login')" class="px-4 py-2 text-xs font-bold text-gray-100 hover:text-white bg-black/40 border border-white/20 hover:border-red-500 rounded-xl transition">  
             Sign In  
           </button>  
-          <button onclick="openAuthModal('register')" class="px-4 py-2 text-xs font-bold text-white btn-3d-blue rounded-xl transition">  
+          <button onclick="openAuthModal('register')" class="px-4 py-2 text-xs font-bold text-white btn-3d-red rounded-xl transition">  
             Get Started  
           </button>  
         </div>  
@@ -233,40 +240,89 @@
   </header>    
 
   <!-- LANDING PAGE SECTION -->    
-  <main id="landing-section" class="relative z-10 space-y-24 pb-20">  
-    <!-- Hero Section -->  
-    <section id="hero" class="pt-12 md:pt-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-8 reveal-on-scroll">  
-      <div class="inline-flex items-center space-x-2 px-4 py-2 rounded-full glass-card-3d border border-sky-500/30 text-xs text-sky-300 font-medium">  
-        <i data-lucide="sparkles" class="w-4 h-4 text-purple-400"></i>  
-        <span>🚀 Institutional Automated Crypto Yield Engine & Fractional Real Estate</span>  
-      </div>  
+  <main id="landing-section" class="relative z-10 space-y-20 pb-20">  
+    
+    <!-- Hero Section with Animation Slider -->  
+    <section id="hero" class="pt-8 md:pt-14 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8 reveal-on-scroll">  
+      
+      <div class="text-center space-y-6">
+        <div class="inline-flex items-center space-x-2 px-4 py-2 rounded-full glass-card-3d border border-red-500/40 text-xs text-red-300 font-medium">  
+          <i data-lucide="sparkles" class="w-4 h-4 text-red-400"></i>  
+          <span>Automated Crypto Yield Engine & Fractional Real Estate</span>  
+        </div>  
 
-      <h1 class="text-4xl sm:text-6xl lg:text-7xl font-black text-white tracking-tight max-w-5xl mx-auto leading-tight">  
-        Next-Gen Institutional Wealth Hub <br/>  
-        <span class="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 via-blue-300 to-purple-400">Crypto, Real Estate & Instant Gift Cards</span>  
-      </h1>  
+        <h1 class="text-4xl sm:text-6xl lg:text-7xl font-black text-white tracking-tight max-w-5xl mx-auto leading-tight">  
+          Next-Gen Institutional Wealth Hub <br/>  
+          <span class="text-transparent bg-clip-text bg-gradient-to-r from-red-500 via-white to-red-300">Crypto, Real Estate & Instant Gift Cards</span>  
+        </h1>  
 
-      <p class="text-gray-300 max-w-2xl mx-auto text-base sm:text-lg leading-relaxed">  
-        Maximize returns with multi-chain yield arbitrage, commercial real estate portfolios, and instant global gift card checkout directly from earnings.  
-      </p>  
+        <p class="text-gray-300 max-w-2xl mx-auto text-base sm:text-lg leading-relaxed">  
+          Maximize returns with multi-chain yield arbitrage, commercial real estate portfolios, and instant global gift card checkout directly from earnings.  
+        </p>  
 
-      <div class="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">  
-        <button onclick="openAuthModal('register')" class="w-full sm:w-auto px-8 py-4 btn-3d-blue text-white font-bold rounded-2xl text-sm flex items-center justify-center space-x-2">  
-          <span>Start Investing Now</span>  
-          <i data-lucide="arrow-right" class="w-4 h-4"></i>  
-        </button>  
-        <button onclick="showSection('dashboard')" class="w-full sm:w-auto px-8 py-4 glass-card-3d hover:bg-slate-800/80 text-white font-bold rounded-2xl border border-white/10 hover-zoom-3d text-sm flex items-center justify-center space-x-2">  
-          <i data-lucide="layout-dashboard" class="w-4 h-4 text-sky-400"></i>  
-          <span>Open Live Dashboard</span>  
-        </button>  
-      </div>  
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2">  
+          <button onclick="openAuthModal('register')" class="w-full sm:w-auto px-8 py-4 btn-3d-red text-white font-bold rounded-2xl text-sm flex items-center justify-center space-x-2 shadow-lg shadow-red-600/30">  
+            <span>Start Investing Now</span>  
+            <i data-lucide="arrow-right" class="w-4 h-4"></i>  
+          </button>  
+          <button onclick="showSection('dashboard')" class="w-full sm:w-auto px-8 py-4 glass-card-3d hover:bg-black/80 text-white font-bold rounded-2xl border border-white/20 hover-zoom-3d text-sm flex items-center justify-center space-x-2">  
+            <i data-lucide="layout-dashboard" class="w-4 h-4 text-red-400"></i>  
+            <span>Open Live Dashboard</span>  
+          </button>  
+        </div>  
+      </div>
+
+      <!-- Hero Interactive Image Slide Carousel -->
+      <div class="relative max-w-5xl mx-auto rounded-3xl overflow-hidden glass-card-3d border border-red-500/30 shadow-2xl mt-8">
+        <div id="hero-carousel" class="relative h-64 sm:h-96 w-full">
+          <!-- Slide 1 -->
+          <div class="hero-slide absolute inset-0 transition-opacity duration-1000 opacity-100 flex items-center justify-center">
+            <img src="1000046660_2.jpg" alt="Institutional Crypto Engine" class="w-full h-full object-cover">
+            <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent p-6 flex flex-col justify-end">
+              <span class="text-red-400 text-xs font-bold uppercase tracking-wider">Automated Trading</span>
+              <h3 class="text-xl sm:text-3xl font-black text-white">Algorithmic Multi-Chain Yield Engine</h3>
+            </div>
+          </div>
+          <!-- Slide 2 -->
+          <div class="hero-slide absolute inset-0 transition-opacity duration-1000 opacity-0 flex items-center justify-center">
+            <img src="1000046664_2.jpg" alt="Commercial Real Estate Portfolio" class="w-full h-full object-cover">
+            <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent p-6 flex flex-col justify-end">
+              <span class="text-red-400 text-xs font-bold uppercase tracking-wider">Prime Property</span>
+              <h3 class="text-xl sm:text-3xl font-black text-white">Fractional Commercial Real Estate Investments</h3>
+            </div>
+          </div>
+          <!-- Slide 3 -->
+          <div class="hero-slide absolute inset-0 transition-opacity duration-1000 opacity-0 flex items-center justify-center">
+            <img src="1000046661_2.jpg" alt="Instant Giftcard Checkout" class="w-full h-full object-cover">
+            <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent p-6 flex flex-col justify-end">
+              <span class="text-red-400 text-xs font-bold uppercase tracking-wider">Instant Liquidity</span>
+              <h3 class="text-xl sm:text-3xl font-black text-white">Global Giftcard Vouchers From Earned Profits</h3>
+            </div>
+          </div>
+        </div>
+
+        <!-- Carousel Navigation Controls -->
+        <button onclick="prevSlide()" class="absolute left-4 top-1/2 -translate-y-1/2 p-2 bg-black/60 border border-white/20 text-white rounded-full hover:bg-red-600 transition">
+          <i data-lucide="chevron-left" class="w-6 h-6"></i>
+        </button>
+        <button onclick="nextSlide()" class="absolute right-4 top-1/2 -translate-y-1/2 p-2 bg-black/60 border border-white/20 text-white rounded-full hover:bg-red-600 transition">
+          <i data-lucide="chevron-right" class="w-6 h-6"></i>
+        </button>
+
+        <!-- Carousel Indicators -->
+        <div class="absolute bottom-3 left-1/2 -translate-x-1/2 flex space-x-2 z-10">
+          <button onclick="setSlide(0)" class="slide-dot w-3 h-3 rounded-full bg-red-600 transition-all"></button>
+          <button onclick="setSlide(1)" class="slide-dot w-3 h-3 rounded-full bg-white/40 transition-all"></button>
+          <button onclick="setSlide(2)" class="slide-dot w-3 h-3 rounded-full bg-white/40 transition-all"></button>
+        </div>
+      </div>
     </section>  
 
     <!-- About Section -->  
-    <section id="about" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 reveal-on-scroll">  
-      <div class="glass-card-3d p-8 md:p-12 rounded-3xl border border-white/10 space-y-8">  
+    <section id="about" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 reveal-on-scroll">  
+      <div class="glass-card-3d p-8 md:p-12 rounded-3xl border border-red-500/20 space-y-8">  
         <div class="border-b border-white/10 pb-6">  
-          <span class="text-xs font-bold text-sky-400 uppercase tracking-widest">Institutional Asset Management</span>  
+          <span class="text-xs font-bold text-red-400 uppercase tracking-widest">Institutional Asset Management</span>  
           <h2 class="text-3xl sm:text-4xl font-black text-white mt-1">About GROWTHMAX Corporate Group</h2>  
         </div>  
 
@@ -295,19 +351,19 @@
     </section>  
 
     <!-- Executive Leadership Section -->  
-    <section id="executives" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8 pt-12 reveal-on-scroll">  
+    <section id="executives" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8 pt-8 reveal-on-scroll">  
       <div class="text-center max-w-2xl mx-auto space-y-2">  
-        <span class="text-xs font-bold text-purple-400 uppercase tracking-widest">Corporate Leadership</span>  
+        <span class="text-xs font-bold text-red-400 uppercase tracking-widest">Corporate Leadership</span>  
         <h2 class="text-3xl font-black text-white">Executive Management Board</h2>  
         <p class="text-xs text-gray-300">Meet the strategic leaders driving GROWTHMAX platform expansion</p>  
       </div>  
 
       <div class="space-y-6">  
         <!-- CEO Hub -->  
-        <div class="glass-card-3d p-6 md:p-8 rounded-2xl border border-white/10 flex flex-col md:flex-row items-center gap-6">  
-          <img src="1000046660_2.jpg" alt="Marcus B. Arnold - Chief Executive Officer" class="w-32 h-32 md:w-40 md:h-40 rounded-2xl object-cover border-2 border-sky-400 shrink-0 shadow-xl">  
+        <div class="glass-card-3d p-6 md:p-8 rounded-2xl border border-red-500/20 flex flex-col md:flex-row items-center gap-6">  
+          <img src="1000046660_2.jpg" alt="Marcus B. Arnold - Chief Executive Officer" class="w-32 h-32 md:w-40 md:h-40 rounded-2xl object-cover border-2 border-red-500 shrink-0 shadow-xl">  
           <div class="space-y-2 text-center md:text-left">  
-            <span class="text-xs font-bold text-sky-400 uppercase tracking-wider">Chief Executive Officer</span>  
+            <span class="text-xs font-bold text-red-400 uppercase tracking-wider">Chief Executive Officer</span>  
             <h3 class="text-2xl font-black text-white">Marcus B. Arnold</h3>  
             <p class="text-xs text-gray-300 leading-relaxed">  
               Marcus B. Arnold brings over 18 years of quantitative hedge fund management and capital market expertise. Having managed over $400M in institutional portfolios prior to founding GROWTHMAX, Marcus oversees company expansion, asset allocation, and algorithmic yield operations.  
@@ -316,10 +372,10 @@
         </div>  
 
         <!-- Chairman Hub -->  
-        <div class="glass-card-3d p-6 md:p-8 rounded-2xl border border-white/10 flex flex-col md:flex-row items-center gap-6">  
-          <img src="1000046662_2.jpg" alt="Patrick Dave - Executive Board Chairman" class="w-32 h-32 md:w-40 md:h-40 rounded-2xl object-cover border-2 border-purple-400 shrink-0 shadow-xl">  
+        <div class="glass-card-3d p-6 md:p-8 rounded-2xl border border-red-500/20 flex flex-col md:flex-row items-center gap-6">  
+          <img src="1000046662_2.jpg" alt="Patrick Dave - Executive Board Chairman" class="w-32 h-32 md:w-40 md:h-40 rounded-2xl object-cover border-2 border-white/60 shrink-0 shadow-xl">  
           <div class="space-y-2 text-center md:text-left">  
-            <span class="text-xs font-bold text-purple-400 uppercase tracking-wider">Executive Board Chairman</span>  
+            <span class="text-xs font-bold text-red-300 uppercase tracking-wider">Executive Board Chairman</span>  
             <h3 class="text-2xl font-black text-white">Patrick Dave</h3>  
             <p class="text-xs text-gray-300 leading-relaxed">  
               Patrick Dave leads the GROWTHMAX Executive Board, specializing in cross-border financial compliance and real estate asset acquisition. With a strong track record in commercial property developments, Patrick oversees platform security and institutional partnerships.  
@@ -328,10 +384,10 @@
         </div>  
 
         <!-- Customer Service Rep Hub -->  
-        <div class="glass-card-3d p-6 md:p-8 rounded-2xl border border-white/10 flex flex-col md:flex-row items-center gap-6">  
-          <img src="1000046665_2.jpg" alt="Jenette Smith - Chief Customer Support Representative" class="w-32 h-32 md:w-40 md:h-40 rounded-2xl object-cover border-2 border-indigo-400 shrink-0 shadow-xl">  
+        <div class="glass-card-3d p-6 md:p-8 rounded-2xl border border-red-500/20 flex flex-col md:flex-row items-center gap-6">  
+          <img src="1000046665_2.jpg" alt="Jenette Smith - Chief Customer Support Representative" class="w-32 h-32 md:w-40 md:h-40 rounded-2xl object-cover border-2 border-red-400 shrink-0 shadow-xl">  
           <div class="space-y-2 text-center md:text-left">  
-            <span class="text-xs font-bold text-indigo-400 uppercase tracking-wider">Head Customer Service Representative</span>  
+            <span class="text-xs font-bold text-red-400 uppercase tracking-wider">Head Customer Service Representative</span>  
             <h3 class="text-2xl font-black text-white">Jenette Smith</h3>  
             <p class="text-xs text-gray-300 leading-relaxed">  
               Jenette Smith directs the 24/7 global customer support team. Ensuring instant inquiry resolution, withdrawal verification assistance, and live chat coordination through our Smartsupp support hub.  
@@ -342,61 +398,61 @@
     </section>  
 
     <!-- Crypto Investment Packages Section -->  
-    <section id="services" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8 pt-12 reveal-on-scroll">  
+    <section id="services" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8 pt-8 reveal-on-scroll">  
       <div class="text-center max-w-2xl mx-auto space-y-2">  
         <h2 class="text-3xl font-black text-white">Crypto Yield Packages</h2>  
-        <p class="text-xs text-purple-200/70">Algorithmic returns credited directly into your investor dashboard balance</p>  
+        <p class="text-xs text-gray-300">Algorithmic returns credited directly into your investor dashboard balance</p>  
       </div>  
 
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">  
-        <div class="glass-card-3d yield-bg-gradient p-6 rounded-2xl hover-zoom-3d flex flex-col justify-between space-y-4">  
+        <div class="glass-card-3d yield-bg-gradient p-6 rounded-2xl hover-zoom-3d flex flex-col justify-between space-y-4 border border-white/10">  
           <div>  
-            <span class="text-xs font-bold uppercase tracking-wider text-sky-400">Beginners</span>  
+            <span class="text-xs font-bold uppercase tracking-wider text-red-400">Beginners</span>  
             <div class="text-3xl font-black mt-2 text-white">10% <span class="text-xs text-gray-400 font-normal">ROI</span></div>  
             <p class="text-xs text-gray-300 mt-2">Duration: 24H / 14 Days</p>  
-            <p class="text-xs text-sky-300 font-semibold mt-1">Min: $50 | Max: $499</p>  
+            <p class="text-xs text-red-300 font-semibold mt-1">Min: $50 | Max: $499</p>  
           </div>  
-          <button onclick="openDepositModalWithPlan('Beginners', 50, 499, '10%', '24H / 14 Days')" class="w-full py-2.5 bg-slate-800 hover:bg-sky-500 hover:text-slate-950 font-bold text-xs rounded-xl transition">Select Package</button>  
+          <button onclick="openDepositModalWithPlan('Beginners', 50, 499, '10%', '24H / 14 Days')" class="w-full py-2.5 bg-black/60 hover:bg-red-600 hover:text-white font-bold text-xs rounded-xl transition border border-white/10">Select Package</button>  
         </div>  
 
-        <div class="glass-card-3d yield-bg-gradient p-6 rounded-2xl hover-zoom-3d flex flex-col justify-between space-y-4">  
+        <div class="glass-card-3d yield-bg-gradient p-6 rounded-2xl hover-zoom-3d flex flex-col justify-between space-y-4 border border-white/10">  
           <div>  
-            <span class="text-xs font-bold uppercase tracking-wider text-purple-400">Advanced</span>  
+            <span class="text-xs font-bold uppercase tracking-wider text-red-300">Advanced</span>  
             <div class="text-3xl font-black mt-2 text-white">25% <span class="text-xs text-gray-400 font-normal">ROI</span></div>  
             <p class="text-xs text-gray-300 mt-2">Duration: 48H / 21 Days</p>  
-            <p class="text-xs text-purple-300 font-semibold mt-1">Min: $500 | Max: $1,999</p>  
+            <p class="text-xs text-red-300 font-semibold mt-1">Min: $500 | Max: $1,999</p>  
           </div>  
-          <button onclick="openDepositModalWithPlan('Advanced', 500, 1999, '25%', '48H / 21 Days')" class="w-full py-2.5 bg-slate-800 hover:bg-purple-500 hover:text-white font-bold text-xs rounded-xl transition">Select Package</button>  
+          <button onclick="openDepositModalWithPlan('Advanced', 500, 1999, '25%', '48H / 21 Days')" class="w-full py-2.5 bg-black/60 hover:bg-red-600 hover:text-white font-bold text-xs rounded-xl transition border border-white/10">Select Package</button>  
         </div>  
 
-        <div class="glass-card-3d yield-bg-gradient p-6 rounded-2xl border-2 border-sky-400 hover-zoom-3d flex flex-col justify-between space-y-4 relative">  
-          <span class="absolute -top-3 right-6 btn-3d-blue text-white font-black text-[10px] uppercase px-3 py-1 rounded-full">POPULAR</span>  
+        <div class="glass-card-3d yield-bg-gradient p-6 rounded-2xl border-2 border-red-500 hover-zoom-3d flex flex-col justify-between space-y-4 relative animate-glow-red">  
+          <span class="absolute -top-3 right-6 btn-3d-red text-white font-black text-[10px] uppercase px-3 py-1 rounded-full">POPULAR</span>  
           <div>  
-            <span class="text-xs font-bold uppercase tracking-wider text-sky-300">Pro / Expert</span>  
+            <span class="text-xs font-bold uppercase tracking-wider text-red-400">Pro / Expert</span>  
             <div class="text-3xl font-black mt-2 text-white">35% <span class="text-xs text-gray-400 font-normal">ROI</span></div>  
             <p class="text-xs text-gray-300 mt-2">Duration: 72H / 30 Days</p>  
-            <p class="text-xs text-sky-300 font-semibold mt-1">Min: $2,000 | Max: $4,999</p>  
+            <p class="text-xs text-red-300 font-semibold mt-1">Min: $2,000 | Max: $4,999</p>  
           </div>  
-          <button onclick="openDepositModalWithPlan('Pro/Expert', 2000, 4999, '35%', '72H / 30 Days')" class="w-full py-2.5 btn-3d-blue text-white font-bold text-xs rounded-xl transition">Select Package</button>  
+          <button onclick="openDepositModalWithPlan('Pro/Expert', 2000, 4999, '35%', '72H / 30 Days')" class="w-full py-2.5 btn-3d-red text-white font-bold text-xs rounded-xl transition">Select Package</button>  
         </div>  
 
-        <div class="glass-card-3d yield-bg-gradient p-6 rounded-2xl hover-zoom-3d flex flex-col justify-between space-y-4">  
+        <div class="glass-card-3d yield-bg-gradient p-6 rounded-2xl hover-zoom-3d flex flex-col justify-between space-y-4 border border-white/10">  
           <div>  
-            <span class="text-xs font-bold uppercase tracking-wider text-indigo-400">Top Investor</span>  
+            <span class="text-xs font-bold uppercase tracking-wider text-red-400">Top Investor</span>  
             <div class="text-3xl font-black mt-2 text-white">42% <span class="text-xs text-gray-400 font-normal">ROI</span></div>  
             <p class="text-xs text-gray-300 mt-2">Duration: 98H / 62 Days</p>  
-            <p class="text-xs text-indigo-300 font-semibold mt-1">Min: $5,000 | Max: Unlimited</p>  
+            <p class="text-xs text-red-300 font-semibold mt-1">Min: $5,000 | Max: Unlimited</p>  
           </div>  
-          <button onclick="openDepositModalWithPlan('Top Investor', 5000, 1000000, '42%', '98H / 62 Days')" class="w-full py-2.5 bg-slate-800 hover:bg-sky-500 hover:text-slate-950 font-bold text-xs rounded-xl transition">Select Package</button>  
+          <button onclick="openDepositModalWithPlan('Top Investor', 5000, 1000000, '42%', '98H / 62 Days')" class="w-full py-2.5 bg-black/60 hover:bg-red-600 hover:text-white font-bold text-xs rounded-xl transition border border-white/10">Select Package</button>  
         </div>  
       </div>  
     </section>  
 
-    <!-- Real Estate Investment Hub (Restored Real Property Assets & Images) -->  
-    <section id="realestate" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8 pt-12 reveal-on-scroll">  
-      <div class="glass-card-3d realestate-bg-gradient p-8 rounded-3xl border border-white/10 space-y-6">  
+    <!-- Real Estate Investment Hub -->  
+    <section id="realestate" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8 pt-8 reveal-on-scroll">  
+      <div class="glass-card-3d realestate-bg-gradient p-8 rounded-3xl border border-red-500/20 space-y-6">  
         <div>  
-          <span class="text-xs font-bold text-purple-400 uppercase tracking-widest">Institutional Asset Hub</span>  
+          <span class="text-xs font-bold text-red-400 uppercase tracking-widest">Institutional Asset Hub</span>  
           <h2 class="text-3xl font-black text-white mt-1">Real Estate Investment Hub</h2>  
           <p class="text-xs text-gray-300 max-w-xl mt-1">Fractional commercial real estate investments with guaranteed quarterly rental yields and capital growth.</p>  
         </div>  
@@ -406,25 +462,25 @@
           <div class="glass-card-3d rounded-2xl overflow-hidden hover-zoom-3d flex flex-col justify-between p-5 space-y-4 border border-white/10">  
             <div class="h-44 rounded-xl overflow-hidden relative border border-white/10">  
               <img src="1000046664_2.jpg" alt="Metropolitan Commercial Tower" class="w-full h-full object-cover">  
-              <span class="absolute top-2 right-2 bg-slate-950/80 text-sky-400 font-bold text-xs px-3 py-1 rounded-full border border-sky-500/30">12.8% APY</span>  
+              <span class="absolute top-2 right-2 bg-black/80 text-red-400 font-bold text-xs px-3 py-1 rounded-full border border-red-500/40">12.8% APY</span>  
             </div>  
             <div class="space-y-1">  
               <h3 class="font-bold text-base text-white">Metropolitan Commercial Tower</h3>  
-              <p class="text-xs text-sky-300 font-medium">London, UK • Office & Retail Hub</p>  
+              <p class="text-xs text-red-300 font-medium">London, UK • Office & Retail Hub</p>  
               <p class="text-[11px] text-gray-400 pt-1">Prime London office asset yielding steady rental income backed by corporate leases.</p>
             </div>  
-            <button onclick="investRealEstate('Metropolitan Commercial Tower', 1000)" class="w-full py-2.5 btn-3d-blue text-white font-bold text-xs rounded-xl">Invest ($1,000 Min)</button>  
+            <button onclick="investRealEstate('Metropolitan Commercial Tower', 1000)" class="w-full py-2.5 btn-3d-red text-white font-bold text-xs rounded-xl">Invest ($1,000 Min)</button>  
           </div>  
 
           <!-- Property 2 -->
           <div class="glass-card-3d rounded-2xl overflow-hidden hover-zoom-3d flex flex-col justify-between p-5 space-y-4 border border-white/10">  
             <div class="h-44 rounded-xl overflow-hidden relative border border-white/10">  
               <img src="1000046662_2.jpg" alt="Aura Luxury Bay Resort" class="w-full h-full object-cover">  
-              <span class="absolute top-2 right-2 bg-slate-950/80 text-purple-300 font-bold text-xs px-3 py-1 rounded-full border border-purple-500/30">14.5% APY</span>  
+              <span class="absolute top-2 right-2 bg-black/80 text-white font-bold text-xs px-3 py-1 rounded-full border border-white/40">14.5% APY</span>  
             </div>  
             <div class="space-y-1">  
               <h3 class="font-bold text-base text-white">Aura Luxury Bay Resort</h3>  
-              <p class="text-xs text-purple-300 font-medium">Dubai, UAE • Hospitality Complex</p>  
+              <p class="text-xs text-gray-300 font-medium">Dubai, UAE • Hospitality Complex</p>  
               <p class="text-[11px] text-gray-400 pt-1">High-yield luxury waterfront hospitality portfolio in prime Dubai district.</p>
             </div>  
             <button onclick="investRealEstate('Aura Luxury Bay Resort', 2500)" class="w-full py-2.5 btn-3d-blackberry text-white font-bold text-xs rounded-xl">Invest ($2,500 Min)</button>  
@@ -434,88 +490,88 @@
           <div class="glass-card-3d rounded-2xl overflow-hidden hover-zoom-3d flex flex-col justify-between p-5 space-y-4 border border-white/10">  
             <div class="h-44 rounded-xl overflow-hidden relative border border-white/10">  
               <img src="1000046660_2.jpg" alt="Apex Prime Logistics Center" class="w-full h-full object-cover">  
-              <span class="absolute top-2 right-2 bg-slate-950/80 text-sky-400 font-bold text-xs px-3 py-1 rounded-full border border-sky-500/30">11.2% APY</span>  
+              <span class="absolute top-2 right-2 bg-black/80 text-red-400 font-bold text-xs px-3 py-1 rounded-full border border-red-500/40">11.2% APY</span>  
             </div>  
             <div class="space-y-1">  
               <h3 class="font-bold text-base text-white">Apex Prime Logistics Center</h3>  
-              <p class="text-xs text-indigo-300 font-medium">Frankfurt, Germany • Logistics Park</p>  
+              <p class="text-xs text-red-300 font-medium">Frankfurt, Germany • Logistics Park</p>  
               <p class="text-[11px] text-gray-400 pt-1">Fully automated industrial distribution complex leased to European e-commerce giants.</p>
             </div>  
-            <button onclick="investRealEstate('Apex Prime Logistics Center', 500)" class="w-full py-2.5 btn-3d-blue text-white font-bold text-xs rounded-xl">Invest ($500 Min)</button>  
+            <button onclick="investRealEstate('Apex Prime Logistics Center', 500)" class="w-full py-2.5 btn-3d-red text-white font-bold text-xs rounded-xl">Invest ($500 Min)</button>  
           </div>  
         </div>  
       </div>  
     </section>  
 
     <!-- Gift Card Buying Section -->  
-    <section id="giftcards" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8 pt-12 reveal-on-scroll">  
-      <div class="glass-card-3d giftcard-bg-gradient p-8 rounded-3xl border border-white/10 space-y-6">  
+    <section id="giftcards" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8 pt-8 reveal-on-scroll">  
+      <div class="glass-card-3d giftcard-bg-gradient p-8 rounded-3xl border border-red-500/20 space-y-6">  
         <div class="text-center max-w-2xl mx-auto space-y-1">  
-          <span class="text-xs font-bold text-sky-400 uppercase tracking-widest">Instant Liquidity Hub</span>  
+          <span class="text-xs font-bold text-red-400 uppercase tracking-widest">Instant Liquidity Hub</span>  
           <h2 class="text-3xl font-black text-white">Gift Card Purchasing Section</h2>  
           <p class="text-xs text-gray-300">Buy international gift card codes directly using your available investment balance</p>  
         </div>  
 
         <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4">  
           <div onclick="openGiftCardCheckout('Amazon Gift Card')" class="glass-card-3d p-4 rounded-2xl hover-zoom-3d text-center cursor-pointer border border-white/10 flex flex-col items-center justify-between space-y-3">  
-            <div class="w-12 h-12 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-xl">📦</div>  
+            <div class="w-12 h-12 rounded-xl bg-red-500/10 border border-red-500/30 flex items-center justify-center text-xl">📦</div>  
             <div>  
               <h4 class="font-bold text-xs text-white">Amazon</h4>  
               <p class="text-[10px] text-gray-400">$25 - $500</p>  
             </div>  
-            <span class="text-[10px] bg-sky-500/20 text-sky-300 px-2 py-0.5 rounded font-bold">Buy Now</span>  
+            <span class="text-[10px] bg-red-600/30 text-white px-2 py-0.5 rounded font-bold border border-red-500/30">Buy Now</span>  
           </div>  
 
           <div onclick="openGiftCardCheckout('Apple iTunes Card')" class="glass-card-3d p-4 rounded-2xl hover-zoom-3d text-center cursor-pointer border border-white/10 flex flex-col items-center justify-between space-y-3">  
-            <div class="w-12 h-12 rounded-xl bg-slate-700/30 border border-slate-500/30 flex items-center justify-center text-xl">🍏</div>  
+            <div class="w-12 h-12 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center text-xl">🍏</div>  
             <div>  
               <h4 class="font-bold text-xs text-white">Apple Store</h4>  
               <p class="text-[10px] text-gray-400">$15 - $500</p>  
             </div>  
-            <span class="text-[10px] bg-sky-500/20 text-sky-300 px-2 py-0.5 rounded font-bold">Buy Now</span>  
+            <span class="text-[10px] bg-red-600/30 text-white px-2 py-0.5 rounded font-bold border border-red-500/30">Buy Now</span>  
           </div>  
 
           <div onclick="openGiftCardCheckout('Steam Wallet Card')" class="glass-card-3d p-4 rounded-2xl hover-zoom-3d text-center cursor-pointer border border-white/10 flex flex-col items-center justify-between space-y-3">  
-            <div class="w-12 h-12 rounded-xl bg-blue-600/20 border border-blue-500/30 flex items-center justify-center text-xl">🎮</div>  
+            <div class="w-12 h-12 rounded-xl bg-purple-900/30 border border-purple-500/30 flex items-center justify-center text-xl">🎮</div>  
             <div>  
               <h4 class="font-bold text-xs text-white">Steam Wallet</h4>  
               <p class="text-[10px] text-gray-400">$20 - $200</p>  
             </div>  
-            <span class="text-[10px] bg-sky-500/20 text-sky-300 px-2 py-0.5 rounded font-bold">Buy Now</span>  
+            <span class="text-[10px] bg-red-600/30 text-white px-2 py-0.5 rounded font-bold border border-red-500/30">Buy Now</span>  
           </div>  
 
           <div onclick="openGiftCardCheckout('Google Play Card')" class="glass-card-3d p-4 rounded-2xl hover-zoom-3d text-center cursor-pointer border border-white/10 flex flex-col items-center justify-between space-y-3">  
-            <div class="w-12 h-12 rounded-xl bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center text-xl">▶️</div>  
+            <div class="w-12 h-12 rounded-xl bg-red-950/40 border border-red-500/30 flex items-center justify-center text-xl">▶️</div>  
             <div>  
               <h4 class="font-bold text-xs text-white">Google Play</h4>  
               <p class="text-[10px] text-gray-400">$10 - $300</p>  
             </div>  
-            <span class="text-[10px] bg-sky-500/20 text-sky-300 px-2 py-0.5 rounded font-bold">Buy Now</span>  
+            <span class="text-[10px] bg-red-600/30 text-white px-2 py-0.5 rounded font-bold border border-red-500/30">Buy Now</span>  
           </div>  
 
           <div onclick="openGiftCardCheckout('Visa Virtual Card')" class="glass-card-3d p-4 rounded-2xl hover-zoom-3d text-center cursor-pointer border border-white/10 flex flex-col items-center justify-between space-y-3">  
-            <div class="w-12 h-12 rounded-xl bg-purple-600/20 border border-purple-500/30 flex items-center justify-center text-xl">💳</div>  
+            <div class="w-12 h-12 rounded-xl bg-red-600/20 border border-red-500/40 flex items-center justify-center text-xl">💳</div>  
             <div>  
               <h4 class="font-bold text-xs text-white">Visa Prepaid</h4>  
               <p class="text-[10px] text-gray-400">$50 - $1,000</p>  
             </div>  
-            <span class="text-[10px] bg-purple-500/20 text-purple-300 px-2 py-0.5 rounded font-bold">Buy Now</span>  
+            <span class="text-[10px] bg-red-600/30 text-white px-2 py-0.5 rounded font-bold border border-red-500/30">Buy Now</span>  
           </div>  
 
           <div onclick="openGiftCardCheckout('PlayStation Network Card')" class="glass-card-3d p-4 rounded-2xl hover-zoom-3d text-center cursor-pointer border border-white/10 flex flex-col items-center justify-between space-y-3">  
-            <div class="w-12 h-12 rounded-xl bg-indigo-600/20 border border-indigo-500/30 flex items-center justify-center text-xl">👾</div>  
+            <div class="w-12 h-12 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center text-xl">👾</div>  
             <div>  
               <h4 class="font-bold text-xs text-white">PlayStation</h4>  
               <p class="text-[10px] text-gray-400">$25 - $250</p>  
             </div>  
-            <span class="text-[10px] bg-sky-500/20 text-sky-300 px-2 py-0.5 rounded font-bold">Buy Now</span>  
+            <span class="text-[10px] bg-red-600/30 text-white px-2 py-0.5 rounded font-bold border border-red-500/30">Buy Now</span>  
           </div>  
         </div>  
       </div>  
     </section>  
 
     <!-- FAQ Section -->  
-    <section id="faq" class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6 pt-12 reveal-on-scroll">  
+    <section id="faq" class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6 pt-8 reveal-on-scroll">  
       <h2 class="text-3xl font-black text-white text-center">Frequently Asked Questions</h2>  
       <div class="space-y-4">  
         <details class="glass-card-3d p-5 rounded-xl border border-white/10 cursor-pointer">  
@@ -536,7 +592,7 @@
     </section>  
 
     <!-- Privacy Policy Section -->  
-    <section id="privacy" class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6 pt-12 reveal-on-scroll">  
+    <section id="privacy" class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6 pt-8 reveal-on-scroll">  
       <div class="glass-card-3d p-8 rounded-2xl border border-white/10 space-y-4 text-xs text-gray-300 leading-relaxed">  
         <h2 class="text-2xl font-black text-white">GROWTHMAX Privacy Policy & Data Protection</h2>  
         <p><strong>Effective Date:</strong> October 2026</p>  
@@ -554,33 +610,33 @@
   <!-- DASHBOARD SECTION -->    
   <section id="dashboard-section" class="hidden relative z-10 max-w-6xl mx-auto px-4 mt-6 space-y-6 pb-20 w-full">  
     <!-- Header Dashboard Bar -->  
-    <div class="glass-card-3d p-6 rounded-2xl border border-white/10 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">  
+    <div class="glass-card-3d p-6 rounded-2xl border border-red-500/30 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">  
       <div class="flex items-center space-x-3">  
-        <div class="w-12 h-12 rounded-2xl btn-3d-blackberry flex items-center justify-center font-bold text-white text-xl">G</div>  
+        <div class="w-12 h-12 rounded-2xl btn-3d-red flex items-center justify-center font-bold text-white text-xl">G</div>  
         <div>  
           <h2 class="text-xl font-bold text-white">Investor Dashboard</h2>  
-          <p id="user-email-display" class="text-xs text-sky-400 font-mono mt-0.5"></p>  
+          <p id="user-email-display" class="text-xs text-red-400 font-mono mt-0.5"></p>  
         </div>  
       </div>  
         
       <!-- Nav Tabs Inside Dashboard -->  
       <div class="flex flex-wrap gap-2 text-xs">  
-        <button id="dash-btn-overview" onclick="switchDashTab('overview')" class="px-3 py-1.5 rounded-xl bg-sky-500/20 text-sky-300 border border-sky-500/30 font-bold">Overview</button>  
-        <button id="dash-btn-profile" onclick="switchDashTab('profile')" class="px-3 py-1.5 rounded-xl bg-slate-800 text-gray-300 hover:text-white font-bold">Profile Hub</button>  
-        <button id="dash-btn-referral" onclick="switchDashTab('referral')" class="px-3 py-1.5 rounded-xl bg-purple-950/40 text-purple-300 border border-purple-500/30 font-bold">Referral Hub</button>  
-        <button onclick="signOutUser()" class="px-3 py-1.5 bg-red-500/10 border border-red-500/30 text-red-400 rounded-xl font-bold hover:bg-red-500/20 transition">Log Out</button>  
+        <button id="dash-btn-overview" onclick="switchDashTab('overview')" class="px-3 py-1.5 rounded-xl bg-red-600/30 text-white border border-red-500/40 font-bold">Overview</button>  
+        <button id="dash-btn-profile" onclick="switchDashTab('profile')" class="px-3 py-1.5 rounded-xl bg-black/60 text-gray-300 hover:text-white font-bold border border-white/10">Profile Hub</button>  
+        <button id="dash-btn-referral" onclick="switchDashTab('referral')" class="px-3 py-1.5 rounded-xl bg-purple-950/60 text-purple-200 border border-purple-500/40 font-bold">Referral Hub</button>  
+        <button onclick="signOutUser()" class="px-3 py-1.5 bg-red-950/80 border border-red-500/40 text-red-300 rounded-xl font-bold hover:bg-red-600 hover:text-white transition">Log Out</button>  
       </div>  
     </div>  
 
     <!-- TAB 1: OVERVIEW -->  
     <div id="dash-tab-overview" class="space-y-6">  
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">  
-        <div class="glass-card-3d p-6 rounded-2xl border-l-4 border-l-sky-400 flex justify-between items-center animate-glow-3d">  
+        <div class="glass-card-3d p-6 rounded-2xl border-l-4 border-l-red-500 flex justify-between items-center animate-glow-red">  
           <div>  
-            <span class="text-xs font-semibold uppercase text-sky-200 tracking-wider">Total Portfolio Balance</span>  
-            <h2 id="user-balance" class="text-4xl font-black text-sky-400 mt-1">$0.00</h2>  
+            <span class="text-xs font-semibold uppercase text-red-200 tracking-wider">Total Portfolio Balance</span>  
+            <h2 id="user-balance" class="text-4xl font-black text-red-400 mt-1">$0.00</h2>  
           </div>  
-          <button onclick="openDepositModal()" class="btn-3d-blue text-white font-bold px-4 py-2.5 rounded-xl text-xs">+ Deposit Funds</button>  
+          <button onclick="openDepositModal()" class="btn-3d-red text-white font-bold px-4 py-2.5 rounded-xl text-xs">+ Deposit Funds</button>  
         </div>  
 
         <div class="glass-card-3d p-6 rounded-2xl border-l-4 border-l-purple-500 flex justify-between items-center">  
@@ -588,29 +644,29 @@
             <span class="text-xs font-semibold uppercase text-purple-200 tracking-wider">Referral Earnings (5%)</span>  
             <h2 id="user-ref-balance" class="text-4xl font-black text-purple-300 mt-1">$0.00</h2>  
           </div>  
-          <button onclick="switchDashTab('referral')" class="bg-slate-800 hover:bg-slate-700 border border-white/10 text-gray-200 font-bold px-4 py-2.5 rounded-xl text-xs">View Referral Hub</button>  
+          <button onclick="switchDashTab('referral')" class="bg-black/60 hover:bg-black/80 border border-white/20 text-gray-200 font-bold px-4 py-2.5 rounded-xl text-xs">View Referral Hub</button>  
         </div>  
       </div>  
 
       <!-- Quick Actions & History Logs -->  
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">  
-        <div class="glass-card-3d p-6 rounded-2xl space-y-4">  
+        <div class="glass-card-3d p-6 rounded-2xl space-y-4 border border-white/10">  
           <h3 class="text-base font-bold text-white">Withdrawal Module</h3>  
           <div class="space-y-3 text-xs">  
             <div>  
               <label class="block text-gray-400 mb-1">Amount ($)</label>  
-              <input type="number" id="withdraw-amount" placeholder="Min $10" class="w-full bg-slate-900 border border-white/10 rounded-xl p-2.5 text-white focus:outline-none focus:border-sky-400">  
+              <input type="number" id="withdraw-amount" placeholder="Min $10" class="w-full bg-black/60 border border-white/15 rounded-xl p-2.5 text-white focus:outline-none focus:border-red-500">  
             </div>  
             <div>  
               <label class="block text-gray-400 mb-1">Wallet Address</label>  
-              <input type="text" id="withdraw-address" placeholder="Destination Address" class="w-full bg-slate-900 border border-white/10 rounded-xl p-2.5 text-white focus:outline-none focus:border-sky-400">  
+              <input type="text" id="withdraw-address" placeholder="Destination Address" class="w-full bg-black/60 border border-white/15 rounded-xl p-2.5 text-white focus:outline-none focus:border-red-500">  
             </div>  
             <div id="withdraw-msg" class="min-h-[16px] text-xs"></div>  
-            <button onclick="submitWithdrawal()" class="w-full btn-3d-blackberry text-white font-bold py-2.5 rounded-xl">Request Withdrawal</button>  
+            <button onclick="submitWithdrawal()" class="w-full btn-3d-red text-white font-bold py-2.5 rounded-xl">Request Withdrawal</button>  
           </div>  
         </div>  
 
-        <div class="glass-card-3d p-6 rounded-2xl space-y-4">  
+        <div class="glass-card-3d p-6 rounded-2xl space-y-4 border border-white/10">  
           <h3 class="text-base font-bold text-white">Recent Deposits</h3>  
           <div id="deposit-history" class="space-y-2 text-xs">  
             <p class="text-gray-400">No deposits recorded yet.</p>  
@@ -618,7 +674,7 @@
         </div>  
       </div>  
 
-      <div class="glass-card-3d p-6 rounded-2xl space-y-4">  
+      <div class="glass-card-3d p-6 rounded-2xl space-y-4 border border-white/10">  
         <h3 class="text-base font-bold text-white">Gift Card Purchase History & Codes</h3>  
         <div id="giftcard-history" class="space-y-2 text-xs">  
           <p class="text-gray-400">No gift card orders logged yet.</p>  
@@ -636,17 +692,17 @@
       <div class="space-y-4 text-xs max-w-xl">  
         <div>  
           <label class="block text-gray-400 mb-1 font-semibold">Account Email</label>  
-          <input type="text" id="profile-email" readonly class="w-full bg-slate-900/60 border border-white/10 rounded-xl p-3 text-gray-400 font-mono focus:outline-none">  
+          <input type="text" id="profile-email" readonly class="w-full bg-black/80 border border-white/10 rounded-xl p-3 text-gray-400 font-mono focus:outline-none">  
         </div>  
 
         <div>  
           <label class="block text-gray-300 mb-1 font-semibold">Username (Can be updated once every 72 hours)</label>  
-          <input type="text" id="profile-username" placeholder="Enter custom username" class="w-full bg-slate-900 border border-white/10 rounded-xl p-3 text-white focus:outline-none focus:border-sky-400">  
+          <input type="text" id="profile-username" placeholder="Enter custom username" class="w-full bg-black/60 border border-white/15 rounded-xl p-3 text-white focus:outline-none focus:border-red-500">  
         </div>  
 
         <div id="username-status" class="min-h-[16px]"></div>  
 
-        <button onclick="updateProfileUsername()" class="btn-3d-blue text-white font-bold px-6 py-3 rounded-xl text-xs">  
+        <button onclick="updateProfileUsername()" class="btn-3d-red text-white font-bold px-6 py-3 rounded-xl text-xs">  
           Update Username  
         </button>  
       </div>  
@@ -655,17 +711,17 @@
     <!-- TAB 3: REFERRAL HUB -->  
     <div id="dash-tab-referral" class="hidden glass-card-3d p-6 rounded-2xl border border-white/10 space-y-6">  
       <div class="border-b border-white/10 pb-4">  
-        <h3 class="text-lg font-bold text-purple-300">Investor Referral Hub</h3>  
+        <h3 class="text-lg font-bold text-red-300">Investor Referral Hub</h3>  
         <p class="text-xs text-gray-300">Earn 5% automatic yield commissions on all deposits made by users you refer</p>  
       </div>  
 
       <div class="space-y-3 text-xs">  
         <label class="block text-gray-300 font-semibold">Your Referral Link</label>  
         <div class="flex gap-2">  
-          <input type="text" id="ref-link-input" readonly class="w-full bg-slate-900 border border-white/10 rounded-xl px-3 py-2 text-sky-300 font-mono focus:outline-none">  
-          <button onclick="copyRefLink()" class="btn-3d-blue text-white font-bold px-5 py-2 rounded-xl shrink-0">Copy</button>  
+          <input type="text" id="ref-link-input" readonly class="w-full bg-black/60 border border-white/15 rounded-xl px-3 py-2 text-red-300 font-mono focus:outline-none">  
+          <button onclick="copyRefLink()" class="btn-3d-red text-white font-bold px-5 py-2 rounded-xl shrink-0">Copy</button>  
         </div>  
-        <span id="copy-msg" class="text-[10px] text-sky-400 block h-3"></span>  
+        <span id="copy-msg" class="text-[10px] text-red-400 block h-3"></span>  
       </div>  
 
       <div class="space-y-4">  
@@ -677,78 +733,125 @@
     </div>  
   </section>    
 
+  <!-- LIVE DEPOSIT / PAYOUT POPUP NOTIFICATION (NEW FEATURE) -->
+  <div id="live-popup-notification" class="fixed bottom-5 left-5 z-50 glass-card-3d border border-red-500/40 rounded-2xl p-4 shadow-2xl transition-all duration-500 transform translate-y-32 opacity-0 max-w-xs flex items-center space-x-3 pointer-events-auto">
+    <div class="w-10 h-10 rounded-xl bg-red-600/30 border border-red-500/50 flex items-center justify-center shrink-0">
+      <i data-lucide="trending-up" class="w-5 h-5 text-red-400"></i>
+    </div>
+    <div class="text-xs space-y-0.5">
+      <p id="popup-user" class="font-bold text-white">Investor from UK</p>
+      <p id="popup-details" class="text-red-300 font-semibold">Just deposited $1,500 in Pro Yield</p>
+      <span class="text-[9px] text-gray-400">Just now • Verified</span>
+    </div>
+    <button onclick="closeLivePopup()" class="text-gray-400 hover:text-white text-xs font-bold pl-2">&times;</button>
+  </div>
+
+  <!-- HOW IT WORKS MODAL (NEW FEATURE) -->
+  <div id="how-modal" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 hidden items-center justify-center p-4">
+    <div class="glass-card-3d border border-red-500/30 rounded-3xl p-6 max-w-lg w-full shadow-2xl space-y-5 relative">
+      <div class="flex justify-between items-center border-b border-white/10 pb-3">
+        <h3 class="text-lg font-bold text-white">How GROWTHMAX Works</h3>
+        <button onclick="closeHowItWorksModal()" class="text-gray-400 hover:text-white text-lg font-bold">&times;</button>
+      </div>
+      <div class="space-y-4 text-xs text-gray-300 leading-relaxed">
+        <div class="flex gap-3">
+          <div class="w-7 h-7 rounded-full bg-red-600 text-white font-bold flex items-center justify-center shrink-0">1</div>
+          <div>
+            <h4 class="font-bold text-white">Create & Activate Account</h4>
+            <p>Register your investor profile in seconds. Secure your access credentials with two-factor capabilities.</p>
+          </div>
+        </div>
+        <div class="flex gap-3">
+          <div class="w-7 h-7 rounded-full bg-red-600 text-white font-bold flex items-center justify-center shrink-0">2</div>
+          <div>
+            <h4 class="font-bold text-white">Select Yield or Asset Plan</h4>
+            <p>Deposit crypto into automated yield algorithms or purchase equity stakes in fractional commercial real estate.</p>
+          </div>
+        </div>
+        <div class="flex gap-3">
+          <div class="w-7 h-7 rounded-full bg-red-600 text-white font-bold flex items-center justify-center shrink-0">3</div>
+          <div>
+            <h4 class="font-bold text-white">Earn Yields & Instant Gift Card Cashout</h4>
+            <p>Accrue compounding ROI daily. Withdraw directly to your external wallet or exchange yield for instant e-gift cards.</p>
+          </div>
+        </div>
+      </div>
+      <button onclick="closeHowItWorksModal()" class="w-full py-2.5 btn-3d-red text-white font-bold rounded-xl text-xs">Got It</button>
+    </div>
+  </div>
+
   <!-- DEPOSIT MODAL -->    
-  <div id="deposit-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 hidden items-center justify-center p-4">  
-    <div class="glass-card-3d border border-white/10 rounded-2xl p-6 max-w-lg w-full shadow-2xl space-y-4 relative">  
+  <div id="deposit-modal" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 hidden items-center justify-center p-4">  
+    <div class="glass-card-3d border border-red-500/30 rounded-2xl p-6 max-w-lg w-full shadow-2xl space-y-4 relative">  
       <div class="flex justify-between items-center border-b border-white/10 pb-3">  
-        <h3 class="text-lg font-bold text-sky-400">Choose Yield Package</h3>  
+        <h3 class="text-lg font-bold text-red-400">Choose Yield Package</h3>  
         <button onclick="closeDepositModal()" class="text-gray-400 hover:text-white text-lg font-bold">&times;</button>  
       </div>  
       
       <div id="deposit-step-1" class="space-y-3">  
-        <div onclick="selectPlan('Beginners', 50, 499, '10%', '24H / 14 Days')" class="p-3 border border-white/10 bg-slate-900/60 rounded-xl cursor-pointer hover:border-sky-400 transition">  
-          <div class="flex justify-between font-bold text-gray-200"><span>Beginners</span><span class="text-sky-300">10% ROI</span></div>  
+        <div onclick="selectPlan('Beginners', 50, 499, '10%', '24H / 14 Days')" class="p-3 border border-white/10 bg-black/60 rounded-xl cursor-pointer hover:border-red-500 transition">  
+          <div class="flex justify-between font-bold text-gray-200"><span>Beginners</span><span class="text-red-400">10% ROI</span></div>  
           <p class="text-xs text-gray-400 mt-1">$50 - $499</p>  
         </div>  
-        <div onclick="selectPlan('Advanced', 500, 1999, '25%', '48H / 21 Days')" class="p-3 border border-white/10 bg-slate-900/60 rounded-xl cursor-pointer hover:border-purple-400 transition">  
-          <div class="flex justify-between font-bold text-gray-200"><span>Advanced</span><span class="text-purple-300">25% ROI</span></div>  
+        <div onclick="selectPlan('Advanced', 500, 1999, '25%', '48H / 21 Days')" class="p-3 border border-white/10 bg-black/60 rounded-xl cursor-pointer hover:border-red-500 transition">  
+          <div class="flex justify-between font-bold text-gray-200"><span>Advanced</span><span class="text-red-400">25% ROI</span></div>  
           <p class="text-xs text-gray-400 mt-1">$500 - $1,999</p>  
         </div>  
-        <div onclick="selectPlan('Pro/Expert', 2000, 4999, '35%', '72H / 30 Days')" class="p-3 border border-white/10 bg-slate-900/60 rounded-xl cursor-pointer hover:border-sky-400 transition">  
-          <div class="flex justify-between font-bold text-gray-200"><span>Pro/Expert</span><span class="text-sky-300">35% ROI</span></div>  
+        <div onclick="selectPlan('Pro/Expert', 2000, 4999, '35%', '72H / 30 Days')" class="p-3 border border-white/10 bg-black/60 rounded-xl cursor-pointer hover:border-red-500 transition">  
+          <div class="flex justify-between font-bold text-gray-200"><span>Pro/Expert</span><span class="text-red-400">35% ROI</span></div>  
           <p class="text-xs text-gray-400 mt-1">$2,000 - $4,999</p>  
         </div>  
-        <div onclick="selectPlan('Top Investor', 5000, 1000000, '42%', '98H / 62 Days')" class="p-3 border border-white/10 bg-slate-900/60 rounded-xl cursor-pointer hover:border-purple-400 transition">  
-          <div class="flex justify-between font-bold text-gray-200"><span>Top Investor</span><span class="text-purple-300">42% ROI</span></div>  
+        <div onclick="selectPlan('Top Investor', 5000, 1000000, '42%', '98H / 62 Days')" class="p-3 border border-white/10 bg-black/60 rounded-xl cursor-pointer hover:border-red-500 transition">  
+          <div class="flex justify-between font-bold text-gray-200"><span>Top Investor</span><span class="text-red-400">42% ROI</span></div>  
           <p class="text-xs text-gray-400 mt-1">$5,000 - Unlimited</p>  
         </div>  
       </div>  
 
       <div id="deposit-step-2" class="hidden space-y-4 text-xs">  
-        <p id="selected-plan-title" class="text-sky-400 font-bold uppercase"></p>  
+        <p id="selected-plan-title" class="text-red-400 font-bold uppercase"></p>  
         <div>  
           <label class="block text-gray-300 mb-1">Enter Amount ($)</label>  
-          <input type="number" id="deposit-amount" class="w-full bg-slate-900 border border-white/10 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-sky-400">  
+          <input type="number" id="deposit-amount" class="w-full bg-black/60 border border-white/15 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-red-500">  
         </div>  
         <div>  
           <label class="block text-gray-300 mb-1">Payment Method</label>  
-          <select id="payment-method" onchange="updateWalletDisplay()" class="w-full bg-slate-900 border border-white/10 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-sky-400">  
+          <select id="payment-method" onchange="updateWalletDisplay()" class="w-full bg-black/60 border border-white/15 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-red-500">  
             <option value="USDT TRC20">USDT (TRC20)</option>  
             <option value="Bitcoin">Bitcoin (BTC)</option>  
           </select>  
         </div>  
-        <div class="p-3 bg-slate-950 border border-white/10 rounded-xl space-y-1">  
+        <div class="p-3 bg-black border border-white/10 rounded-xl space-y-1">  
           <p class="text-gray-400">Send deposit to address:</p>  
-          <p id="wallet-address-display" class="font-mono text-sky-300 break-all select-all">TNKNFATEk2vMZA7FAFs5cHPim9ZQxf4G8W</p>  
+          <p id="wallet-address-display" class="font-mono text-red-300 break-all select-all">TNKNFATEk2vMZA7FAFs5cHPim9ZQxf4G8W</p>  
         </div>  
         <div>  
           <label class="block text-gray-300 mb-1">Transaction Hash / TxID</label>  
-          <input type="text" id="txn-hash" placeholder="e.g. 0x123..." class="w-full bg-slate-900 border border-white/10 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-sky-400">  
+          <input type="text" id="txn-hash" placeholder="e.g. 0x123..." class="w-full bg-black/60 border border-white/15 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-red-500">  
         </div>  
         <div id="deposit-msg" class="text-center min-h-[16px] text-xs"></div>  
         <div class="flex gap-2">  
           <button onclick="backToStep1()" class="w-1/3 border border-white/10 py-2 rounded-lg text-gray-400 hover:text-white transition">Back</button>  
-          <button onclick="submitDeposit()" class="w-2/3 btn-3d-blue text-white font-bold py-2 rounded-lg">Submit Deposit</button>  
+          <button onclick="submitDeposit()" class="w-2/3 btn-3d-red text-white font-bold py-2 rounded-lg">Submit Deposit</button>  
         </div>  
       </div>  
     </div>  
   </div>    
 
   <!-- GIFT CARD CHECKOUT MODAL -->    
-  <div id="giftcard-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 hidden items-center justify-center p-4">  
-    <div class="glass-card-3d border border-white/10 rounded-2xl p-6 max-w-md w-full shadow-2xl space-y-4 relative">  
+  <div id="giftcard-modal" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 hidden items-center justify-center p-4">  
+    <div class="glass-card-3d border border-red-500/30 rounded-2xl p-6 max-w-md w-full shadow-2xl space-y-4 relative">  
       <div class="flex justify-between items-center border-b border-white/10 pb-3">  
-        <h3 class="text-lg font-bold text-sky-400">Checkout Gift Card</h3>  
+        <h3 class="text-lg font-bold text-red-400">Checkout Gift Card</h3>  
         <button onclick="closeGiftCardModal()" class="text-gray-400 hover:text-white text-lg font-bold">&times;</button>  
       </div>  
       <div class="space-y-4 text-xs">  
         <div>  
           <label class="block text-gray-400 mb-1">Selected Brand</label>  
-          <input type="text" id="gc-selected-title" readonly class="w-full bg-slate-900 border border-white/10 rounded-xl px-3 py-2 text-sky-300 font-bold focus:outline-none">  
+          <input type="text" id="gc-selected-title" readonly class="w-full bg-black/60 border border-white/15 rounded-xl px-3 py-2 text-red-300 font-bold focus:outline-none">  
         </div>  
         <div>  
           <label class="block text-gray-300 mb-1">Select Denomination ($)</label>  
-          <select id="gc-amount" class="w-full bg-slate-900 border border-white/10 rounded-xl px-3 py-2 text-white font-bold focus:outline-none focus:border-sky-400">  
+          <select id="gc-amount" class="w-full bg-black/60 border border-white/15 rounded-xl px-3 py-2 text-white font-bold focus:outline-none focus:border-red-500">  
             <option value="25">$25.00 USD</option>  
             <option value="50">$50.00 USD</option>  
             <option value="100">$100.00 USD</option>  
@@ -757,48 +860,85 @@
           </select>  
         </div>  
         <div id="gc-modal-msg" class="text-center min-h-[16px] text-xs"></div>  
-        <button onclick="processGiftCardPurchase()" class="w-full py-3 btn-3d-blue text-white font-bold rounded-xl">Confirm & Issue Code</button>  
+        <button onclick="processGiftCardPurchase()" class="w-full py-3 btn-3d-red text-white font-bold rounded-xl">Confirm & Issue Code</button>  
       </div>  
     </div>  
   </div>    
 
   <!-- AUTH MODAL -->    
-  <div id="auth-modal" class="fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-md hidden items-center justify-center p-4">  
-    <div class="glass-card-3d max-w-md w-full p-8 rounded-3xl border border-white/15 shadow-2xl relative space-y-6">  
+  <div id="auth-modal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden items-center justify-center p-4">  
+    <div class="glass-card-3d max-w-md w-full p-8 rounded-3xl border border-red-500/30 shadow-2xl relative space-y-6">  
       <button onclick="closeAuthModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white p-2 text-xl font-bold">&times;</button>  
       <div class="text-center space-y-2">  
-        <div class="w-12 h-12 btn-3d-blue rounded-2xl mx-auto flex items-center justify-center font-black text-white text-2xl">G</div>  
+        <div class="w-12 h-12 btn-3d-red rounded-2xl mx-auto flex items-center justify-center font-black text-white text-2xl">G</div>  
         <h3 id="auth-title" class="text-2xl font-black text-white">Sign In to GROWTHMAX</h3>  
       </div>  
       <form onsubmit="handleAuthSubmit(event)" class="space-y-4 text-xs">  
         <div>  
           <label class="block text-gray-300 uppercase mb-1">Email Address</label>  
-          <input type="email" id="auth-email" required class="w-full bg-slate-900 border border-white/10 rounded-xl p-3 text-white focus:outline-none focus:border-sky-400">  
+          <input type="email" id="auth-email" required class="w-full bg-black/60 border border-white/15 rounded-xl p-3 text-white focus:outline-none focus:border-red-500">  
         </div>  
         <div>  
           <label class="block text-gray-300 uppercase mb-1">Password</label>  
-          <input type="password" id="auth-password" required class="w-full bg-slate-900 border border-white/10 rounded-xl p-3 text-white focus:outline-none focus:border-sky-400">  
+          <input type="password" id="auth-password" required class="w-full bg-black/60 border border-white/15 rounded-xl p-3 text-white focus:outline-none focus:border-red-500">  
         </div>  
         <div id="auth-modal-msg" class="text-center min-h-[14px] text-xs"></div>  
-        <button type="submit" id="auth-submit-btn" class="w-full py-3.5 btn-3d-blue text-white font-bold rounded-xl text-sm">Sign In</button>  
+        <button type="submit" id="auth-submit-btn" class="w-full py-3.5 btn-3d-red text-white font-bold rounded-xl text-sm">Sign In</button>  
       </form>  
 
       <p class="text-center text-xs text-gray-300">  
         <span id="auth-toggle-text">Don't have an account?</span>  
-        <button onclick="toggleAuthMode()" id="auth-toggle-btn" class="text-sky-400 font-bold hover:underline ml-1">Register Now</button>  
+        <button onclick="toggleAuthMode()" id="auth-toggle-btn" class="text-red-400 font-bold hover:underline ml-1">Register Now</button>  
       </p>  
     </div>  
   </div>    
 
-  <!-- Footer -->    
-  <footer class="border-t border-white/10 py-8 bg-slate-950/90 text-xs text-gray-400 relative z-10">  
-    <div class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-4">  
-      <p>© 2026 GROWTHMAX Institutional Group. All rights reserved.</p>  
-      <div class="flex space-x-6">  
-        <button onclick="scrollToHub('about')" class="hover:text-white">About Us</button>  
-        <button onclick="scrollToHub('faq')" class="hover:text-white">FAQ</button>  
-        <button onclick="scrollToHub('privacy')" class="hover:text-white">Privacy Policy</button>  
-        <button onclick="alert('Risk Disclaimer: Cryptocurrency investments and commercial real estate fractional trading carry inherent market risk. Always invest within your risk tolerance limits.')" class="hover:text-white">Risk Disclaimer</button>  
+  <!-- InvestNow-Style Enhanced Down-End Footer Section -->    
+  <footer class="border-t border-red-900/30 bg-black/95 text-xs text-gray-400 relative z-10 pt-12 pb-8">  
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">  
+      
+      <!-- Top Row: Newsletter & Branding -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 pb-8 border-b border-white/10">
+        <div class="space-y-3">
+          <div class="flex items-center space-x-2">
+            <div class="w-8 h-8 rounded-xl bg-red-600 flex items-center justify-center font-bold text-white">G</div>
+            <span class="text-lg font-black text-white tracking-tight">GROWTHMAX</span>
+          </div>
+          <p class="text-xs text-gray-400 leading-relaxed">
+            Leading institutional yield platform integrating quantitative digital asset management, commercial real estate portfolios, and instant global e-gift card issuance.
+          </p>
+        </div>
+
+        <div>
+          <h4 class="text-sm font-bold text-white mb-2">Subscribe to Institutional Market Updates</h4>
+          <form onsubmit="event.preventDefault(); alert('Subscribed to Growthmax Financial Digest.');" class="flex gap-2">
+            <input type="email" placeholder="Enter business email" required class="w-full bg-black/60 border border-white/15 rounded-xl px-3 py-2 text-white text-xs focus:outline-none focus:border-red-500">
+            <button type="submit" class="btn-3d-red px-4 py-2 text-white font-bold rounded-xl shrink-0">Join</button>
+          </form>
+        </div>
+
+        <div class="space-y-2">
+          <h4 class="text-sm font-bold text-white">Supported Payment Gateways</h4>
+          <div class="flex flex-wrap gap-2 text-[10px]">
+            <span class="px-2 py-1 bg-red-950/60 border border-red-500/30 text-red-200 rounded">USDT TRC20</span>
+            <span class="px-2 py-1 bg-red-950/60 border border-red-500/30 text-red-200 rounded">Bitcoin BTC</span>
+            <span class="px-2 py-1 bg-white/10 border border-white/20 text-white rounded">Visa Prepaid</span>
+            <span class="px-2 py-1 bg-white/10 border border-white/20 text-white rounded">Mastercard</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Links Row -->
+      <div class="flex flex-col md:flex-row justify-between items-center gap-4 text-xs">  
+        <p>© 2026 GROWTHMAX Institutional Group. All rights reserved.</p>  
+        <div class="flex flex-wrap gap-6">  
+          <button onclick="scrollToHub('about')" class="hover:text-white">About Us</button>  
+          <button onclick="scrollToHub('services')" class="hover:text-white">Yield Plans</button>  
+          <button onclick="scrollToHub('realestate')" class="hover:text-white">Real Estate</button>  
+          <button onclick="scrollToHub('faq')" class="hover:text-white">FAQ</button>  
+          <button onclick="scrollToHub('privacy')" class="hover:text-white">Privacy Policy</button>  
+          <button onclick="alert('Risk Disclaimer: Cryptocurrency investments and commercial real estate fractional trading carry inherent market risk. Always invest within your risk tolerance limits.')" class="hover:text-white">Risk Disclaimer</button>  
+        </div>  
       </div>  
     </div>  
   </footer>    
@@ -814,7 +954,7 @@
   </script>    
   <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>    
 
-  <!-- Dynamic 3D Falling Coins & Gift Cards Engine Script -->
+  <!-- Dynamic 3D Red Gem, Bitcoin & Card Background Canvas Engine -->
   <script>
     (function init3DCanvasBackground() {
       const canvas = document.getElementById('3d-bg-canvas');
@@ -832,7 +972,7 @@
       const items = [];
       const numItems = 45;
 
-      const types = ['BTC', 'ETH', 'SOL', 'GIFT'];
+      const types = ['BTC', 'ETH', 'GEM', 'GIFT'];
 
       class Floating3DItem {
         constructor() {
@@ -842,18 +982,16 @@
         reset(initial = false) {
           this.type = types[Math.floor(Math.random() * types.length)];
           this.x = Math.random() * width;
-          this.size = Math.random() * 24 + 28; // Bold size
+          this.size = Math.random() * 24 + 28;
           this.z = Math.random() * 0.8 + 0.2;
           this.angle = Math.random() * Math.PI * 2;
           this.rotSpeed = (Math.random() - 0.5) * 0.04;
 
-          if (this.type === 'BTC') {
-            // Falling Bitcoins
+          if (this.type === 'BTC' || this.type === 'GEM') {
             this.y = initial ? Math.random() * height : -60;
             this.vy = Math.random() * 1.5 + 1.2;
             this.vx = (Math.random() - 0.5) * 0.4;
           } else {
-            // Floating up and down Altcoins & Giftcards
             this.y = initial ? Math.random() * height : height + 60;
             this.vy = -(Math.random() * 1.2 + 0.8);
             this.vx = (Math.random() - 0.5) * 0.5;
@@ -865,8 +1003,8 @@
           this.x += this.vx;
           this.angle += this.rotSpeed;
 
-          if (this.type === 'BTC' && this.y > height + 60) this.reset();
-          if (this.type !== 'BTC' && this.y < -60) this.reset();
+          if ((this.type === 'BTC' || this.type === 'GEM') && this.y > height + 60) this.reset();
+          if ((this.type !== 'BTC' && this.type !== 'GEM') && this.y < -60) this.reset();
           if (this.x < -60 || this.x > width + 60) this.reset();
         }
 
@@ -877,29 +1015,42 @@
           ctx.scale(this.z, this.z);
 
           if (this.type === 'BTC') {
-            // Gold 3D Bitcoin
-            ctx.shadowColor = '#f59e0b';
+            ctx.shadowColor = '#ef4444';
             ctx.shadowBlur = 18;
-            ctx.fillStyle = 'radial-gradient(circle, #fef08a 0%, #f59e0b 100%)';
             ctx.beginPath();
             ctx.arc(0, 0, this.size / 2, 0, Math.PI * 2);
-            ctx.fillStyle = '#f59e0b';
+            ctx.fillStyle = '#dc2626';
             ctx.fill();
             ctx.lineWidth = 3;
-            ctx.strokeStyle = '#fef08a';
+            ctx.strokeStyle = '#ffffff';
             ctx.stroke();
 
-            ctx.fillStyle = '#1e1b4b';
+            ctx.fillStyle = '#ffffff';
             ctx.font = `bold ${this.size * 0.6}px sans-serif`;
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
             ctx.fillText('₿', 0, 1);
+          } else if (this.type === 'GEM') {
+            ctx.shadowColor = '#dc2626';
+            ctx.shadowBlur = 16;
+            ctx.fillStyle = '#ef4444';
+            ctx.beginPath();
+            ctx.arc(0, 0, this.size / 2.5, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.lineWidth = 2;
+            ctx.strokeStyle = '#fef2f2';
+            ctx.stroke();
+
+            ctx.fillStyle = '#ffffff';
+            ctx.font = `bold ${this.size * 0.4}px sans-serif`;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('◆', 0, 0);
           } else if (this.type === 'GIFT') {
-            // Bold Floating 3D Gift Card
-            ctx.shadowColor = '#38bdf8';
+            ctx.shadowColor = '#ef4444';
             ctx.shadowBlur = 18;
-            ctx.fillStyle = 'rgba(15, 23, 42, 0.9)';
-            ctx.strokeStyle = '#38bdf8';
+            ctx.fillStyle = 'rgba(20, 7, 31, 0.9)';
+            ctx.strokeStyle = '#ef4444';
             ctx.lineWidth = 2.5;
 
             const w = this.size * 1.4;
@@ -909,28 +1060,27 @@
             ctx.fill();
             ctx.stroke();
 
-            ctx.fillStyle = '#38bdf8';
+            ctx.fillStyle = '#ffffff';
             ctx.font = `bold ${this.size * 0.35}px sans-serif`;
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
             ctx.fillText('GIFT', 0, 0);
           } else {
-            // Other Crypto Coins (ETH/SOL)
-            ctx.shadowColor = '#c084fc';
+            ctx.shadowColor = '#991b1b';
             ctx.shadowBlur = 16;
-            ctx.fillStyle = '#7e22ce';
+            ctx.fillStyle = '#3b0764';
             ctx.beginPath();
             ctx.arc(0, 0, this.size / 2.2, 0, Math.PI * 2);
             ctx.fill();
             ctx.lineWidth = 2;
-            ctx.strokeStyle = '#e9d5ff';
+            ctx.strokeStyle = '#ef4444';
             ctx.stroke();
 
             ctx.fillStyle = '#ffffff';
             ctx.font = `bold ${this.size * 0.45}px sans-serif`;
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
-            ctx.fillText(this.type === 'ETH' ? 'Ξ' : 'S', 0, 1);
+            ctx.fillText('Ξ', 0, 1);
           }
 
           ctx.restore();
@@ -954,10 +1104,9 @@
     })();
   </script>
 
-  <!-- Application Logic & Supabase Integration -->    
+  <!-- Application Logic, Supabase Integration & New Features -->    
   <script>  
     const SUPABASE_URL = 'https://psbokzosswthttvxppcf.supabase.co';  
-    // Corrected Supabase Key with lowercase "e" in role claim
     const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBzYm9rem9zc3d0aHR0dnhwcGNmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA5NjYzNDYsImV4cCI6MjEwNjU0MjM0Nn0.diXojuSglO9Q26IbsYG8JsHHvyrbxnHsz9KtFnZnD7E';  
     const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);  
   
@@ -970,6 +1119,7 @@
     let authMode = 'login';  
     let activePlan = null;  
     let currentGiftCardTitle = '';  
+    let currentSlide = 0;
   
     lucide.createIcons();  
   
@@ -981,6 +1131,86 @@
   
     document.querySelectorAll('.reveal-on-scroll').forEach(el => scrollObserver.observe(el));  
   
+    /* Carousel Logic */
+    function setSlide(index) {
+      const slides = document.querySelectorAll('.hero-slide');
+      const dots = document.querySelectorAll('.slide-dot');
+      if (!slides.length) return;
+
+      currentSlide = index;
+      slides.forEach((slide, i) => {
+        slide.style.opacity = (i === currentSlide) ? '1' : '0';
+      });
+
+      dots.forEach((dot, i) => {
+        if (i === currentSlide) {
+          dot.classList.remove('bg-white/40');
+          dot.classList.add('bg-red-600');
+        } else {
+          dot.classList.remove('bg-red-600');
+          dot.classList.add('bg-white/40');
+        }
+      });
+    }
+
+    function nextSlide() {
+      const slides = document.querySelectorAll('.hero-slide');
+      setSlide((currentSlide + 1) % slides.length);
+    }
+
+    function prevSlide() {
+      const slides = document.querySelectorAll('.hero-slide');
+      setSlide((currentSlide - 1 + slides.length) % slides.length);
+    }
+
+    setInterval(nextSlide, 5000);
+
+    /* How It Works Modal Logic */
+    function openHowItWorksModal() {
+      const modal = document.getElementById('how-modal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closeHowItWorksModal() {
+      const modal = document.getElementById('how-modal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    /* Live Deposit / Payout Notification Popups */
+    const samplePopups = [
+      { user: "Investor from London, UK", details: "Just deposited $2,500 in Pro Yield Plan" },
+      { user: "User from Frankfurt, GER", details: "Withdrew $1,200 ROI to USDT TRC20" },
+      { user: "Investor from Dubai, UAE", details: "Invested $5,000 in Aura Luxury Bay Resort" },
+      { user: "User from Toronto, CAN", details: "Purchased $500 Amazon Gift Card" }
+    ];
+
+    function triggerLivePopup() {
+      const pop = document.getElementById('live-popup-notification');
+      if (!pop) return;
+      
+      const item = samplePopups[Math.floor(Math.random() * samplePopups.length)];
+      document.getElementById('popup-user').textContent = item.user;
+      document.getElementById('popup-details').textContent = item.details;
+
+      pop.classList.remove('translate-y-32', 'opacity-0');
+      pop.classList.add('translate-y-0', 'opacity-100');
+
+      setTimeout(() => {
+        closeLivePopup();
+      }, 5000);
+    }
+
+    function closeLivePopup() {
+      const pop = document.getElementById('live-popup-notification');
+      if (!pop) return;
+      pop.classList.remove('translate-y-0', 'opacity-100');
+      pop.classList.add('translate-y-32', 'opacity-0');
+    }
+
+    setInterval(triggerLivePopup, 14000);
+
     function showSection(section) {  
       const landing = document.getElementById('landing-section');  
       const dashboard = document.getElementById('dashboard-section');  
@@ -1043,7 +1273,7 @@
       const email = document.getElementById('auth-email').value;  
       const password = document.getElementById('auth-password').value;  
       const msg = document.getElementById('auth-modal-msg');  
-      msg.className = "text-xs text-sky-400 text-center";  
+      msg.className = "text-xs text-red-400 text-center";  
       msg.textContent = "Processing authentication...";  
   
       if (authMode === 'register') {  
@@ -1090,8 +1320,8 @@
       const authContainer = document.getElementById('auth-buttons-container');  
       if (authContainer) {  
         authContainer.innerHTML = `  
-          <button onclick="showSection('dashboard')" class="px-4 py-2 text-xs font-bold text-sky-300 bg-blue-900/40 border border-sky-500/30 rounded-xl hover:border-sky-400 transition flex items-center space-x-1">  
-            <i data-lucide="user" class="w-3.5 h-3.5"></i>  
+          <button onclick="showSection('dashboard')" class="px-4 py-2 text-xs font-bold text-white bg-red-950/60 border border-red-500/40 rounded-xl hover:border-red-400 transition flex items-center space-x-1">  
+            <i data-lucide="user" class="w-3.5 h-3.5 text-red-400"></i>  
             <span>${user.email.split('@')[0]}</span>  
           </button>  
         `;  
@@ -1127,7 +1357,7 @@
         return;  
       }  
   
-      status.className = "text-xs text-sky-400 font-bold";  
+      status.className = "text-xs text-red-400 font-bold";  
       status.textContent = "Updating username...";  
   
       const { data: profile } = await supabaseClient  
@@ -1137,7 +1367,7 @@
         .single();  
   
       if (profile?.username === usernameInput) {  
-        status.className = "text-xs text-sky-400 font-bold";  
+        status.className = "text-xs text-white font-bold";  
         status.textContent = "Username is already set to this value.";  
         return;  
       }  
@@ -1179,7 +1409,7 @@
         status.className = "text-xs text-red-400 font-bold";  
         status.textContent = error.message;  
       } else {  
-        status.className = "text-xs text-sky-400 font-bold";  
+        status.className = "text-xs text-white font-bold";  
         status.textContent = "Username updated successfully!";  
       }  
     }  
@@ -1192,8 +1422,8 @@
         const { data: referrals } = await supabaseClient.from('profiles').select('email, created_at').eq('referred_by', profile.ref_code);  
         if (referrals && referrals.length > 0) {  
           container.innerHTML = referrals.map(r => `  
-            <div class="p-3 bg-slate-950 border border-white/10 rounded-xl flex justify-between">  
-              <span class="font-mono text-sky-300">${r.email}</span>  
+            <div class="p-3 bg-black border border-white/10 rounded-xl flex justify-between">  
+              <span class="font-mono text-red-300">${r.email}</span>  
               <span class="text-gray-400 text-[10px]">${new Date(r.created_at).toLocaleDateString()}</span>  
             </div>  
           `).join('');  
@@ -1208,9 +1438,9 @@
       const container = document.getElementById('deposit-history');  
       if (data && data.length > 0) {  
         container.innerHTML = data.map(d => `  
-          <div class="p-2.5 bg-slate-950 border border-white/10 rounded-xl flex justify-between text-xs">  
+          <div class="p-2.5 bg-black border border-white/10 rounded-xl flex justify-between text-xs">  
             <span>$${parseFloat(d.amount).toFixed(2)} (${d.plan_name})</span>  
-            <span class="uppercase font-bold ${d.status === 'approved' ? 'text-sky-400' : 'text-yellow-400'}">${d.status}</span>  
+            <span class="uppercase font-bold ${d.status === 'approved' ? 'text-red-400' : 'text-yellow-400'}">${d.status}</span>  
           </div>  
         `).join('');  
       } else container.innerHTML = `<p class="text-gray-400">No deposits found.</p>`;  
@@ -1221,7 +1451,7 @@
       const container = document.getElementById('giftcard-history');  
       if (data && data.length > 0) {  
         container.innerHTML = data.map(g => `  
-          <div class="p-2.5 bg-slate-950 border border-white/10 rounded-xl flex justify-between text-xs">  
+          <div class="p-2.5 bg-black border border-white/10 rounded-xl flex justify-between text-xs">  
             <span>${g.card_title} ($${parseFloat(g.amount).toFixed(2)})</span>  
             <span class="font-mono text-purple-300">${g.voucher_code}</span>  
           </div>  
@@ -1266,7 +1496,7 @@
         status: 'completed'  
       }]);  
   
-      msg.className = "text-xs text-sky-400 font-bold";  
+      msg.className = "text-xs text-white font-bold";  
       msg.textContent = `Voucher Code: ${voucherCode}`;  
       setTimeout(() => { closeGiftCardModal(); loadUserData(currentUser); }, 2000);  
     }  
@@ -1338,7 +1568,7 @@
         msg.className = "text-xs text-red-400 font-bold";  
         msg.textContent = error.message;  
       } else {  
-        msg.className = "text-xs text-sky-400 font-bold";  
+        msg.className = "text-xs text-white font-bold";  
         msg.textContent = "Deposit Submitted Successfully!";  
         setTimeout(() => { closeDepositModal(); loadUserData(currentUser); }, 1500);  
       }  
@@ -1374,7 +1604,7 @@
         msg.className = "text-xs text-red-400";  
         msg.textContent = error.message;  
       } else {  
-        msg.className = "text-xs text-sky-400 font-bold";  
+        msg.className = "text-xs text-white font-bold";  
         msg.textContent = 'Withdrawal request submitted successfully!';  
         document.getElementById('withdraw-amount').value = '';  
         document.getElementById('withdraw-address').value = '';  

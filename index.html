@@ -38,9 +38,27 @@
 .goog-te-banner-frame {
   display: none !important;
 }
+.goog-te-menu-frame, 
+.goog-te-menu2,
+iframe.goog-te-menu-frame {
+  max-width: 90vw !important;
+  max-height: 70vh !important;
+  overflow-y: auto !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5) !important;
+  border-radius: 12px !important;
+}
 
 body {
   top: 0px !important;
+}
+header {
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 1000 !important;
+  background-color: rgba(7, 3, 10, 0.95) !important;
+  backdrop-filter: blur(8px) !important;
 }
 
 /* Mobile Slide-In Navigation Drawer */
@@ -356,8 +374,7 @@ body {
   </div>    
 <div class="flex items-center justify-between w-full px-4 py-3">
   <!-- 3D Curved Square Logo & Title -->
-  <a href="#" onclick="if(typeof showSection === 'function') showSection('hero')" class="flex items-center gap-3 cursor-pointer">
-
+  <a href="#" onclick="showSection('landing'); window.scrollTo({top: 0, behavior: 'smooth'}); return false;" class="flex items-center space-x-3 cursor-pointer">
     <img 
       src="https://psbokzosswthttvxppcf.supabase.co/storage/v1/object/public/images/34a2ad4699bae785b8d444b6caa4f02e.jpg" 
       alt="Growthmax Logo" 

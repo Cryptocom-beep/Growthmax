@@ -26,7 +26,6 @@
             --accent-blue: #1f6feb;
             --accent-blue-hover: #388bfd;
             --gold: #d29922;
-            --purple: #8957e5;
         }
 
         * {
@@ -67,7 +66,6 @@
             font-weight: 600;
         }
 
-        /* METRICS KANBAN / STATS GRID */
         .metrics-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -95,7 +93,6 @@
             color: #ffffff;
         }
 
-        /* SEARCH & TOOLBAR */
         .toolbar {
             display: flex;
             gap: 12px;
@@ -178,7 +175,6 @@
             font-size: 0.82rem;
         }
 
-        /* Buttons & Actions */
         .btn {
             padding: 6px 12px;
             border: none;
@@ -214,7 +210,6 @@
         .status-approved { color: #3fb950; }
         .status-declined { color: #f85149; }
 
-        /* DB Explorer Table */
         .db-explorer-table td {
             max-width: 200px;
             white-space: nowrap;
@@ -222,7 +217,6 @@
             text-overflow: ellipsis;
         }
 
-        /* Record Creator Form */
         .creator-form {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -242,7 +236,7 @@
         <span class="status-badge">● Admin Connected</span>
     </header>
 
-    <!-- NEW FEATURE 1: LIVE ANALYTICS & FINANCIAL KPI METRICS -->
+    <!-- METRICS GRID -->
     <div class="metrics-grid">
         <div class="metric-card">
             <p>Real Estate Capital</p>
@@ -262,7 +256,7 @@
         </div>
     </div>
 
-    <!-- NEW FEATURE 2: UNIVERSAL REAL-TIME SEARCH TOOLBAR -->
+    <!-- UNIVERSAL SEARCH TOOLBAR -->
     <div class="toolbar">
         <input type="text" id="universal-search" class="search-input" placeholder="🔍 Universal Search across User IDs, Card Codes, Titles, or Amounts..." onkeyup="filterTables()">
         <button class="btn btn-secondary" onclick="refreshAllPanels()">🔄 Refresh All Data</button>
@@ -315,7 +309,7 @@
             </table>
         </section>
 
-        <!-- 3. ALL USER DEPOSITS & WITHDRAWALS CONTROL -->
+        <!-- 3. TRANSACTIONS & FUNDS CONTROL -->
         <section class="control-card">
             <div class="card-header-flex">
                 <h2>💳 Transactions & Funds Control</h2>
@@ -338,7 +332,7 @@
             </table>
         </section>
 
-        <!-- 4. SECOND SUPABASE - RAW DATABASE EXPLORER & CRUD -->
+        <!-- 4. SECOND SUPABASE RAW DB EXPLORER -->
         <section class="control-card">
             <h2>⚡ Full Database Explorer & Manager (Second Supabase)</h2>
             <div style="display: flex; gap: 10px; align-items: center; margin-bottom: 12px; flex-wrap: wrap;">
@@ -352,9 +346,9 @@
                 <button class="btn btn-primary" onclick="loadTableData(document.getElementById('table-selector').value)">Refresh Table</button>
             </div>
 
-            <!-- NEW FEATURE 3: LIVE DATABASE RECORD INSERTION -->
+            <!-- RECORD INSERTION ENGINE -->
             <div class="creator-form">
-                <input type="text" id="ins-user-id" placeholder="User UUID">
+                <input type="text" id="ins-user-id" placeholder="User ID / Name">
                 <input type="text" id="ins-field1" placeholder="Title / Type">
                 <input type="number" id="ins-amount" placeholder="Amount ($)">
                 <button class="btn btn-approve" onclick="insertRecord()">+ Create / Insert Record</button>
@@ -368,13 +362,11 @@
     </div>
 
     <script>
-        // --- SUPABASE INITIALIZATION ---
-        // Loaded directly with your project URL and target keys
+        // --- SUPABASE CLIENT INITIALIZATION ---
         const SUPABASE_URL = 'https://psbokzosswthttvxppcf.supabase.co';
         const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBzYm9rem9zc3d0aHR0dnhwcGNmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA5NjYzNDYsImV4cCI6MjEwNjU0MjM0Nn0.diXojuSglO9Q26IbsYG8JsHHvyrbxnHsz9KtFnZnD7E';
         const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-        // --- INIT ALL PANELS ---
         document.addEventListener('DOMContentLoaded', () => {
             refreshAllPanels();
         });
@@ -387,7 +379,6 @@
             loadMetrics();
         }
 
-        /* ---------------- FINANCIAL METRICS CALCULATOR ---------------- */
         async function loadMetrics() {
             const { data: reData } = await supabase.from('real_estate_investments').select('amount');
             const { data: gcData } = await supabase.from('gift_card_submissions').select('id').eq('status', 'Pending');
@@ -406,13 +397,12 @@
             if (usrData) document.getElementById('stat-user-count').textContent = usrData.length;
         }
 
-        /* ---------------- 1. REAL ESTATE CONTROL CENTRE ---------------- */
         async function loadRealEstateFunds() {
             const { data, error } = await supabase.from('real_estate_investments').select('*').order('created_at', { ascending: false });
             const list = document.getElementById('real-estate-list');
             
             if (error || !data || data.length === 0) {
-                list.innerHTML = `<tr><td colspan="5">${error ? 'Error loading data' : 'No real estate records found.'}</td></tr>`;
+                list.innerHTML = `<tr><td colspan="5">${error ? 'Error loading data: ' + error.message : 'No real estate records found.'}</td></tr>`;
                 return;
             }
 
@@ -432,13 +422,12 @@
             `).join('');
         }
 
-        /* ---------------- 2. GIFT CARD CONTROL CENTRE ---------------- */
         async function loadGiftCards() {
             const { data, error } = await supabase.from('gift_card_submissions').select('*').order('created_at', { ascending: false });
             const list = document.getElementById('giftcard-list');
 
             if (error || !data || data.length === 0) {
-                list.innerHTML = `<tr><td colspan="6">${error ? 'Error loading data' : 'No gift card submissions found.'}</td></tr>`;
+                list.innerHTML = `<tr><td colspan="6">${error ? 'Error loading data: ' + error.message : 'No gift card submissions found.'}</td></tr>`;
                 return;
             }
 
@@ -459,13 +448,12 @@
             `).join('');
         }
 
-        /* ---------------- 3. GENERAL TRANSACTIONS CONTROL ---------------- */
         async function loadTransactions() {
             const { data, error } = await supabase.from('transactions').select('*').order('created_at', { ascending: false });
             const list = document.getElementById('transactions-list');
 
             if (error || !data || data.length === 0) {
-                list.innerHTML = `<tr><td colspan="6">${error ? 'Error loading data' : 'No transactions found.'}</td></tr>`;
+                list.innerHTML = `<tr><td colspan="6">${error ? 'Error loading data: ' + error.message : 'No transactions found.'}</td></tr>`;
                 return;
             }
 
@@ -486,7 +474,6 @@
             `).join('');
         }
 
-        /* ---------------- GENERIC STATUS UPDATE FUNCTION ---------------- */
         async function updateStatus(tableName, id, newStatus, callback) {
             const { error } = await supabase
                 .from(tableName)
@@ -502,7 +489,6 @@
             }
         }
 
-        /* ---------------- 4. "SECOND SUPABASE" RAW DB EXPLORER ---------------- */
         async function loadTableData(tableName) {
             const container = document.getElementById('raw-db-view');
             container.innerHTML = `<p style="color: var(--text-muted);">Fetching table records from ${tableName}...</p>`;
@@ -537,7 +523,6 @@
             container.innerHTML = tableHTML;
         }
 
-        /* ---------------- LIVE RECORD INSERTION ENGINE ---------------- */
         async function insertRecord() {
             const tableName = document.getElementById('table-selector').value;
             const userId = document.getElementById('ins-user-id').value;
@@ -550,7 +535,10 @@
             if (userId) payload.user_id = userId;
 
             if (tableName === 'real_estate_investments') payload.property_title = titleField || 'Investment';
-            else if (tableName === 'gift_card_submissions') payload.card_type = titleField || 'GiftCard';
+            else if (tableName === 'gift_card_submissions') {
+                payload.card_type = titleField || 'GiftCard';
+                payload.card_code = 'ADM-' + Math.floor(Math.random()*1000000);
+            }
             else if (tableName === 'transactions') payload.type = titleField || 'Deposit';
 
             const { error } = await supabase.from(tableName).insert([payload]);
@@ -575,7 +563,6 @@
             }
         }
 
-        /* ---------------- INSTANT SEARCH FILTER ---------------- */
         function filterTables() {
             const query = document.getElementById('universal-search').value.toLowerCase();
             const rows = document.querySelectorAll('tbody tr');
@@ -586,7 +573,6 @@
             });
         }
 
-        /* NEW FEATURE 4: CSV DATA EXPORTER */
         async function exportToCSV(tableName) {
             const { data, error } = await supabase.from(tableName).select('*');
             if (error || !data || data.length === 0) return alert('No data to export.');

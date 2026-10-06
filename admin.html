@@ -4,12 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Growthmax Enterprise Admin Engine & Command Centre</title>
-    <script>
-      if (window.location.protocol === 'http:') {
-        window.location.href = window.location.href.replace('http:', 'https:');
-      }
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- Supabase JS CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
     <style>
         :root {
             --bg-color: #0b0e14;
@@ -20,319 +16,182 @@
             --accent-green: #238636;
             --accent-green-hover: #2ea043;
             --accent-red: #da3633;
-            --accent-red-hover: #f85149;
             --accent-blue: #1f6feb;
-            --accent-blue-hover: #388bfd;
             --gold: #d29922;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-        body { background-color: var(--bg-color); color: var(--text-main); padding: 24px; }
-        header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 20px; border-bottom: 1px solid var(--border-color); margin-bottom: 25px; }
-        h1 { font-size: 1.5rem; color: #ffffff; }
+        body { background-color: var(--bg-color); color: var(--text-main); padding: 20px; }
+        header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 15px; border-bottom: 1px solid var(--border-color); margin-bottom: 20px; }
+        h1 { font-size: 1.3rem; color: #ffffff; }
 
-        .status-badge { background-color: rgba(35, 134, 54, 0.15); color: #3fb950; border: 1px solid #238636; padding: 6px 14px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; }
-        .metrics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px; margin-bottom: 25px; }
-        .metric-card { background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: 10px; padding: 16px; }
-        .metric-card p { font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; margin-bottom: 6px; }
-        .metric-card h3 { font-size: 1.5rem; color: #ffffff; }
+        #debug-banner {
+            background: #1c212e;
+            border: 1px solid var(--border-color);
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-family: monospace;
+            font-size: 0.85rem;
+            color: #79c0ff;
+        }
 
-        .toolbar { display: flex; gap: 12px; margin-bottom: 20px; flex-wrap: wrap; }
-        .search-input { flex-grow: 1; background: var(--card-bg); border: 1px solid var(--border-color); color: var(--text-main); padding: 10px 14px; border-radius: 8px; font-size: 0.9rem; outline: none; }
-        .dashboard-grid { display: grid; grid-template-columns: 1fr; gap: 25px; }
-        .control-card { background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: 10px; padding: 20px; overflow-x: auto; }
-        .card-header-flex { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
-        .control-card h2 { font-size: 1.15rem; color: #ffffff; display: flex; align-items: center; gap: 8px; }
+        .metrics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-bottom: 20px; }
+        .metric-card { background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: 8px; padding: 14px; }
+        .metric-card p { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; margin-bottom: 4px; }
+        .metric-card h3 { font-size: 1.4rem; color: #ffffff; }
 
-        table { width: 100%; border-collapse: collapse; text-align: left; font-size: 0.88rem; }
-        th, td { padding: 12px; border-bottom: 1px solid var(--border-color); }
-        th { background-color: #171d29; color: var(--text-muted); font-weight: 600; }
+        .dashboard-grid { display: grid; grid-template-columns: 1fr; gap: 20px; }
+        .control-card { background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: 8px; padding: 16px; overflow-x: auto; }
+        .control-card h2 { font-size: 1.1rem; color: #ffffff; margin-bottom: 12px; }
+
+        table { width: 100%; border-collapse: collapse; text-align: left; font-size: 0.85rem; }
+        th, td { padding: 10px; border-bottom: 1px solid var(--border-color); }
+        th { background-color: #171d29; color: var(--text-muted); }
         tr:hover { background-color: #18202e; }
 
-        code { background: #171d29; padding: 3px 6px; border-radius: 4px; color: #79c0ff; font-family: monospace; font-size: 0.82rem; }
-
-        .btn { padding: 6px 12px; border: none; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 0.8rem; margin-right: 5px; }
-        .btn-approve { background-color: var(--accent-green); color: #ffffff; }
-        .btn-decline { background-color: var(--accent-red); color: #ffffff; }
-        .btn-primary { background-color: var(--accent-blue); color: #ffffff; }
+        .btn { padding: 5px 10px; border: none; border-radius: 4px; cursor: pointer; font-weight: 600; font-size: 0.75rem; margin-right: 4px; }
+        .btn-approve { background-color: var(--accent-green); color: #fff; }
+        .btn-decline { background-color: var(--accent-red); color: #fff; }
         .btn-secondary { background-color: #212635; color: var(--text-main); }
 
-        select, input { background: #0b0e14; border: 1px solid var(--border-color); color: var(--text-main); padding: 8px 12px; border-radius: 6px; }
         .status-pending { color: var(--gold); }
         .status-approved { color: #3fb950; }
         .status-declined { color: #f85149; }
-
-        .creator-form { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; margin-top: 12px; background: #0d1117; padding: 12px; border-radius: 8px; border: 1px solid var(--border-color); }
     </style>
 </head>
 <body>
 
     <header>
-        <h1>Growthmax Control Panel (Second Supabase Engine)</h1>
-        <span class="status-badge">● Admin Connected</span>
+        <h1>Growthmax Enterprise Command Centre</h1>
+        <button class="btn btn-secondary" onclick="loadAll()">🔄 Refresh Data</button>
     </header>
 
-    <div class="metrics-grid">
-        <div class="metric-card"><p>Real Estate Capital</p><h3 id="stat-re-amount">$0.00</h3></div>
-        <div class="metric-card"><p>Pending Gift Cards</p><h3 id="stat-gc-count">0</h3></div>
-        <div class="metric-card"><p>Transaction Volume</p><h3 id="stat-tx-volume">$0.00</h3></div>
-        <div class="metric-card"><p>Active Users</p><h3 id="stat-user-count">0</h3></div>
-    </div>
+    <div id="debug-banner">⚡ Connection status: Initializing client...</div>
 
-    <div class="toolbar">
-        <input type="text" id="universal-search" class="search-input" placeholder="🔍 Search across User IDs, Cards, or Amounts..." onkeyup="filterTables()">
-        <button class="btn btn-secondary" onclick="refreshAllPanels()">🔄 Refresh All Data</button>
+    <div class="metrics-grid">
+        <div class="metric-card"><p>Real Estate Capital</p><h3 id="stat-re">$0.00</h3></div>
+        <div class="metric-card"><p>Pending Gift Cards</p><h3 id="stat-gc">0</h3></div>
+        <div class="metric-card"><p>Transaction Volume</p><h3 id="stat-tx">$0.00</h3></div>
+        <div class="metric-card"><p>Active Users</p><h3 id="stat-usr">0</h3></div>
     </div>
 
     <div class="dashboard-grid">
-
-        <!-- 1. REAL ESTATE CONTROL FUNDS CENTRE -->
         <section class="control-card">
-            <div class="card-header-flex">
-                <h2>🏢 Real Estate Control Funds Centre</h2>
-                <button class="btn btn-secondary" onclick="exportToCSV('real_estate_investments')">📥 Export CSV</button>
-            </div>
+            <h2>🏢 Real Estate Control Centre</h2>
             <table>
-                <thead>
-                    <tr><th>User ID</th><th>Property Title</th><th>Amount</th><th>Status</th><th>Actions</th></tr>
-                </thead>
-                <tbody id="real-estate-list">
-                    <tr><td colspan="5">Loading real estate records...</td></tr>
-                </tbody>
+                <thead><tr><th>User ID</th><th>Property</th><th>Amount</th><th>Status</th><th>Action</th></tr></thead>
+                <tbody id="re-body"><tr><td colspan="5">Checking database...</td></tr></tbody>
             </table>
         </section>
 
-        <!-- 2. GIFT CARD CONTROL CENTRE -->
         <section class="control-card">
-            <div class="card-header-flex">
-                <h2>🎁 Gift Card Control Centre</h2>
-                <button class="btn btn-secondary" onclick="exportToCSV('gift_card_submissions')">📥 Export CSV</button>
-            </div>
+            <h2>🎁 Gift Card Control Centre</h2>
             <table>
-                <thead>
-                    <tr><th>User ID</th><th>Card Type</th><th>Card Code</th><th>Amount</th><th>Status</th><th>Actions</th></tr>
-                </thead>
-                <tbody id="giftcard-list">
-                    <tr><td colspan="6">Loading gift card records...</td></tr>
-                </tbody>
+                <thead><tr><th>User ID</th><th>Type</th><th>Code</th><th>Amount</th><th>Status</th><th>Action</th></tr></thead>
+                <tbody id="gc-body"><tr><td colspan="6">Checking database...</td></tr></tbody>
             </table>
         </section>
 
-        <!-- 3. TRANSACTIONS & FUNDS CONTROL -->
         <section class="control-card">
-            <div class="card-header-flex">
-                <h2>💳 Transactions & Funds Control</h2>
-                <button class="btn btn-secondary" onclick="exportToCSV('transactions')">📥 Export CSV</button>
-            </div>
+            <h2>💳 Transactions Control Centre</h2>
             <table>
-                <thead>
-                    <tr><th>User ID</th><th>Type</th><th>Amount</th><th>Method</th><th>Status</th><th>Actions</th></tr>
-                </thead>
-                <tbody id="transactions-list">
-                    <tr><td colspan="6">Loading transactions...</td></tr>
-                </tbody>
+                <thead><tr><th>User ID</th><th>Type</th><th>Amount</th><th>Method</th><th>Status</th><th>Action</th></tr></thead>
+                <tbody id="tx-body"><tr><td colspan="6">Checking database...</td></tr></tbody>
             </table>
         </section>
-
-        <!-- 4. SECOND SUPABASE - DATABASE EXPLORER -->
-        <section class="control-card">
-            <h2>⚡ Full Database Explorer & Manager (Second Supabase)</h2>
-            <div style="display: flex; gap: 10px; align-items: center; margin-bottom: 12px; flex-wrap: wrap;">
-                <label for="table-selector">Select Table:</label>
-                <select id="table-selector" onchange="loadTableData(this.value)">
-                    <option value="profiles">Users / Profiles</option>
-                    <option value="transactions">Transactions</option>
-                    <option value="real_estate_investments">Real Estate Investments</option>
-                    <option value="gift_card_submissions">Gift Cards</option>
-                </select>
-                <button class="btn btn-primary" onclick="loadTableData(document.getElementById('table-selector').value)">Refresh Table</button>
-            </div>
-
-            <div class="creator-form">
-                <input type="text" id="ins-user-id" placeholder="User ID / Name">
-                <input type="text" id="ins-field1" placeholder="Title / Type">
-                <input type="number" id="ins-amount" placeholder="Amount ($)">
-                <button class="btn btn-approve" onclick="insertRecord()">+ Create Record</button>
-            </div>
-
-            <div id="raw-db-view" style="margin-top: 15px;">
-                <p style="color: var(--text-muted);">Select a table above to inspect or edit records.</p>
-            </div>
-        </section>
-
     </div>
 
     <script>
         const SUPABASE_URL = 'https://psbokzosswthttvxppcf.supabase.co';
         const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBzYm9rem9zc3d0aHR0dnhwcGNmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA5NjYzNDYsImV4cCI6MjEwNjU0MjM0Nn0.diXojuSglO9Q26IbsYG8JsHHvyrbxnHsz9KtFnZnD7E';
-        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-        document.addEventListener('DOMContentLoaded', () => { refreshAllPanels(); });
+        let client;
+        const banner = document.getElementById('debug-banner');
 
-        function refreshAllPanels() {
-            loadRealEstateFunds();
-            loadGiftCards();
-            loadTransactions();
-            loadTableData(document.getElementById('table-selector').value || 'profiles');
-            loadMetrics();
+        function updateBanner(text, isError = false) {
+            banner.textContent = text;
+            banner.style.color = isError ? '#f85149' : '#3fb950';
         }
 
-        async function loadMetrics() {
+        window.onload = function() {
             try {
-                const { data: reData } = await supabase.from('real_estate_investments').select('amount');
-                const { data: gcData } = await supabase.from('gift_card_submissions').select('id').eq('status', 'Pending');
-                const { data: txData } = await supabase.from('transactions').select('amount');
-                const { data: usrData } = await supabase.from('profiles').select('id');
+                if (typeof supabase !== 'undefined' && supabase.createClient) {
+                    client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+                    updateBanner('✔ Supabase JS SDK loaded successfully. Fetching tables...');
+                    loadAll();
+                } else {
+                    updateBanner('❌ Error: Supabase JS library failed to load from CDN.', true);
+                }
+            } catch (err) {
+                updateBanner('❌ Initialization Error: ' + err.message, true);
+            }
+        };
 
-                if (reData) document.getElementById('stat-re-amount').textContent = `$${reData.reduce((acc, curr) => acc + (Number(curr.amount) || 0), 0).toLocaleString('en-US', {minimumFractionDigits: 2})}`;
-                if (gcData) document.getElementById('stat-gc-count').textContent = gcData.length;
-                if (txData) document.getElementById('stat-tx-volume').textContent = `$${txData.reduce((acc, curr) => acc + (Number(curr.amount) || 0), 0).toLocaleString('en-US', {minimumFractionDigits: 2})}`;
-                if (usrData) document.getElementById('stat-user-count').textContent = usrData.length;
-            } catch(e) { console.error(e); }
+        async function loadAll() {
+            fetchRealEstate();
+            fetchGiftCards();
+            fetchTransactions();
+            fetchUsers();
         }
 
-        async function loadRealEstateFunds() {
-            const list = document.getElementById('real-estate-list');
-            const { data, error } = await supabase.from('real_estate_investments').select('*');
-            if (error || !data || data.length === 0) {
-                list.innerHTML = `<tr><td colspan="5" style="color:var(--text-muted);">${error ? error.message : 'No real estate records found.'}</td></tr>`;
+        async function fetchRealEstate() {
+            const tbody = document.getElementById('re-body');
+            const { data, error } = await client.from('real_estate_investments').select('*');
+            if (error) {
+                tbody.innerHTML = `<tr><td colspan="5" style="color:#f85149;">Error: ${error.message}</td></tr>`;
                 return;
             }
-            list.innerHTML = data.map(item => `
-                <tr>
-                    <td><code>${item.user_id || 'N/A'}</code></td>
-                    <td>${item.property_title || 'N/A'}</td>
-                    <td>$${item.amount}</td>
-                    <td><b class="status-${(item.status || 'pending').toLowerCase()}">${item.status}</b></td>
-                    <td>
-                        ${item.status === 'Pending' ? `
-                            <button class="btn btn-approve" onclick="updateStatus('real_estate_investments', '${item.id}', 'Approved', loadRealEstateFunds)">Approve</button>
-                            <button class="btn btn-decline" onclick="updateStatus('real_estate_investments', '${item.id}', 'Declined', loadRealEstateFunds)">Decline</button>
-                        ` : '<span>Completed</span>'}
-                    </td>
-                </tr>
-            `).join('');
-        }
-
-        async function loadGiftCards() {
-            const list = document.getElementById('giftcard-list');
-            const { data, error } = await supabase.from('gift_card_submissions').select('*');
-            if (error || !data || data.length === 0) {
-                list.innerHTML = `<tr><td colspan="6" style="color:var(--text-muted);">${error ? error.message : 'No gift card submissions found.'}</td></tr>`;
+            if (!data || data.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="5" style="color:var(--text-muted);">No records found.</td></tr>`;
                 return;
             }
-            list.innerHTML = data.map(card => `
-                <tr>
-                    <td><code>${card.user_id || 'N/A'}</code></td>
-                    <td>${card.card_type}</td>
-                    <td><code>${card.card_code}</code></td>
-                    <td>$${card.amount}</td>
-                    <td><b class="status-${(card.status || 'pending').toLowerCase()}">${card.status}</b></td>
-                    <td>
-                        ${card.status === 'Pending' ? `
-                            <button class="btn btn-approve" onclick="updateStatus('gift_card_submissions', '${card.id}', 'Approved', loadGiftCards)">Approve</button>
-                            <button class="btn btn-decline" onclick="updateStatus('gift_card_submissions', '${card.id}', 'Declined', loadGiftCards)">Decline</button>
-                        ` : '<span>Completed</span>'}
-                    </td>
-                </tr>
-            `).join('');
+            let total = 0;
+            tbody.innerHTML = data.map(row => {
+                total += Number(row.amount) || 0;
+                return `<tr><td>${row.user_id||'N/A'}</td><td>${row.property_title||'N/A'}</td><td>$${row.amount}</td><td class="status-${(row.status||'pending').toLowerCase()}">${row.status}</td><td>-</td></tr>`;
+            }).join('');
+            document.getElementById('stat-re').textContent = `$${total.toLocaleString('en-US', {minimumFractionDigits: 2})}`;
         }
 
-        async function loadTransactions() {
-            const list = document.getElementById('transactions-list');
-            const { data, error } = await supabase.from('transactions').select('*');
-            if (error || !data || data.length === 0) {
-                list.innerHTML = `<tr><td colspan="6" style="color:var(--text-muted);">${error ? error.message : 'No transactions found.'}</td></tr>`;
+        async function fetchGiftCards() {
+            const tbody = document.getElementById('gc-body');
+            const { data, error } = await client.from('gift_card_submissions').select('*');
+            if (error) {
+                tbody.innerHTML = `<tr><td colspan="6" style="color:#f85149;">Error: ${error.message}</td></tr>`;
                 return;
             }
-            list.innerHTML = data.map(tx => `
-                <tr>
-                    <td><code>${tx.user_id || 'N/A'}</code></td>
-                    <td>${tx.type}</td>
-                    <td>$${tx.amount}</td>
-                    <td>${tx.method || 'N/A'}</td>
-                    <td><b class="status-${(tx.status || 'pending').toLowerCase()}">${tx.status}</b></td>
-                    <td>
-                        ${tx.status === 'Pending' ? `
-                            <button class="btn btn-approve" onclick="updateStatus('transactions', '${tx.id}', 'Approved', loadTransactions)">Approve</button>
-                            <button class="btn btn-decline" onclick="updateStatus('transactions', '${tx.id}', 'Declined', loadTransactions)">Decline</button>
-                        ` : '<span>Completed</span>'}
-                    </td>
-                </tr>
-            `).join('');
-        }
-
-        async function updateStatus(tableName, id, newStatus, callback) {
-            const { error } = await supabase.from(tableName).update({ status: newStatus }).eq('id', id);
-            if (!error) { alert(`Status set to ${newStatus}!`); if (callback) callback(); loadMetrics(); }
-            else { alert('Error: ' + error.message); }
-        }
-
-        async function loadTableData(tableName) {
-            const container = document.getElementById('raw-db-view');
-            container.innerHTML = `<p style="color: var(--text-muted);">Fetching ${tableName}...</p>`;
-            const { data, error } = await supabase.from(tableName).select('*').limit(50);
-
-            if (error || !data || data.length === 0) {
-                container.innerHTML = `<p style="color:var(--text-muted);">${error ? error.message : 'No records found.'}</p>`;
+            if (!data || data.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="6" style="color:var(--text-muted);">No records found.</td></tr>`;
                 return;
             }
-
-            const headers = Object.keys(data[0]);
-            let tableHTML = `<table><thead><tr>`;
-            headers.forEach(h => tableHTML += `<th>${h}</th>`);
-            tableHTML += `<th>Actions</th></tr></thead><tbody>`;
-
-            data.forEach(row => {
-                tableHTML += `<tr>`;
-                headers.forEach(h => tableHTML += `<td>${JSON.stringify(row[h])}</td>`);
-                tableHTML += `<td><button class="btn btn-decline" onclick="deleteRow('${tableName}', '${row.id}')">Delete</button></td></tr>`;
-            });
-            container.innerHTML = tableHTML + `</tbody></table>`;
+            let pendingCount = data.filter(c => c.status === 'Pending').length;
+            tbody.innerHTML = data.map(row => `<tr><td>${row.user_id||'N/A'}</td><td>${row.card_type}</td><td><code>${row.card_code}</code></td><td>$${row.amount}</td><td class="status-${(row.status||'pending').toLowerCase()}">${row.status}</td><td>-</td></tr>`).join('');
+            document.getElementById('stat-gc').textContent = pendingCount;
         }
 
-        async function insertRecord() {
-            const tableName = document.getElementById('table-selector').value;
-            const userId = document.getElementById('ins-user-id').value;
-            const titleField = document.getElementById('ins-field1').value;
-            const amount = document.getElementById('ins-amount').value;
-
-            if (!amount) return alert('Enter an amount.');
-
-            let payload = { amount: parseFloat(amount), status: 'Pending' };
-            if (userId) payload.user_id = userId;
-            if (tableName === 'real_estate_investments') payload.property_title = titleField || 'Real Estate';
-            else if (tableName === 'gift_card_submissions') { payload.card_type = titleField || 'Gift Card'; payload.card_code = 'GC-' + Math.floor(Math.random()*100000); }
-            else if (tableName === 'transactions') payload.type = titleField || 'Deposit';
-
-            const { error } = await supabase.from(tableName).insert([payload]);
-            if (!error) { alert('Record created!'); refreshAllPanels(); }
-            else alert('Error: ' + error.message);
-        }
-
-        async function deleteRow(tableName, id) {
-            if (confirm(`Delete record ${id}?`)) {
-                const { error } = await supabase.from(tableName).delete().eq('id', id);
-                if (!error) refreshAllPanels();
-                else alert('Error: ' + error.message);
+        async function fetchTransactions() {
+            const tbody = document.getElementById('tx-body');
+            const { data, error } = await client.from('transactions').select('*');
+            if (error) {
+                tbody.innerHTML = `<tr><td colspan="6" style="color:#f85149;">Error: ${error.message}</td></tr>`;
+                return;
             }
+            if (!data || data.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="6" style="color:var(--text-muted);">No records found.</td></tr>`;
+                return;
+            }
+            let total = 0;
+            tbody.innerHTML = data.map(row => {
+                total += Number(row.amount) || 0;
+                return `<tr><td>${row.user_id||'N/A'}</td><td>${row.type}</td><td>$${row.amount}</td><td>${row.method||'N/A'}</td><td class="status-${(row.status||'pending').toLowerCase()}">${row.status}</td><td>-</td></tr>`;
+            }).join('');
+            document.getElementById('stat-tx').textContent = `$${total.toLocaleString('en-US', {minimumFractionDigits: 2})}`;
         }
 
-        function filterTables() {
-            const query = document.getElementById('universal-search').value.toLowerCase();
-            document.querySelectorAll('tbody tr').forEach(row => {
-                row.style.display = row.textContent.toLowerCase().includes(query) ? '' : 'none';
-            });
-        }
-
-        async function exportToCSV(tableName) {
-            const { data } = await supabase.from(tableName).select('*');
-            if (!data || data.length === 0) return alert('No data to export.');
-            const csv = "data:text/csv;charset=utf-8," + [Object.keys(data[0]).join(','), ...data.map(r => Object.values(r).map(v => `"${v}"`).join(','))].join("\n");
-            const a = document.createElement("a");
-            a.href = encodeURI(csv);
-            a.download = `${tableName}_export.csv`;
-            a.click();
+        async function fetchUsers() {
+            const { data } = await client.from('profiles').select('id');
+            if (data) document.getElementById('stat-usr').textContent = data.length;
         }
     </script>
 </body>

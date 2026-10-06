@@ -23,13 +23,19 @@
     }  
   
     body {
-  background-color: var(--blackberry-dark);
+  background-color: #07030a;
   background-image: 
-    linear-gradient(180deg, rgba(7, 3, 10, 0.45), rgba(20, 7, 31, 0.55)),
-    url('https://psbokzosswthttvxppcf.supabase.co/storage/v1/object/public/images/8b096f046d62d5e1d3a8ba3e7a59dc25.jpg');
+    linear-gradient(
+      to bottom, 
+      rgba(7, 3, 10, 0.40) 0%,   /* Clearer image near top */
+      rgba(7, 3, 10, 0.70) 70%,  /* Starts darkening */
+      rgba(7, 3, 10, 1.0) 100%   /* Blends 100% into solid dark base */
+    ),
+    url('https://psbokzosswthttvxppcf.supabase.co/storage/v1/object/public/images/35e3685c45acce00fa182b68792d9fa8.jpg');
   background-attachment: fixed;
   background-size: cover;
   background-position: center;
+}
 }
 
 /* Gradient Card Background Overlays */

@@ -12,37 +12,75 @@
   <script src="https://unpkg.com/lucide@latest"></script>    
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>    
   
-  <style>  
-    /* Google Translate Vertical Dropdown Override */
-.goog-te-menu-frame {
-  max-height: 350px !important;
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5) !important;
-  border-radius: 12px !important;
-}
-
-body .goog-te-menu2 {
-  max-height: 350px !important;
-  overflow-y: auto !important;
-  overflow-x: hidden !important;
+  <style> 
+    /* Google Translate Dropdown Override */
+#google_translate_element select {
   background-color: #111827 !important;
+  color: #f3f4f6 !important;
   border: 1px solid #374151 !important;
-}
-
-body .goog-te-menu2-item table {
+  border-radius: 8px !important;
+  padding: 6px 12px !important;
+  font-size: 13px !important;
+  outline: none !important;
   width: 100% !important;
+  cursor: pointer !important;
 }
 
-body .goog-te-menu2-item td {
-  display: block !important;
-  width: 100% !important;
-  padding: 8px 16px !important;
-  color: #e5e7eb !important;
-  border-bottom: 1px solid #1f2937 !important;
+.goog-te-gadget {
+  color: transparent !important;
+  font-size: 0 !important;
 }
 
-body .goog-te-menu2-item:hover td {
-  background-color: #ef4444 !important;
-  color: #ffffff !important;
+.goog-te-gadget span {
+  display: none !important;
+}
+
+.goog-te-banner-frame {
+  display: none !important;
+}
+
+body {
+  top: 0px !important;
+}
+
+/* Mobile Slide-In Navigation Drawer */
+.menu-drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 300px;
+  max-width: 85vw;
+  background-color: #0b0f17;
+  border-left: 1px solid #1f2937;
+  z-index: 9999;
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  transform: translateX(100%);
+  transition: transform 0.3s ease-in-out;
+  box-shadow: -10px 0 30px rgba(0, 0, 0, 0.8);
+}
+
+.menu-drawer.active {
+  transform: translateX(0);
+}
+
+.menu-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(4px);
+  z-index: 9998;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.menu-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
 }
 
 /* Mobile Slide-In Navigation Drawer */
@@ -184,62 +222,6 @@ body .goog-te-menu2-item:hover td {
   transform: perspective(500deg) rotateY(0deg) rotateX(0deg) scale(1.05);
 }
 
-/* 3. Slide-in Side Menu Drawer */
-.menu-drawer {
-  position: fixed;
-  top: 0;
-  right: -100%;
-  width: 280px;
-  height: 100vh;
-  background: linear-gradient(180deg, rgba(15, 7, 24, 0.98), rgba(7, 3, 10, 0.99));
-  border-left: 1px solid rgba(239, 68, 68, 0.2);
-  box-shadow: -10px 0 30px rgba(0, 0, 0, 0.8);
-  z-index: 9999;
-  transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  padding: 24px;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-.menu-drawer.active {
-  right: 0;
-}
-
-.menu-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(4px);
-  z-index: 9998;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.4s ease;
-}
-.menu-overlay.active {
-  opacity: 1;
-  pointer-events: auto;
-}
-
-/* 4. Vertical Google Translate Layout Override */
-.goog-te-gadget-simple {
-  background-color: rgba(20, 7, 31, 0.85) !important;
-  border: 1px solid rgba(239, 68, 68, 0.3) !important;
-  padding: 8px 12px !important;
-  border-radius: 12px !important;
-  display: flex !important;
-  flex-direction: column !important;
-  align-items: center !important;
-}
-.goog-te-menu-frame {
-  max-width: 100% !important;
-}
-.goog-te-menu2 {
-  display: flex !important;
-  flex-direction: column !important;
-  max-height: 300px !important;
-  overflow-y: auto !important;
-}
-
     /* Custom Animations */  
     @keyframes floatSlow {  
       0%, 100% { transform: translateY(0px) rotate3d(1, 1, 0, 0deg); }  
@@ -317,18 +299,7 @@ body .goog-te-menu2-item:hover td {
       transform: translateY(0);  
     }  
   
-    /* Google Translate Overrides */  
-    .goog-te-banner-frame { display: none !important; }  
-    body { top: 0px !important; }  
-    .goog-te-gadget-simple {  
-      background-color: rgba(20, 7, 31, 0.8) !important;  
-      border: 1px solid rgba(220, 38, 38, 0.3) !important;  
-      padding: 4px 8px !important;  
-      border-radius: 10px !important;  
-      font-size: 11px !important;  
-      color: #ffffff !important;  
-    }  
-    .goog-te-gadget-simple span { color: #ffffff !important; }  
+      
   </style>    
 
   <!-- Smartsupp Live Chat Integration -->    
@@ -404,12 +375,8 @@ body .goog-te-menu2-item:hover td {
       <path fill-rule="evenodd" clip-rule="evenodd" d="M3 6C3 5.44772 3.44772 5 4 5H20C20.5523 5 21 5.44772 21 6C21 6.55228 20.5523 7 20 7H4C3.44772 7 3 6.55228 3 6ZM3 12C3 11.4477 3.44772 11 4 11H20C20.5523 11 21 11.4477 21 12C21 12.5522 20.5523 13 20 13H4C3.44772 13 3 12.5522 3 12ZM3 18C3 17.4477 3.44772 17 4 17H20C20.5523 17 21 17.4477 21 18C21 18.5522 20.5523 19 20 19H4C3.44772 19 3 18.5522 3 18Z" />
     </svg>
   </button>
-</div>
-
   
-        </div>  
-      </a>  
-
+        
       <!-- Desktop Navigation Links -->  
       <nav class="hidden md:flex items-center space-x-7 text-xs font-semibold text-gray-200">  
         <button onclick="showSection('landing')" class="hover:text-red-400 transition">Home</button>  
@@ -441,6 +408,69 @@ body .goog-te-menu2-item:hover td {
       </div>  
     </div>
   </header>    
+<!-- Mobile Slide-In Navigation Drawer -->
+<div id="menuOverlay" class="menu-overlay" onclick="toggleMobileMenu()"></div>
+
+<div id="menuDrawer" class="menu-drawer">
+  <!-- Close Button & Header -->
+  <div class="flex items-center justify-between pb-4 mb-4 border-b border-gray-800">
+    <div class="flex items-center space-x-2">
+      <span class="text-lg font-bold text-white">Menu</span>
+    </div>
+    <button onclick="toggleMobileMenu()" class="p-2 text-gray-400 hover:text-white focus:outline-none">
+      <i data-lucide="x" class="w-6 h-6"></i>
+    </button>
+  </div>
+
+  <!-- Navigation Links / Hubs -->
+  <div class="flex flex-col space-y-3">
+    <button onclick="showSection('landing'); toggleMobileMenu();" class="flex items-center space-x-3 px-3 py-2.5 rounded-lg text-gray-300 hover:bg-gray-800/60 hover:text-white transition">
+      <i data-lucide="home" class="w-5 h-5 text-purple-400"></i>
+      <span class="font-medium">Home</span>
+    </button>
+
+    <button onclick="scrollToHub('investment'); toggleMobileMenu();" class="flex items-center space-x-3 px-3 py-2.5 rounded-lg text-gray-300 hover:bg-gray-800/60 hover:text-white transition">
+      <i data-lucide="trending-up" class="w-5 h-5 text-emerald-400"></i>
+      <span class="font-medium">Investment Plans</span>
+    </button>
+
+    <button onclick="scrollToHub('executives'); toggleMobileMenu();" class="flex items-center space-x-3 px-3 py-2.5 rounded-lg text-gray-300 hover:bg-gray-800/60 hover:text-white transition">
+      <i data-lucide="users" class="w-5 h-5 text-blue-400"></i>
+      <span class="font-medium">Executives</span>
+    </button>
+
+    <button onclick="scrollToHub('realestate'); toggleMobileMenu();" class="flex items-center space-x-3 px-3 py-2.5 rounded-lg text-gray-300 hover:bg-gray-800/60 hover:text-white transition">
+      <i data-lucide="building" class="w-5 h-5 text-amber-400"></i>
+      <span class="font-medium">Real Estate</span>
+    </button>
+
+    <button onclick="scrollToHub('giftcards'); toggleMobileMenu();" class="flex items-center space-x-3 px-3 py-2.5 rounded-lg text-gray-300 hover:bg-gray-800/60 hover:text-white transition">
+      <i data-lucide="gift" class="w-5 h-5 text-pink-400"></i>
+      <span class="font-medium">Gift Cards</span>
+    </button>
+
+    <button onclick="scrollToHub('faq'); toggleMobileMenu();" class="flex items-center space-x-3 px-3 py-2.5 rounded-lg text-gray-300 hover:bg-gray-800/60 hover:text-white transition">
+      <i data-lucide="help-circle" class="w-5 h-5 text-cyan-400"></i>
+      <span class="font-medium">FAQ</span>
+    </button>
+
+    <button onclick="showSection('dashboard'); toggleMobileMenu();" class="flex items-center space-x-3 px-3 py-2.5 rounded-lg text-gray-300 hover:bg-gray-800/60 hover:text-white transition">
+      <i data-lucide="layout-dashboard" class="w-5 h-5 text-indigo-400"></i>
+      <span class="font-medium">Dashboard</span>
+    </button>
+  </div>
+
+  <!-- Footer Actions (Sign In / Logout) -->
+  <div class="mt-auto pt-6 border-t border-gray-800 flex flex-col space-y-3">
+    <button onclick="openAuthModal('login'); toggleMobileMenu();" class="w-full py-2.5 px-4 rounded-xl bg-purple-600/20 hover:bg-purple-600/30 text-purple-300 font-semibold border border-purple-500/30 transition text-center">
+      Sign In
+    </button>
+    <button onclick="handleLogout(); toggleMobileMenu();" class="w-full py-2.5 px-4 rounded-xl bg-red-500/10 hover:bg-red-500/20 text-red-400 font-semibold border border-red-500/20 transition flex items-center justify-center space-x-2">
+      <i data-lucide="log-out" class="w-4 h-4"></i>
+      <span>Logout</span>
+    </button>
+  </div>
+</div>
 
   <!-- LANDING PAGE SECTION -->    
   <main id="landing-section" class="relative z-10 space-y-20 pb-20">  

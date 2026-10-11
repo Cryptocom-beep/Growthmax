@@ -1602,13 +1602,10 @@ header {
       document.getElementById('user-email-display').textContent = user.email;  
       document.getElementById('profile-email').value = user.email;  
   
-      const balanceVal = data.simulated_balance || 0;
-const formattedBal = Number(balanceVal).toLocaleString('en-US', {
-  minimumFractionDigits: 2,
-  maximumFractionDigits: 2
-});
-document.getElementById('user-balance').textContent = "$" + formattedBal;
+      const { data } = await supabaseClient.from('profiles').select('*').eq('id', user.id).single();  
   
+      if (data) {  
+        document.getElementById('user-balance').textContent = '$' + parseFloat(data.balance || 0).toFixed(2);   
         document.getElementById('user-ref-balance').textContent = '$' + parseFloat(data.ref_balance || 0).toFixed(2);  
         document.getElementById('profile-username').value = data.username || '';  
         const refLink = `${window.location.origin}${window.location.pathname}?ref=${data.ref_code || ''}`;  

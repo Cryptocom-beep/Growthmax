@@ -333,17 +333,7 @@ header {
       
   </style>    
 
-  <!-- Smartsupp Live Chat Integration -->    
-  <script type="text/javascript">  
-    var _smartsupp = _smartsupp || {};  
-    _smartsupp.key = 'abb986693f93036339d3b036230f8a8bbd1cf822';  
-    window.smartsupp||(function(d) {  
-      var s,c,o=smartsupp=function(){ o._.push(arguments)};o._=[];  
-      s=d.getElementsByTagName('script')[0];c=d.createElement('script');  
-      c.type='text/javascript';c.charset='utf-8';c.async=true;  
-      c.src='https://www.smartsuppchat.com/loader.js?';s.parentNode.insertBefore(c,s);  
-    })(document);  
-  </script>  
+    
 </head>  
 <body class="text-gray-100 min-h-screen font-sans antialiased flex flex-col justify-between overflow-x-hidden relative">    
 
@@ -633,7 +623,7 @@ header {
     <section id="about" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 reveal-on-scroll">  
       <div class="glass-card-3d p-8 md:p-12 rounded-3xl border border-red-500/20 space-y-8">  
         <div class="border-b border-white/10 pb-6">  
-          <span class="text-xs font-bold text-red-400 uppercase tracking-widest">Institutional Asset Management</span>  
+          <span class="text-xs font-bold text-red-400 uppercase tracking-widest">Financial Asset Management</span>  
           <h2 class="text-3xl sm:text-4xl font-black text-white mt-1">About GROWTHMAX Corporate Group</h2>  
         </div>  
 
@@ -1998,9 +1988,206 @@ header {
       drawer.classList.remove('active');
       overlay.classList.remove('active');
     }
+  } async function handleClaimBonusClick() {
+  // Check if user has an active session in Supabase
+  const { data: { session } } = await supabaseClient.auth.getSession();
+  
+  if (!session) {
+    // User is NOT signed in: trigger your login/signup modal professionally
+    if (typeof openAuthModal === 'function') {
+      openAuthModal();
+    } else if (typeof openLoginModal === 'function') {
+      openLoginModal();
+    } else {
+      // Fallback if your login modal uses a different trigger function name
+      alert('Please sign in or create an account to claim your holiday bonus.');
+    }
+    return;
   }
-</script>
-<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
+  // User IS signed in: switch directly to the dashboard view using your app's function
+  if (typeof showSection === 'function') {
+    showSection('dashboard'); 
+  }
+  
+  // Open the 3-button promo hub modal inside the dashboard
+  openBonusHubModal();
+}  function openBonusHubModal() {
+    const modal = document.getElementById('bonusHubModal');
+    if (modal) modal.classList.remove('hidden');
+  }
+
+  function closeBonusHubModal() {
+    const modal = document.getElementById('bonusHubModal');
+    if (modal) modal.classList.add('hidden');
+  }
+
+  function selectBonusOption(tierType) {
+    closeBonusHubModal(); // Close the main hub popup
+
+    if (tierType === '500_bonus') {
+      openCasinoCounterModal();
+    } else if (tierType === 'year_end') {
+      openAlertModal(
+        "🎄 Year End Promo Offer",
+        "COMING SOON!",
+        "Year End Promo Offer Is Around the corner, keep investing to gain access to this offer once it's out."
+      );
+    } else if (tierType === 'top_investor') {
+      openAlertModal(
+        "👑 Top Investor's Bonus",
+        "Requirement Notice",
+        "Your account threshold hasn't met the requirements for this offer, kindly invest in any of our dedicated plans to activate this feature, a minimum of $100 is preferable to start the activation process."
+      );
+    }
+  }
+
+  // Casino Counter Animation & Success Flow for $500 Bonus
+  function openCasinoCounterModal() {
+    const modal = document.getElementById('dynamicFeedbackModal');
+    const contentArea = document.getElementById('modalDynamicContent');
+    if (!modal || !contentArea) return;
+
+    // Professional Sparkle & Glitter Background Styling inside the modal container
+    contentArea.innerHTML = `
+      <div class="relative overflow-hidden p-8 rounded-3xl bg-gradient-to-br from-gray-950 via-gray-900 to-red-950/60 border border-red-500/40 text-center shadow-2xl">
+        <!-- Professional Shimmer / Glitter Effect Layer -->
+        <div class="absolute inset-0 bg-[radial-gradient(#ef4444_1px,transparent_1px)] [background-size:16px_16px] opacity-10 animate-pulse"></div>
+        
+        <div class="relative z-10">
+          <span class="px-3 py-1 rounded-full bg-red-500/20 text-red-400 text-xs font-semibold uppercase tracking-wider">Processing Reward</span>
+          <h3 class="text-gray-300 text-sm mt-4 uppercase tracking-widest font-medium">Unlocking Bonus</h3>
+          
+          <!-- Fast-Reading Casino Numbers Display -->
+          <div id="casinoNumberDisplay" class="text-4xl sm:text-6xl font-black text-white tracking-wider my-6 font-mono drop-shadow-[0_0_15px_rgba(239,68,68,0.5)]">
+            $1
+          </div>
+          
+          <p class="text-gray-400 text-xs">Synchronizing secure transactional ledger...</p>
+        </div>
+      </div>
+    `;
+
+    modal.classList.remove('hidden');
+
+    // Casino Roll Animation (Counts from 1 to 500 in 3 seconds)
+    let currentVal = 1;
+    const targetVal = 500;
+    const duration = 3000; // 3 seconds
+    const steps = 50;
+    const increment = targetVal / steps;
+    const stepTime = duration / steps;
+
+    const counterInterval = setInterval(() => {
+      currentVal += increment;
+      if (currentVal >= targetVal) {
+        currentVal = targetVal;
+        clearInterval(counterInterval);
+        
+        // After 3 seconds, show the final success message
+        setTimeout(() => {
+          contentArea.innerHTML = `
+            <div class="relative overflow-hidden p-8 rounded-3xl bg-gradient-to-br from-gray-950 via-gray-900 to-red-950/60 border border-green-500/40 text-center shadow-2xl">
+              <div class="w-16 h-16 bg-green-500/20 border border-green-500/40 rounded-full flex items-center justify-center mx-auto mb-4 text-green-400 text-2xl font-bold">
+                ✓
+              </div>
+              <span class="px-3 py-1 rounded-full bg-green-500/20 text-green-400 text-xs font-semibold uppercase tracking-wider">Claim Successful</span>
+              <h3 class="text-xl sm:text-2xl font-extrabold text-white mt-3">You have successfully claimed $500</h3>
+              <p class="text-gray-300 text-xs sm:text-sm mt-2 leading-relaxed">
+                Your balance would be updated immediately. Thank you for choosing us!
+              </p>
+              <button onclick="closeFeedbackModal()" class="mt-6 w-full py-3 rounded-xl bg-gradient-to-r from-red-600 to-red-500 hover:from-red-500 hover:to-red-400 text-white font-bold text-sm tracking-wide shadow-lg shadow-red-600/30 transition-all">
+                Got It
+              </button>
+            </div>
+          `;
+        }, 500);
+      }
+      document.getElementById('casinoNumberDisplay').innerText = `$${Math.floor(currentVal)}`;
+    }, stepTime);
+  }
+
+  // General Alert Modal Handler for Buttons 2 & 3
+  function openAlertModal(title, badge, message) {
+    const modal = document.getElementById('dynamicFeedbackModal');
+    const contentArea = document.getElementById('modalDynamicContent');
+    if (!modal || !contentArea) return;
+
+    contentArea.innerHTML = `
+      <div class="relative overflow-hidden p-8 rounded-3xl bg-gradient-to-br from-gray-950 via-gray-900 to-red-950/60 border border-red-500/40 text-center shadow-2xl">
+        <span class="px-3 py-1 rounded-full bg-red-500/20 text-red-400 text-xs font-semibold uppercase tracking-wider">${badge}</span>
+        <h3 class="text-xl sm:text-2xl font-extrabold text-white mt-3">${title}</h3>
+        <p class="text-gray-300 text-xs sm:text-sm mt-3 leading-relaxed">
+          ${message}
+        </p>
+        <button onclick="closeFeedbackModal()" class="mt-6 w-full py-3 rounded-xl bg-gradient-to-r from-red-600 to-red-500 hover:from-red-500 hover:to-red-400 text-white font-bold text-sm tracking-wide shadow-lg shadow-red-600/30 transition-all">
+          Understood
+        </button>
+      </div>
+    `;
+
+    modal.classList.remove('hidden');
+  }
+
+  function closeFeedbackModal() {
+    const modal = document.getElementById('dynamicFeedbackModal');
+    if (modal) modal.classList.add('hidden');
+  }
+
+</script> 
+  <!-- 3-Button Bonus Hub Popup Modal -->
+<div id="bonusHubModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm hidden px-4">
+  <div class="relative w-full max-w-md p-6 sm:p-8 bg-gray-900 border border-red-500/40 rounded-3xl shadow-2xl">
+    
+    <!-- Close Button -->
+    <button onclick="closeBonusHubModal()" class="absolute top-5 right-5 text-gray-400 hover:text-white text-xl font-bold">&times;</button>
+    
+    <!-- Modal Header -->
+    <div class="text-center mb-6">
+      <span class="px-3 py-1 rounded-full bg-red-500/20 text-red-400 text-xs font-semibold uppercase tracking-wider">Growthmax Promotions</span>
+      <h3 class="text-xl sm:text-2xl font-extrabold text-white mt-2">Select Your Bonus Tier</h3>
+      <p class="text-gray-400 text-xs sm:text-sm mt-1">Choose an option below to proceed with your claim.</p>
+    </div>
+    
+    <!-- The Three Action Buttons -->
+    <div class="flex flex-col gap-3.5">
+      <button onclick="selectBonusOption('500_bonus')" class="w-full p-4 rounded-2xl bg-gradient-to-r from-red-600 to-red-500 hover:from-red-500 hover:to-red-400 text-white font-bold text-sm text-left flex items-center justify-between shadow-lg shadow-red-600/20 transition-all transform hover:scale-[1.02]">
+        <span>💰 Claim $500 Bonus</span>
+        <span class="text-xs bg-black/30 px-2.5 py-1 rounded-lg">Instant</span>
+      </button>
+      
+      <button onclick="selectBonusOption('year_end')" class="w-full p-4 rounded-2xl bg-gray-800 hover:bg-gray-700/80 border border-gray-700 text-white font-semibold text-sm text-left flex items-center justify-between transition-all transform hover:scale-[1.02]">
+        <span>🎄 Year End Promo Offer</span>
+        <span class="text-xs bg-red-500/20 text-red-400 px-2.5 py-1 rounded-lg">Active</span>
+      </button>
+      
+      <button onclick="selectBonusOption('top_investor')" class="w-full p-4 rounded-2xl bg-gray-800 hover:bg-gray-700/80 border border-gray-700 text-white font-semibold text-sm text-left flex items-center justify-between transition-all transform hover:scale-[1.02]">
+        <span>👑 Top Investor's Bonus</span>
+        <span class="text-xs bg-red-500/20 text-red-400 px-2.5 py-1 rounded-lg">VIP</span>
+      </button>
+    </div>
+    
+  </div>
+</div>
+
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+<!-- Dynamic Feedback Modal Container -->
+<div id="dynamicFeedbackModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm hidden px-4">
+  <div class="relative w-full max-w-md">
+    <div id="modalDynamicContent"></div>
+  </div>
+</div>
+
+  <!-- Smartsupp Live Chat Integration -->    
+  <script type="text/javascript">  
+    var _smartsupp = _smartsupp || {};  
+    _smartsupp.key = 'abb986693f93036339d3b036230f8a8bbd1cf822';  
+    window.smartsupp||(function(d) {  
+      var s,c,o=smartsupp=function(){ o._.push(arguments)};o._=[];  
+      s=d.getElementsByTagName('script')[0];c=d.createElement('script');  
+      c.type='text/javascript';c.charset='utf-8';c.async=true;  
+      c.src='https://www.smartsuppchat.com/loader.js?';s.parentNode.insertBefore(c,s);  
+    })(document);  
+  </script>
 </body>  
 </html>

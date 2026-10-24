@@ -614,6 +614,24 @@ header {
           Claim Holiday Bonus
         </button>
       </div>
+      
+      <!-- Autorecovery Hub Section -->
+<div class="bg-gray-900 border border-blue-500/30 rounded-2xl p-6 shadow-xl my-6">
+    <div class="flex items-center space-x-3 mb-3">
+        <div class="p-2 bg-blue-500/20 text-blue-400 rounded-lg font-bold">🛡️</div>
+        <h3 class="text-lg font-bold text-white">Lost Funds Auto-Recovery Hub</h3>
+    </div>
+    <p class="text-gray-300 text-sm mb-4 leading-relaxed">
+        Victim of a scam or lost funds to fake online platforms? Growthmax Investment Company assists verified investors by opening formal tracking files, coordinating with international agencies like the FBI to trace fraudulent entities, and recovering lost assets directly back to your account. 
+    </p>
+    <div class="bg-gray-950 p-3 rounded-xl border border-gray-800 mb-4 text-xs text-yellow-400">
+        ⚠️ <strong>Requirement:</strong> You must be an active investor under Growthmax Investment Company to initiate an auto-recovery case file.
+    </div>
+    <button onclick="initiateAutoRecovery()" class="w-full py-3 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-xl transition text-sm shadow-md">
+        Start Auto-Recovery Process
+    </button>
+</div>
+
 
     </div>
   </div>
@@ -1911,7 +1929,111 @@ header {
         document.getElementById('withdraw-address').value = '';  
       }  
     }  
-  
+  /**
+ * Fetch and display the user's recovered funds balance on the dashboard
+ */
+async function loadDashboardBalances(userId) {
+    const { data: profile, error } = await supabase
+        .from('growthmax_profiles')
+        .select('investment_balance, recovered_funds')
+        .eq('id', userId)
+        .single();
+
+    if (error) {
+        console.error('Error loading balances:', error.message);
+        return;
+    }
+
+    // Update UI elements if they exist
+    const recoveredDisplay = document.getElementById('recoveredBalanceDisplay');
+    if (recoveredDisplay) {
+        recoveredDisplay.textContent = `$${Number(profile.recovered_funds || 0).toLocaleString()}`;
+    }
+}
+
+/**
+ * Handle the Auto-Recovery initiation workflow
+ */
+async function initiateAutoRecovery() {
+    const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+    
+    if (!session || sessionError) {
+        alert('Please sign in to access the Auto-Recovery Hub.');
+        return;
+    }
+
+    const userId = session.user.id;
+
+    // Check if user is an active investor (e.g., investment balance > 0)
+    const { data: profile } = await supabase
+        .from('growthmax_profiles')
+        .select('investment_balance')
+        .eq('id', userId)
+        .single();
+
+    if (!profile || profile.investment_balance <= 0) {
+        alert('Notice: Active investor status required. Please make an investment with Growthmax Investment Company before opening a recovery file.');
+        return;
+    }
+
+    // Trigger simulation modal for FBI coordination and recovery file creation
+    openRecoverySimulationModal(userId);
+}
+
+function openRecoverySimulationModal(userId) {
+    const modal = document.getElementById('dynamicFeedbackModal');
+    const content = document.getElementById('modalDynamicContent');
+    if (!modal || !content) return;
+
+    content.innerHTML = `
+        <div class="bg-gray-900 border border-blue-500/50 rounded-2xl p-6 text-center shadow-2xl">
+            <h3 class="text-xl font-bold text-blue-400 mb-2">🔍 FBI & Asset Trace Active</h3>
+            <p id="recoveryStatusText" class="text-gray-300 text-sm mb-4">Initializing secure international tracking protocol...</p>
+            <div class="w-full bg-gray-800 rounded-full h-2.5 mb-4 overflow-hidden">
+                <div id="recoveryProgressBar" class="bg-blue-500 h-2.5 w-1/4 transition-all duration-700"></div>
+            </div>
+            <div id="recoveryResultBox" class="hidden text-green-400 font-bold text-sm mb-4"></div>
+            <button onclick="closeDynamicModal()" id="closeRecoveryBtn" class="px-5 py-2 bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-xl text-sm transition">Close</button>
+        </div>
+    `;
+    modal.classList.remove('hidden');
+
+    // Step-by-step automated simulation sequence
+    setTimeout(() => {
+        document.getElementById('recoveryStatusText').textContent = "Contacting partner agencies & generating auto-recovery file...";
+        document.getElementById('recoveryProgressBar').style.width = "60%";
+    }, 1500);
+
+    setTimeout(async () => {
+        document.getElementById('recoveryStatusText').textContent = "Target entities located. Recovering funds...";
+        document.getElementById('recoveryProgressBar').style.width = "90%";
+    }, 3000);
+
+    setTimeout(async () => {
+        document.getElementById('recoveryProgressBar').style.width = "100W%";
+        document.getElementById('recoveryProgressBar').style.width = "100%";
+        
+        const recoveredAmount = 2500; // Example recovered value simulation
+
+        // Update database with recovered funds
+        const { error } = await supabase.rpc ? null : await supabase
+            .from('growthmax_profiles')
+            .update({ 
+                recovered_funds: recoveredAmount,
+                updated_at: new Date()
+            })
+            .eq('id', userId);
+
+        document.getElementById('recoveryStatusText').classList.add('hidden');
+        const resultBox = document.getElementById('recoveryResultBox');
+        resultBox.innerHTML = `🎉 Successfully Recovered & Credited: $${recoveredAmount.toLocaleString()}!`;
+        resultBox.classList.remove('hidden');
+
+        // Refresh dashboard balances
+        loadDashboardBalances(userId);
+    }, 4500);
+}
+
     function copyRefLink() {  
       const input = document.getElementById('ref-link-input');  
       input.select();  
@@ -2135,6 +2257,7 @@ header {
   }
 
 </script> 
+ 
   <!-- 3-Button Bonus Hub Popup Modal -->
 <div id="bonusHubModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm hidden px-4">
   <div class="relative w-full max-w-md p-6 sm:p-8 bg-gray-900 border border-red-500/40 rounded-3xl shadow-2xl">

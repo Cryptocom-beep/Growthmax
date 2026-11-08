@@ -275,26 +275,25 @@
             if (!error) { alert('Entry created successfully!'); loadAll(); }
             else alert('Error inserting: ' + error.message);
         }
-        
-async function fetchAdminDeposits() {
+        async function fetchAdminDeposits() {
     const tbody = document.getElementById('admin-deposits-table-body');
-    if (!tbody) return;
+    if (!tbody) {
+        console.error("Element with ID 'admin-deposits-table-body' not found in HTML!");
+        return;
+    }
+
+    console.log("Fetching deposits from Supabase...");
 
     try {
-        // Automatically detect whatever Supabase client instance is available in your scope
-        const dbClient = window.supabaseClient || window.supabase || window.client;
-        if (!dbClient) {
-            throw new Error("Supabase client variable not found.");
-        }
-
-        const { data, error } = await dbClient
+        // Use 'client' directly since that matches your working functions
+        const { data, error } = await client
             .from('deposits')
             .select('*')
             .order('created_at', { ascending: false });
 
         if (error) {
-            console.error('Supabase error fetching deposits:', error);
-            tbody.innerHTML = `<tr><td colspan="5" class="py-4 text-center text-red-400">DB Error: ${error.message}</td></tr>`;
+            console.error('Supabase query error:', error);
+            tbody.innerHTML = `<tr><td colspan="5" class="py-4 text-center text-red-400">Error: ${error.message}</td></tr>`;
             return;
         }
 
@@ -317,15 +316,14 @@ async function fetchAdminDeposits() {
             </tr>
         `).join('');
     } catch (err) {
-        console.error('Exception in fetchAdminDeposits:', err);
-        tbody.innerHTML = `<tr><td colspan="5" class="py-4 text-center text-red-400">Error: ${err.message}</td></tr>`;
+        console.error('Exception caught:', err);
+        tbody.innerHTML = `<tr><td colspan="5" class="py-4 text-center text-red-400">Exception: ${err.message}</td></tr>`;
     }
 }
 
 async function approveDeposit(depositId) {
     try {
-        const dbClient = window.supabaseClient || window.supabase || window.client;
-        const { error } = await dbClient
+        const { error } = await client
             .from('deposits')
             .update({ status: 'approved' })
             .eq('id', depositId);
@@ -341,6 +339,12 @@ async function approveDeposit(depositId) {
         alert('Error: ' + err.message);
     }
 }
+
+// Automatically trigger on page load
+document.addEventListener('DOMContentLoaded', () => {
+    fetchAdminDeposits();
+}
+
 
         async function exportToCSV(tableName) {
             const { data } = await client.from(tableName).select('*');
